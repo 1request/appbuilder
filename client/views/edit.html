@@ -4,10 +4,19 @@
     <div class="row">
       <div class="col-md-6">
         <h1>Edit mobile app layout here</h1>
+        <form role="form">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Title</label>
+            <input type="text" data-id="{{mobile._id}}" name="title" class="form-control" placeholder="Enter title" value="{{mobile.title}}">
+          </div>
+        </form>
       </div>
-      <div class="col-md-6">
-        <iframe src="{{pathFor 'mobile'}}" frameborder="0"></iframe>
+      <div class="col-md-6 iphone-portrait">
+        <img class="iphone-pic" src="img/iphone.png" alt="iphone">
+        <div class="hide-scroll"></div>
+        <iframe class="iphone" src="{{pathFor 'mobile'}}" frameborder="0"></iframe>
       </div>
     </div>
   </div>
 </template>
+

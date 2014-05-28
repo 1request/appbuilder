@@ -1,0 +1,18 @@
+.iphone-pic, .hide-scroll, .iphone {
+  position: absolute;
+}
+.hide-scroll {
+  background-image: url(/img/fixscroll.png);
+  height:779px;
+  width:29px;
+  margin-left:352px;
+  margin-top:11px;
+  z-index:99999;
+}
+.iphone {
+  width: 340px;
+  height: 574px;
+  margin-top: 115px;
+  margin-left: 30px;
+  z-index: 999;
+}
