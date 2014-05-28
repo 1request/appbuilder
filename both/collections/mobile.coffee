@@ -1,0 +1,1 @@
+@Mobile = new Meteor.Collection 'mobile'

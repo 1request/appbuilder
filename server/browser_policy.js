@@ -3,9 +3,8 @@
 
 // --------------  Frame options ---------------
 
-BrowserPolicy.framing.disallow();
 //BrowserPolicy.framing.restrictToOrigin('http://origin.com');
-//BrowserPolicy.framing.allowAll();
+BrowserPolicy.framing.allowAll();
 
 
 // -------------  Content options  -------------
