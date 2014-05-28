@@ -7,3 +7,4 @@ standard-app-packages
 iron-router
 browser-policy
 bootstrap-3
+coffeescript
