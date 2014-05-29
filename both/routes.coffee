@@ -10,3 +10,4 @@ Router.map ->
   @route 'mobile', { path: 'mobile' }
 
 Router.onBeforeAction 'loading'
+Router.onBeforeAction -> clearAlerts()

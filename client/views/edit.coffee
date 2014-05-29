@@ -3,11 +3,18 @@ Template.edit.helpers
     Mobile.findOne()
 
 Template.edit.events
-  'change input[name=title]': (e, context) ->
+  'keyup input[name=title]': (e, context) ->
     Mobile.update e.target.dataset.id, $set: {title: e.target.value}
 
-  'change input[name=imageUrl]': (e, context) ->
-    Mobile.update e.target.dataset.id, $set: {imageUrl: e.target.value}
+  'keyup input[name=imageUrl]': (e, context) ->
+    if /\.(jpg|gif|png)$/.test e.target.value
+      Mobile.update e.target.dataset.id, $addToSet: {imageUrls: e.target.value}
+      e.target.value = ''
+      throwAlert 'image added successfully'
+      Meteor.setTimeout ->
+        clearAlerts()
+      , 1500
+      document.getElementById('iphone').contentWindow.location.reload(true)
 
   'submit form': (e) ->
     e.preventDefault()

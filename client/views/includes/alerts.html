@@ -1,0 +1,11 @@
+<template name="alerts">
+  {{#each alerts}}
+    {{> alert}}
+  {{/each}}
+</template>
+
+<template name="alert">
+  <div class="alert alert-success">
+    {{message}}
+  </div>
+</template>

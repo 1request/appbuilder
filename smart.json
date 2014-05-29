@@ -4,6 +4,7 @@
     "blaze-layout": {},
     "bootstrap-3": {},
     "scss": {},
-    "spin": {}
+    "spin": {},
+    "lodash": {}
   }
 }

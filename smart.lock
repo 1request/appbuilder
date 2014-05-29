@@ -6,7 +6,8 @@
       "blaze-layout": {},
       "bootstrap-3": {},
       "scss": {},
-      "spin": {}
+      "spin": {},
+      "lodash": {}
     },
     "packages": {
       "iron-router": {
@@ -33,6 +34,11 @@
         "git": "https://github.com/SachaG/meteor-spin.git",
         "tag": "v0.2.2",
         "commit": "3f655f0016228e4195acc784c45d3e3a247dc39f"
+      },
+      "lodash": {
+        "git": "https://github.com/alethes/meteor-lodash.git",
+        "tag": "v0.7.1",
+        "commit": "57bbeb3e21c31b64641f9885bb2f390b84f8b925"
       }
     }
   }
