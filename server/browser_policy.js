@@ -11,6 +11,7 @@ BrowserPolicy.framing.allowAll();
 
 //BrowserPolicy.content.allowInlineScripts();
 BrowserPolicy.content.disallowInlineScripts();
+BrowserPolicy.content.allowOriginForAll('*');
 //BrowserPolicy.content.allowEval();
 //BrowserPolicy.content.disallowEval(); // default
 //BrowserPolicy.content.allowInlineStyles() // default
