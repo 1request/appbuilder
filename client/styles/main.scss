@@ -389,3 +389,18 @@ div.gallery-item img { display: block; width: 100%; height: auto; }
 #loader { background: rgba(88, 126, 172, 0.85); bottom: 0; height: 100%; left: 0; position: absolute; right: 0; top: 0; width: 100%; z-index: 9999; }
 #loaderInner { left: 50%; margin: -50px 0 0 -62px; position: absolute; top: 50%; color: #fff; font-size: 25px; }
 #loaderInner p { margin-left: 22px; font-size: 17px; }
+
+.tag {
+  margin-bottom: 10px;
+}
+
+.tag-name {
+  font-size: 30px;
+  padding-top: 10px;
+}
+
+.count {
+  font-size: 30px;
+  color: #fff;
+  padding-top: 8px;
+}

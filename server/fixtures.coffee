@@ -1,57 +1,61 @@
-beacons = [
-  {
-    uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-    major: '9'
-    minor: '62353'
-    tags: ['Reception', 'Estimote']
-    notes: 'Beacon placed at reception of 9/F Garage Society'
-    count: 0
-  }, {
-    uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-    major: '9'
-    minor: '26057'
-    tags: ['Open Area', 'Estimote']
-    notes: 'Beacon placed at the Open Area of 9/F Garage Society'
-    count: 0
-  }, {
-    uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-    major: '9'
-    minor: '50549'
-    tags: ['Roof', 'Estimote']
-    notes: 'Beacon placed at Roof (Outdoor) at 9/F Garage Society'
-    count: 0
-  }, {
-    uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-    major: '8'
-    minor: '7102'
-    tags: ['Reception', 'Estimote']
-    notes: 'Beacon placed at Reception at 8/F Garage Society'
-    count: 0
-  }, {
-    uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-    major: '8'
-    minor: '31008'
-    tags: ['Member Zone', 'Estimote']
-    notes: 'Beacon placed at Member Area at 8/F Garage Society'
-    count: 0
-  }, {
-    uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-    major: '8'
-    minor: '31664'
-    tags: ['Classroom', 'Estimote']
-    notes: 'Beacon placed inside GA Batman Classroom at 8/F Garage Society'
-    count: 0
-  }
-]
-
 if Mobile.find().count() is 0
   Mobile.insert
     title: 'initial'
     imageUrls: []
 
+if Tags.find().count() is 0
+  tags = ['Reception', 'Estimote', 'Open Area', 'Roof', 'Member Zone', 'Classroom']
+  for i in tags
+    Tags.insert {name: i}
+
 if Beacons.find().count() is 0
-  for i in beacons
-    Beacons.insert i
+  beacons = [
+    {
+      uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
+      major: '9'
+      minor: '62353'
+      tags: [Tags.findOne(name: 'Reception')._id, Tags.findOne(name: 'Estimote')._id]
+      notes: 'Beacon placed at reception of 9/F Garage Society'
+      count: 0
+    }, {
+      uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
+      major: '9'
+      minor: '26057'
+      tags: [Tags.findOne(name: 'Open Area')._id, Tags.findOne(name: 'Estimote')._id]
+      notes: 'Beacon placed at the Open Area of 9/F Garage Society'
+      count: 0
+    }, {
+      uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
+      major: '9'
+      minor: '50549'
+      tags: [Tags.findOne(name: 'Roof')._id, Tags.findOne(name: 'Estimote')._id]
+      notes: 'Beacon placed at Roof (Outdoor) at 9/F Garage Society'
+      count: 0
+    }, {
+      uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
+      major: '8'
+      minor: '7102'
+      tags: [Tags.findOne(name: 'Reception')._id, Tags.findOne(name: 'Estimote')._id]
+      notes: 'Beacon placed at Reception at 8/F Garage Society'
+      count: 0
+    }, {
+      uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
+      major: '8'
+      minor: '31008'
+      tags: [Tags.findOne(name: 'Member Zone')._id, Tags.findOne(name: 'Estimote')._id]
+      notes: 'Beacon placed at Member Area at 8/F Garage Society'
+      count: 0
+    }, {
+      uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
+      major: '8'
+      minor: '31664'
+      tags: [Tags.findOne(name: 'Classroom')._id, Tags.findOne(name: 'Estimote')._id]
+      notes: 'Beacon placed inside GA Batman Classroom at 8/F Garage Society'
+      count: 0
+    }
+  ]
+  for beacon in beacons
+    Beacons.insert beacon
 
 if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->

@@ -25,35 +25,9 @@
 
       <!-- Content -->
       <div id="content">
-        <div class="mainIconPane">
-          <span class="i-pane i-green">
-            <i class="i-phone"></i>
-          </span>
-          <h4>Responsible</h4>
-          <p>
-            <span class="c-green">Lorem Ipsum</span> is simply dummy text of the printing...
-          </p>
-        </div>
-
-        <div class="mainIconPane">
-          <span class="i-pane i-orange">
-            <i class="i-neat"></i>
-          </span>
-          <h4>Responsible</h4>
-          <p>
-            <span class="c-orange">Lorem Ipsum</span> is simply dummy text of the printing...
-          </p>
-        </div>
-
-        <div class="mainIconPane">
-          <span class="i-pane i-red">
-            <i class="i-flexible"></i>
-          </span>
-          <h4>Responsible</h4>
-          <p>
-            <span class="c-red">Lorem Ipsum</span> is simply dummy text of the printing...
-          </p>
-        </div>
+      {{#each tags}}
+        {{> tag}}
+      {{/each}}
       </div>
       <div class="block">
         Explore our site

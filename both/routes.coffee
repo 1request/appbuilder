@@ -7,7 +7,11 @@ Router.configure
 Router.map ->
   @route 'edit', { path: '/' }
   @route 'ibeacon', { path: 'config-ibeacon' }
-  @route 'mobile', { path: 'mobile' }
+  @route 'mobile',
+    path: 'mobile'
+    waitOn: ->
+      Meteor.subscribe 'beacons'
+      Meteor.subscribe 'tags'
 
 Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()
