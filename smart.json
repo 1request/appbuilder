@@ -5,6 +5,8 @@
     "bootstrap-3": {},
     "scss": {},
     "spin": {},
-    "lodash": {}
+    "lodash": {},
+    "moment": {},
+    "collection-hooks": {}
   }
 }
