@@ -5,10 +5,15 @@ Template.edit.helpers
     Mobile.findOne(Session.get 'selectedMobileId')
   selectedMobileId: ->
     Session.get 'selectedMobileId'
+  selectedMemberId: ->
+    if Session.get 'selectedMobileId'
+      "memberId=#{Members.findOne(appId: Session.get 'selectedMobileId')._id}"
+    else
+      ''
 
 Template.edit.rendered = ->
+  Session.setDefault('selectedMobileId', Mobile.findOne()._id)
   console.log 'selectedMobileId', Session.get 'selectedMobileId'
-  Session.set('selectedMobileId', Mobile.findOne()._id) unless Session.get 'selectedMobileId'
 
 Template.edit.events
   'keyup input[name=title]': (e, context) ->

@@ -98,6 +98,12 @@ if Beacons.find().count() is 0
       minor: '0002'
       tags: [Tags.findOne(name: 'Garage')._id]
       notes: 'Garage needs more comfortable chairs'
+    }, {
+      uuid: '13662EC6-9FAA-49A4-B73B-2FC3B32CA012'
+      major: '1'
+      minor: '0003'
+      tags: [Tags.findOne(name: 'Cocoon')._id]
+      notes: 'Cocoon is spacious'
     }
   ]
   for beacon in beacons1

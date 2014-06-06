@@ -15,3 +15,11 @@ Meteor.methods
       end = moment(startDate).add('days', i + 1).valueOf()
       count = Logs.find(deviceId: memberDeviceId, time: { $gt: start, $lt: end }).count()
       [i, count]
+
+  'countByTag': (tagId) ->
+    tag = Tags.findOne(tagId)
+    beacons = Beacons.find(_id: {$in: tag.beacons}).fetch()
+    _.reduce beacons, (sum, beacon) ->
+      count = Logs.find(uuid: beacon.uuid, major: beacon.major, minor: beacon.minor).count()
+      sum + count
+    , 0

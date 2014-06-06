@@ -15,6 +15,8 @@ Template.mobile.helpers
       "<img src='#{Mobile.findOne().imageUrl}' class='responsive-image' alt='img'>"
   tags: ->
     Tags.find()
+  member: ->
+    Members.findOne()
 
 Template.mobile.rendered = ->
   $('nav#menu').mmenu
