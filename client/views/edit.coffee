@@ -1,6 +1,14 @@
 Template.edit.helpers
+  mobiles: ->
+    Mobile.find()
   mobile: ->
-    Mobile.findOne()
+    Mobile.findOne(Session.get 'selectedMobileId')
+  selectedMobileId: ->
+    Session.get 'selectedMobileId'
+
+Template.edit.rendered = ->
+  console.log 'selectedMobileId', Session.get 'selectedMobileId'
+  Session.set('selectedMobileId', Mobile.findOne()._id) unless Session.get 'selectedMobileId'
 
 Template.edit.events
   'keyup input[name=title]': (e, context) ->
@@ -18,3 +26,6 @@ Template.edit.events
 
   'submit form': (e) ->
     e.preventDefault()
+
+  'change #selected-app': (e, context) ->
+    Session.set 'selectedMobileId', e.target.value

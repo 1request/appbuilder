@@ -7,9 +7,11 @@ if Meteor.isServer
       methods: ['POST', 'GET']
     logsAPI.start()
 
-updateResult = (doc) ->
-  beacon = Beacons.findOne { uuid: doc.uuid, major: doc.major, minor: doc.minor }
-  Beacons.update beacon._id, {$inc: {count: 1}}
-
-Logs.after.insert (userId, doc) ->
-  updateResult(doc)
+Meteor.methods
+  'getMemberAnalytic': (memberDeviceId, startDate, endDate, type) ->
+    days = moment(endDate).diff(moment(startDate), 'days')
+    result = _.map [0..days], (i) ->
+      start = moment(startDate).add('days', i).valueOf()
+      end = moment(startDate).add('days', i + 1).valueOf()
+      count = Logs.find(deviceId: memberDeviceId, time: { $gt: start, $lt: end }).count()
+      [i, count]

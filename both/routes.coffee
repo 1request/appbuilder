@@ -1,17 +1,45 @@
 Router.configure
   layoutTemplate: 'layout'
   loadingTemplate: 'loading'
-  waitOn: ->
-    Meteor.subscribe 'mobile'
 
 Router.map ->
-  @route 'edit', { path: '/' }
+  @route 'main', { path: '/' }
+  @route 'edit',
+    path: 'edit'
+    waitOn: ->
+      Meteor.subscribe 'mobile', {}
   @route 'ibeacon', { path: 'config-ibeacon' }
   @route 'mobile',
-    path: 'mobile'
+    path: 'mobile/:_id'
     waitOn: ->
-      Meteor.subscribe 'beacons'
-      Meteor.subscribe 'tags'
+      [
+        Meteor.subscribe 'tags', { appId: @params._id }
+        Meteor.subscribe 'mobile', { appId: @params._id }
+        Meteor.subscribe 'members', { appId: @params._id }
+      ]
+  @route 'dashboard',
+    path: 'dashboard'
+    waitOn: ->
+      [
+        Meteor.subscribe 'logs'
+        Meteor.subscribe 'mobile', {}
+        Meteor.subscribe 'members', {}
+      ]
+
+requireLogin = (pause) ->
+  unless Meteor.user()
+    if Meteor.loggingIn()
+      @render @loadingTemplate
+    else
+      Router.go 'main'
+    pause()
+
+afterLogin = (pause) ->
+  if Meteor.user()
+    Router.go 'edit'
+    pause()
 
 Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()
+Router.onBeforeAction requireLogin, { except: 'main' }
+Router.onBeforeAction afterLogin, { only: 'main' }

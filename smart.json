@@ -8,6 +8,7 @@
     "lodash": {},
     "moment": {},
     "collection-hooks": {},
-    "collection-api": {}
+    "collection-api": {},
+    "accounts-ui-bootstrap-3": {}
   }
 }

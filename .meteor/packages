@@ -14,3 +14,5 @@ lodash
 moment
 collection-hooks
 collection-api
+accounts-password
+accounts-ui-bootstrap-3

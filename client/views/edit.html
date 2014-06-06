@@ -4,6 +4,14 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
+        <h1>Select your mobile apps</h1>
+        <form class="form-horizontal" role="form">
+          <select name="selectedApp" id="selected-app" class="form-control">
+          {{#each mobiles}}
+            <option value="{{_id}}">{{title}}</option>
+          {{/each}}
+          </select>
+        </form>
         <h1>Edit mobile app layout here</h1>
         <form role="form">
           <div class="form-group">
@@ -19,7 +27,7 @@
       <div class="col-md-6 iphone-portrait">
         <img class="iphone-pic" src="images/iphone.png" alt="iphone">
         <div class="hide-scroll"></div>
-        <iframe id="iphone" src="{{pathFor 'mobile'}}" frameborder="0"></iframe>
+        <iframe id="iphone" src="{{pathFor 'mobile' _id=selectedMobileId}}" frameborder="0"></iframe>
       </div>
     </div>
   </div>
