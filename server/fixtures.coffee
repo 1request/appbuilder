@@ -27,6 +27,10 @@ if Members.find().count() is 0
       appId: Mobile.findOne(title: 'initial2')._id
       username: 'joseph'
       deviceId: 'A343F3D3-7BF6-4E3A-93B0-E562D99A82C8'
+    }, {
+      appId: Mobile.findOne(title: 'initial')._id
+      username: 'kevin'
+      deviceId: '7E8E5CA6-A7CC-4759-A4B6-D795D7E105F6'
     }
   ]
   for member in members
@@ -105,18 +109,19 @@ if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->
     nextDay = moment(momentObj).endOf('day')
     momentObj.add 'milliseconds', Math.random() * Math.min(36000000 / times, nextDay.diff(momentObj))
-
-  for beacon in Beacons.find().fetch()
-    for i in [2..1]
-      timestamp = moment().subtract('days', i).hours(9)
-      randomTimes = _.sample [0, 1, 3, 5, 7, 9]
-      unless randomTimes is 0
-        for j in [0..randomTimes]
-          date = randomTimestamp(timestamp, randomTimes).valueOf()
-          log =
-            time: date
-            uuid: beacon.uuid
-            major: beacon.major
-            minor: beacon.minor
-          log.deviceId = Members.findOne({appId: beacon.appId}).deviceId
-          Logs.insert log
+  for app in Mobile.find().fetch()
+    for member in Members.find(appId: app._id).fetch()
+      for beacon in Beacons.find(appId: app._id).fetch()
+        for i in [10..1]
+          timestamp = moment().subtract('days', i).hours(9)
+          randomTimes = _.sample [0, 1, 3, 5, 7, 9]
+          unless randomTimes is 0
+            for j in [0..randomTimes]
+              date = randomTimestamp(timestamp, randomTimes).valueOf()
+              log =
+                time: date
+                uuid: beacon.uuid
+                major: beacon.major
+                minor: beacon.minor
+              log.deviceId = member.deviceId
+              Logs.insert log

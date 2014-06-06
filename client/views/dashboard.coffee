@@ -134,3 +134,10 @@ Template.dashboard.rendered = ->
 Template.dashboard.events
   'change #selected-app': (e, context) ->
     Session.set 'selectedMobileId', e.target.value
+    memberId = Members.findOne(appId: Session.get('selectedMobileId'))
+    Session.set 'selectedMemberId', memberId
+    renderAnalytic('day')
+
+  'change #selected-member': (e, context) ->
+    Session.set 'selectedMemberId', e.target.value
+    renderAnalytic('day')

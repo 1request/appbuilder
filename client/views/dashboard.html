@@ -3,10 +3,10 @@
   {{> alerts}}
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-6">
         <form class="form-horizontal" role="form">
           <label for="selected-app">Select your mobile app</label>
-          <select name="selectedApp" id="selected-app" class="form-control">
+          <select name="selected-app" id="selected-app" class="form-control">
           {{#each mobiles}}
             <option value="{{_id}}">{{title}}</option>
           {{/each}}
@@ -14,6 +14,18 @@
           {{memberDailyData}}
         </form>
       </div>
+      <div class="col-md-6">
+        <form class="form-horizontal" role="form">
+          <label for="selected-memeber">Select member</label>
+          <select name="selected-member" id="selected-member" class="form-control">
+          {{#each members}}
+            <option value="{{_id}}">{{username}}</option>
+          {{/each}}
+          </select>
+          {{memberDailyData}}
+        </form>
+      </div>
+    <div class="row">
       <div class="col-md-12">
         <div class="panel">
           <div class="panel-heading">
@@ -44,6 +56,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
