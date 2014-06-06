@@ -13,10 +13,10 @@ Meteor.publish 'beacons', (options) ->
 Meteor.publish 'tags', (options) ->
   if options.deviceId
     member = Members.findOne(deviceId: options.deviceId)
-    console.log 'tags', Tags.find(appId: member.appId).count()
     Tags.find(appId: member.appId)
 
 Meteor.publish 'logs', (options) ->
+  console.log 'options in logs publication', options
   if options.deviceId
     Logs.find(deviceId: options.deviceId)
   else
