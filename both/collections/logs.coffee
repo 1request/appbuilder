@@ -1,12 +1,5 @@
 @Logs = new Meteor.Collection 'logs'
 
-if Meteor.isServer
-  Meteor.startup ->
-    logsAPI = new CollectionAPI
-    logsAPI.addCollection Logs, 'logs',
-      methods: ['POST', 'GET']
-    logsAPI.start()
-
 Meteor.methods
   'getAppAnalytic': (appId, startDate, endDate, type) ->
     days = moment(endDate).diff(moment(startDate), 'days')
