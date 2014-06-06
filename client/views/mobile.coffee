@@ -23,3 +23,13 @@ Template.mobile.rendered = ->
   if Mobile.findOne().imageUrls
     $('.flexslider').flexslider
       animation: "slide"
+
+Template.mobile.destroyed = ->
+  $('link[href="/stylesheets/foundation.css"]').remove()
+  $('link[href="/stylesheets/flexslider.css"]').remove()
+  $('link[href="/stylesheets/jquery.mobile-1.0rc2.min.css"]').remove()
+  $('link[href="/stylesheets/jquery.mmenu.all.css"]').remove()
+  $('link[href="/stylesheets/mobile.css"]').remove()
+  $('script[src="/js/jquery.mobile-1.0rc2.min.js"]').remove()
+  $('script[src="/js/jquery.mmenu.min.all.js"]').remove()
+  location.reload()
