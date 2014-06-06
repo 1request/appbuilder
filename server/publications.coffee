@@ -1,21 +1,24 @@
 Meteor.publish 'mobile', (options) ->
-  if options.appId
-    Mobile.find options.appId
+  if options.deviceId
+    member = Members.findOne(deviceId: options.deviceId)
+    Mobile.find member.appId
   else
     Mobile.find({ userId: @userId })
 
 Meteor.publish 'beacons', (options) ->
-  if options.appId
-    Beacons.find(appId: options.appId)
+  if options.deviceId
+    member = Members.findOne(deviceId: options.deviceId)
+    Beacons.find appId: member.appId
 
 Meteor.publish 'tags', (options) ->
-  if options.appId
-    Tags.find(appId: options.appId)
+  if options.deviceId
+    member = Members.findOne(deviceId: options.deviceId)
+    console.log 'tags', Tags.find(appId: member.appId).count()
+    Tags.find(appId: member.appId)
 
 Meteor.publish 'logs', (options) ->
-  if options.memberId
-    member = Members.findOne(options.memberId)
-    Logs.find(deviceId: member.deviceId)
+  if options.deviceId
+    Logs.find(deviceId: options.deviceId)
   else
     app = _.pluck Mobile.find(userId: @userId).fetch(), '_id'
     members = Members.find(appId: {$in: app}).fetch()
@@ -23,8 +26,8 @@ Meteor.publish 'logs', (options) ->
     Logs.find(deviceId: {$in: membersDevices})
 
 Meteor.publish 'members', (options) ->
-  if options.appId
-    Members.find appId: options.appId
+  if options.deviceId
+    Members.find deviceId: options.deviceId
   else if options.memberId
     Members.find options.memberId
   else

@@ -11,14 +11,14 @@ Router.map ->
       Meteor.subscribe 'members', {}
   @route 'ibeacon', { path: 'config-ibeacon' }
   @route 'mobile',
-    path: 'mobile/:_id'
+    path: 'mobile/:deviceId'
     waitOn: ->
       [
-        Meteor.subscribe 'tags', { appId: @params._id }
-        Meteor.subscribe 'mobile', { appId: @params._id }
-        Meteor.subscribe 'members', { memberId: @params.memberId }
-        Meteor.subscribe 'logs', { memberId: @params.memberId }
-        Meteor.subscribe 'beacons', { appId: @params._id }
+        Meteor.subscribe 'tags', { deviceId: @params.deviceId }
+        Meteor.subscribe 'mobile', { deviceId: @params.deviceId }
+        Meteor.subscribe 'members', { deviceId: @params.deviceId }
+        Meteor.subscribe 'logs', { deviceId: @params.deviceId }
+        Meteor.subscribe 'beacons', { deviceId: @params.deviceId }
       ]
   @route 'dashboard',
     path: 'dashboard'
