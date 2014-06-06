@@ -44,5 +44,5 @@ afterLogin = (pause) ->
 
 Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()
-Router.onBeforeAction requireLogin, { except: 'main' }
+Router.onBeforeAction requireLogin, { except: ['main', 'mobile'] }
 Router.onBeforeAction afterLogin, { only: 'main' }
