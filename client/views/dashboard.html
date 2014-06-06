@@ -1,62 +1,6 @@
 <template name='dashboard'>
   {{> header}}
   {{> alerts}}
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <form class="form-horizontal" role="form">
-          <label for="selected-app">Select your mobile app</label>
-          <select name="selected-app" id="selected-app" class="form-control">
-          {{#each mobiles}}
-            <option value="{{_id}}">{{title}}</option>
-          {{/each}}
-          </select>
-          {{memberDailyData}}
-        </form>
-      </div>
-      <div class="col-md-6">
-        <form class="form-horizontal" role="form">
-          <label for="selected-memeber">Select member</label>
-          <select name="selected-member" id="selected-member" class="form-control">
-          {{#each members}}
-            <option value="{{_id}}">{{username}}</option>
-          {{/each}}
-          </select>
-          {{memberDailyData}}
-        </form>
-      </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="panel">
-          <div class="panel-heading">
-            <div class="pos-abs t-10 l-15 f-18"><i class="fa fa-list"></i></div>
-            <h2 class="panel-title width-100p c-red text-center w-500 f-20 carrois">Members Daily Activities - {{member.username}}</h2>
-          </div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-md-12">
-                <div id="graph-wrapper">
-                  <div class="graph-info p-r-10">
-                    <div class="row">
-                      <div class="col-md-5">
-                        <input id="dateFrom" class="pickadate form-control" type="text" value="{{currentDate}}" placeholder="Click me to see modal calendar" />
-                      </div>
-                      <div class="col-md-2">to</div>
-                      <div class="col-md-5">
-                        <input id="dateTo" class="pickadate form-control" type="text" value="{{currentDate}}" placeholder="Click me to see modal calendar" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="h-300">
-                    <div class="h-300" id="graph-member-lines" style="width:100%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-  </div>
+  {{> appStatistics}}
+  {{> memberStatistics}}
 </template>

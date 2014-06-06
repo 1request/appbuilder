@@ -13,7 +13,6 @@ Template.edit.helpers
 
 Template.edit.rendered = ->
   Session.setDefault('selectedMobileId', Mobile.findOne()._id)
-  console.log 'selectedMobileId', Session.get 'selectedMobileId'
 
 Template.edit.events
   'keyup input[name=title]': (e, context) ->

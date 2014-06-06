@@ -1,6 +1,5 @@
 Template.tag.helpers
   count: ->
-    console.log @_id
     Session.get "#{@_id}"
 
 Template.tag.rendered = ->
