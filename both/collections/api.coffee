@@ -5,4 +5,6 @@ if Meteor.isServer
       methods: ['POST', 'GET']
     collectionAPI.addCollection Members, 'members',
       methods: ['POST', 'GET']
+    collectionAPI.addCollection Mobile, 'mobile',
+      methods: ['GET']
     collectionAPI.start()
