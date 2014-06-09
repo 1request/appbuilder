@@ -5,5 +5,11 @@
     <th>{{this.minor}}</th>
     <th>{{tags}}</th>
     <th>{{this.notes}}</th>
+    <th>
+      <a href="{{pathFor 'editBeacon' id=this._id}}" class="btn btn-default">Edit</a>
+    </th>
+    <th>
+      <a href="#" data-remove="{{_id}}" class="btn btn-default delete-beacon">Delete</a>
+    </th>
   </tr>
 </template>
