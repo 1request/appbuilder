@@ -24,12 +24,12 @@
           <input id="image" type="text" data-id="{{mobile._id}}" name="imageUrl" class="form-control" placeholder="Enter image url">
           </div>
         </form>
-        <a href="{{pathFor 'mobile' deviceId=selectedDeviceId}}">View mobile app page</a>
+        <a href="{{path}}">View mobile app page</a>
       </div>
       <div class="col-md-6 iphone-portrait">
         <img class="iphone-pic" src="images/iphone.png" alt="iphone">
         <div class="hide-scroll"></div>
-        <iframe id="iphone" src="{{pathFor 'mobile' deviceId=selectedDeviceId query=selectedMemberId}}" frameborder="0"></iframe>
+        <iframe id="iphone" src="{{path}}" frameborder="0"></iframe>
       </div>
     </div>
   </div>

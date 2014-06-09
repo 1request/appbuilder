@@ -7,7 +7,8 @@ Template.edit.helpers
     Session.get 'selectedMobileId'
   selectedDeviceId: ->
     Session.get 'selectedDeviceId'
-
+  path: ->
+    Router.routes['mobile'].path({deviceId: Session.get 'selectedDeviceId'})
 
 Template.edit.rendered = ->
   Session.setDefault('selectedMobileId', Mobile.findOne()._id)
@@ -32,3 +33,4 @@ Template.edit.events
 
   'change #selected-app': (e, context) ->
     Session.set 'selectedMobileId', e.target.value
+    Session.set 'selectedDeviceId', Members.findOne(appId: e.target.value).deviceId
