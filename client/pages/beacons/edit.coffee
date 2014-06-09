@@ -1,5 +1,5 @@
-Template.editBeacons.helpers
+Template.editBeacon.helpers
 
-Template.editBeacons.events
+Template.editBeacon.events
 
-Template.editBeacons.rendered = ->
+Template.editBeacon.rendered = ->

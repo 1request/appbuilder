@@ -1,5 +1,5 @@
-Template.showBeacons.helpers
+Template.showBeacon.helpers
 
-Template.showBeacons.events
+Template.showBeacon.events
 
-Template.showBeacons.rendered = ->
+Template.showBeacon.rendered = ->
