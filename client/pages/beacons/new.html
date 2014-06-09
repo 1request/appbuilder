@@ -2,7 +2,44 @@
 {{> header}}
 {{> alerts}}
 <div class='new-beacon'>
-
+  <div class="container">
+    <h2>Add beacon</h2>
+    <form role="form">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="uuid">Beacon UUID</label>
+          <input type="text" class="form-control" id="uuid" placeholder="e.g. B9407F30-F5F8-466E-AFF9-25556B57FE6D">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="major">Major</label>
+          <input type="number" class="form-control" id="major" placeholder="1">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="minor">Minor</label>
+          <input type="number" class="form-control" id="minor" placeholder="1">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input type="text" class="form-control" id="tags" placeholder="input tag names">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <input type="text" class="form-control" id="notes" placeholder="">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 </template>
