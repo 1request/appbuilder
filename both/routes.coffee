@@ -28,7 +28,17 @@ Router.map ->
         Meteor.subscribe 'mobile', {}
         Meteor.subscribe 'members', {}
       ]
-
+  @route 'beacons',
+    path: 'beacons'
+    waitOn: ->
+      [
+        Meteor.subscribe 'tags', {}
+        Meteor.subscribe 'beacons', {}
+      ]
+  @route 'beacons',    { path: '/beacons',          controller: Beacons.index }
+  @route 'newBeacon',  { path: '/beacons/new',      controller: Beacons.new }
+  @route 'showBeacon', { path: '/beacons/:id',      controller: Beacons.show }
+  @route 'editBeacon', { path: '/beacons/edit/:id', controller: Beacons.edit }
 requireLogin = (pause) ->
   unless Meteor.user()
     if Meteor.loggingIn()

@@ -1,0 +1,1 @@
+class @AppController extends RouteController

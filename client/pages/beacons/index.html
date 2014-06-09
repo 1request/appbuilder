@@ -1,0 +1,31 @@
+<template name='beacons'>
+{{> header}}
+{{> alerts}}
+<div class='beacons'>
+  <div class="container">
+    <h2>Beacons</h2>
+    {{#if beacons}}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Major</th>
+            <th>Minor</th>
+            <th>Tags</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each beacons}}
+          {{> beaconDetail}}
+        {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    <a class="btn btn-success" href="{{pathFor 'newBeacon'}}">Add beacon</a>
+  </div>
+</div>
+
+</template>
+
