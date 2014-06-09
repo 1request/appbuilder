@@ -16,7 +16,6 @@ Meteor.publish 'tags', (options) ->
     Tags.find(appId: member.appId)
 
 Meteor.publish 'logs', (options) ->
-  console.log 'options in logs publication', options
   if options.deviceId
     Logs.find(deviceId: options.deviceId)
   else
