@@ -17,7 +17,6 @@ Router.map ->
         Meteor.subscribe 'mobile', { deviceId: @params.deviceId }
         Meteor.subscribe 'members', { deviceId: @params.deviceId }
         Meteor.subscribe 'logs', { deviceId: @params.deviceId }
-        Meteor.subscribe 'beacons', { deviceId: @params.deviceId }
       ]
   @route 'dashboard',
     path: 'dashboard'
@@ -27,10 +26,12 @@ Router.map ->
         Meteor.subscribe 'mobile', {}
         Meteor.subscribe 'members', {}
       ]
+
   @route 'beacons',    { path: '/beacons',          controller: Beacons.index }
   @route 'newBeacon',  { path: '/beacons/new',      controller: Beacons.new }
   @route 'showBeacon', { path: '/beacons/:id',      controller: Beacons.show }
   @route 'editBeacon', { path: '/beacons/edit/:id', controller: Beacons.edit }
+
 requireLogin = (pause) ->
   unless Meteor.user()
     if Meteor.loggingIn()

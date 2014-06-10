@@ -3,42 +3,6 @@ if Meteor.users.find().count() is 0
 
 userId = Meteor.users.findOne(username: 'joe')._id
 
-if Mobile.find().count() is 0
-  mobiles = [
-    {
-      userId: userId
-      title: 'initial'
-      imageUrls: []
-    }, {
-      userId: userId
-      title: 'initial2'
-      imageUrls: []
-    }
-  ]
-  for mobile in mobiles
-    Mobile.insert mobile
-
-
-if Members.find().count() is 0
-  members = [
-    {
-      appId: Mobile.findOne(title: 'initial')._id
-      username: 'harryng'
-      deviceId: '3516AE72-4277-4783-93E8-CB5830E44ED2'
-    }, {
-      appId: Mobile.findOne(title: 'initial2')._id
-      username: 'joseph'
-      deviceId: 'A343F3D3-7BF6-4E3A-93B0-E562D99A82C8'
-    }, {
-      appId: Mobile.findOne(title: 'initial')._id
-      username: 'kevin'
-      deviceId: '7E8E5CA6-A7CC-4759-A4B6-D795D7E105F6'
-    }
-  ]
-  for member in members
-    Members.insert member
-
-
 if Tags.find().count() is 0
   tags1 = ['Reception', 'Estimote', 'Open Area', 'Roof', 'Member Zone', 'Classroom']
   tags2 = ['Cyber Port', 'Garage', 'Cocoon']
@@ -112,6 +76,48 @@ if Beacons.find().count() is 0
     Beacons.insert (_.extend beacon, {userId: userId})
   for beacon in beacons2
     Beacons.insert (_.extend beacon, {userId: userId})
+
+
+
+if Mobile.find().count() is 0
+  mobiles = [
+    {
+      userId: userId
+      title: 'initial'
+      imageUrls: []
+      _id: 'jdFYjuCqWyCdrywPT'
+      tags: _.pluck Tags.find(name: {$in: tags1}).fetch(), '_id'
+    }, {
+      userId: userId
+      title: 'initial2'
+      imageUrls: []
+      tags: _.pluck Tags.find(name: {$in: tags2}).fetch(), '_id'
+    }
+  ]
+  for mobile in mobiles
+    Mobile.insert mobile
+
+
+if Members.find().count() is 0
+  members = [
+    {
+      appId: Mobile.findOne(title: 'initial')._id
+      username: 'harryng'
+      deviceId: '3516AE72-4277-4783-93E8-CB5830E44ED2'
+    }, {
+      appId: Mobile.findOne(title: 'initial2')._id
+      username: 'joseph'
+      deviceId: 'A343F3D3-7BF6-4E3A-93B0-E562D99A82C8'
+    }, {
+      appId: Mobile.findOne(title: 'initial')._id
+      username: 'kevin'
+      deviceId: '7E8E5CA6-A7CC-4759-A4B6-D795D7E105F6'
+    }
+  ]
+  for member in members
+    Members.insert member
+
+
 
 if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->

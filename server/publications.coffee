@@ -6,16 +6,12 @@ Meteor.publish 'mobile', (options) ->
     Mobile.find({ userId: @userId })
 
 Meteor.publish 'beacons', (options) ->
-  if options.deviceId
-    member = Members.findOne(deviceId: options.deviceId)
-    Beacons.find appId: member.appId
-  else
-    Beacons.find(userId: @userId)
+  Beacons.find(userId: @userId)
 
 Meteor.publish 'tags', (options) ->
   if options.deviceId
     member = Members.findOne(deviceId: options.deviceId)
-    Tags.find(appId: member.appId)
+    Tags.find(_id: {$in: app.tags})
   else
     Tags.find(userId: @userId)
 
