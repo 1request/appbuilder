@@ -14,3 +14,6 @@ Template.alert.rendered = ->
   alert = @data
   Meteor.defer ->
     Alerts.update alert._id, $set: {seen: true}
+  Meteor.setTimeout ->
+    clearAlerts()
+  , 1500
