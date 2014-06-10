@@ -5,4 +5,7 @@ if Meteor.isServer
       methods: ['POST', 'GET']
     collectionAPI.addCollection Members, 'members',
       methods: ['POST', 'GET']
+      before:
+        POST: (doc) ->
+          !Members.findOne deviceId: doc.deviceId
     collectionAPI.start()

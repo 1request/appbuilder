@@ -11,6 +11,6 @@ coffeescript
 scss
 spin
 lodash
-moment
 collection-hooks
 collection-api
+moment

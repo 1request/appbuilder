@@ -8,9 +8,9 @@
       "scss": {},
       "spin": {},
       "lodash": {},
-      "moment": {},
       "collection-hooks": {},
-      "collection-api": {}
+      "collection-api": {},
+      "moment": {}
     },
     "packages": {
       "iron-router": {
@@ -43,20 +43,20 @@
         "tag": "v0.7.1",
         "commit": "57bbeb3e21c31b64641f9885bb2f390b84f8b925"
       },
-      "moment": {
-        "git": "https://github.com/acreeger/meteor-moment.git",
-        "tag": "v2.6.0",
-        "commit": "26156df681750fd6e6ed77043eef32b6653ebbdf"
-      },
       "collection-hooks": {
         "git": "https://github.com/matb33/meteor-collection-hooks.git",
-        "tag": "v0.6.7",
-        "commit": "f1d2ac629864edda09df6c955fa5ff3df26f739c"
+        "tag": "v0.7.0",
+        "commit": "20a6de81f3818f112bccf67b5e1d3db342cf0b18"
       },
       "collection-api": {
         "git": "https://github.com/crazytoad/meteor-collectionapi.git",
         "tag": "v0.1.15",
         "commit": "b62c51f387287726cf3b64077f7bc69604ec2f5e"
+      },
+      "moment": {
+        "git": "https://github.com/acreeger/meteor-moment.git",
+        "tag": "v2.6.0",
+        "commit": "26156df681750fd6e6ed77043eef32b6653ebbdf"
       }
     }
   }
