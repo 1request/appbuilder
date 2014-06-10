@@ -9,6 +9,8 @@
     "moment": {},
     "collection-hooks": {},
     "collection-api": {},
-    "accounts-ui-bootstrap-3": {}
+    "accounts-ui-bootstrap-3": {},
+    "select2": {},
+    "select2-bootstrap3-css": {}
   }
 }
