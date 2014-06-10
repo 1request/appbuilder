@@ -17,37 +17,37 @@ if Beacons.find().count() is 0
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
       major: '9'
       minor: '62353'
-      tags: [Tags.findOne(name: 'Reception')._id, Tags.findOne(name: 'Estimote')._id]
+      tags: ['Reception', 'Estimote']
       notes: 'Beacon placed at reception of 9/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
       major: '9'
       minor: '26057'
-      tags: [Tags.findOne(name: 'Open Area')._id, Tags.findOne(name: 'Estimote')._id]
+      tags: ['Open Area', 'Estimote']
       notes: 'Beacon placed at the Open Area of 9/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
       major: '9'
       minor: '50549'
-      tags: [Tags.findOne(name: 'Roof')._id, Tags.findOne(name: 'Estimote')._id]
+      tags: ['Roof', 'Estimote']
       notes: 'Beacon placed at Roof (Outdoor) at 9/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
       major: '8'
       minor: '7102'
-      tags: [Tags.findOne(name: 'Reception')._id, Tags.findOne(name: 'Estimote')._id]
+      tags: ['Reception', 'Estimote']
       notes: 'Beacon placed at Reception at 8/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
       major: '8'
       minor: '31008'
-      tags: [Tags.findOne(name: 'Member Zone')._id, Tags.findOne(name: 'Estimote')._id]
+      tags: ['Member Zone', 'Estimote']
       notes: 'Beacon placed at Member Area at 8/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
       major: '8'
       minor: '31664'
-      tags: [Tags.findOne(name: 'Classroom')._id, Tags.findOne(name: 'Estimote')._id]
+      tags: ['Classroom', 'Estimote']
       notes: 'Beacon placed inside GA Batman Classroom at 8/F Garage Society'
     }
   ]
@@ -56,19 +56,19 @@ if Beacons.find().count() is 0
       uuid: '884EBE62-891D-495A-AF57-17CA0CDA86B8'
       major: '1'
       minor: '0001'
-      tags: [Tags.findOne(name: 'Cyber Port')._id]
+      tags: ['Cyber Port']
       notes: 'Cyber Port is so empty'
     }, {
       uuid: 'F5645C90-A5FD-4E46-8090-B39B42280372'
       major: '1'
       minor: '0002'
-      tags: [Tags.findOne(name: 'Garage')._id]
+      tags: ['Garage']
       notes: 'Garage needs more comfortable chairs'
     }, {
       uuid: '13662EC6-9FAA-49A4-B73B-2FC3B32CA012'
       major: '1'
       minor: '0003'
-      tags: [Tags.findOne(name: 'Cocoon')._id]
+      tags: ['Cocoon']
       notes: 'Cocoon is spacious'
     }
   ]
@@ -117,25 +117,24 @@ if Members.find().count() is 0
   for member in members
     Members.insert member
 
-
-
 if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->
     nextDay = moment(momentObj).endOf('day')
     momentObj.add 'milliseconds', Math.random() * Math.min(36000000 / times, nextDay.diff(momentObj))
   for app in Mobile.find().fetch()
     for member in Members.find(appId: app._id).fetch()
-      for beacon in Beacons.find(appId: app._id).fetch()
-        for i in [10..1]
-          timestamp = moment().subtract('days', i).hours(9)
-          randomTimes = _.sample [0, 1, 3, 5, 7, 9]
-          unless randomTimes is 0
-            for j in [0..randomTimes]
-              date = randomTimestamp(timestamp, randomTimes).valueOf()
-              log =
-                time: date
-                uuid: beacon.uuid
-                major: beacon.major
-                minor: beacon.minor
-              log.deviceId = member.deviceId
-              Logs.insert log
+      for tag in Tags.find(_id: {$in: app.tags}).fetch()
+        for beacon in Beacons.find(_id: {$in: tag.beacons}).fetch()
+          for i in [10..1]
+            timestamp = moment().subtract('days', i).hours(9)
+            randomTimes = _.sample [0, 1, 3, 5, 7, 9]
+            unless randomTimes is 0
+              for j in [0..randomTimes]
+                date = randomTimestamp(timestamp, randomTimes).valueOf()
+                log =
+                  time: date
+                  uuid: beacon.uuid
+                  major: beacon.major
+                  minor: beacon.minor
+                log.deviceId = member.deviceId
+                Logs.insert log

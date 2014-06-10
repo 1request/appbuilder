@@ -10,10 +10,13 @@ Meteor.methods
     unless beaconAttributes.uuid or beaconAttributes.major or beaconAttributes.minor
       throw new Meteor.Error(422, 'Please fill in uuid, major, minor')
 
-    beaconAttributes.tags = [] unless beaconAttributes.tags
-
-    beacon = _.extend(_.pick(beaconAttributes, 'uuid', 'major', 'minor', 'tags', 'notes'), {
+    tags = if beaconAttributes.tags
+      _.flatten [beaconAttributes.tags.split(',')]
+    else
+      beaconAttributes.tags = []
+    beacon = _.extend(_.pick(beaconAttributes, 'uuid', 'major', 'minor', 'notes'), {
       userId: user._id
+      tags: tags
       })
 
     beaconId = Beacons.insert beacon
@@ -24,4 +27,8 @@ Beacons.allow
 
 Beacons.after.insert (userId, doc) ->
   for tag in doc.tags
-    Tags.update tag, $addToSet: { beacons: doc._id }
+    Tags.upsert {name: tag, userId: doc.userId}, $addToSet: { beacons: doc._id }
+  tag_ids = _.pluck Tags.find(name: {$in: doc.tags}).fetch(), '_id'
+  Beacons.update doc._id, {
+    $set: {tags: tag_ids}
+  }

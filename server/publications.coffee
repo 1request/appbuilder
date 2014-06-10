@@ -11,6 +11,7 @@ Meteor.publish 'beacons', (options) ->
 Meteor.publish 'tags', (options) ->
   if options.deviceId
     member = Members.findOne(deviceId: options.deviceId)
+    app = Mobile.findOne(member.appId)
     Tags.find(_id: {$in: app.tags})
   else
     Tags.find(userId: @userId)

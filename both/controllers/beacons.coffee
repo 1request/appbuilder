@@ -8,6 +8,8 @@ Beacons.index = AppController.extend
 
 Beacons.new = AppController.extend
   template: 'newBeacon'
+  waitOn: ->
+    Meteor.subscribe 'tags', {}
 
 Beacons.show = AppController.extend
   template: 'showBeacon'
@@ -16,14 +18,14 @@ Beacons.edit = AppController.extend
   template: 'editBeacon'
 
 
-Beacons.create = (data, callback) ->
+Beacons.createBeacon = (data, callback) ->
   console.log('Fired Create Beacon', data)
   Meteor.call('createBeacon', data, callback)
 
-Beacons.update = (data, callback) ->
+Beacons.updateBeacon = (data, callback) ->
   console.log('Fired Update Beacon', data)
-  Meteor.call('Beacons.update', data, callback)
+  Meteor.call('updateBeacon', data, callback)
 
-Beacons.destroy = (data, callback) ->
+Beacons.destroyBeacon = (data, callback) ->
   console.log('Fired Destroy Beacon', data)
   Meteor.call('Beacons.destroy', data, callback)
