@@ -21,6 +21,13 @@ Meteor.methods
 
     beaconId = Beacons.insert beacon
 
+  'destroyBeacon': (beaconId) ->
+    user = Meteor.user()
+    unless user
+      throw new Meteor.Error(401, 'You need to login to delete existing beacons')
+
+    Beacons.remove beaconId
+
 Beacons.allow
   insert: (userId, doc) ->
     !! userId
@@ -32,3 +39,7 @@ Beacons.after.insert (userId, doc) ->
   Beacons.update doc._id, {
     $set: {tags: tag_ids}
   }
+
+Beacons.after.remove (userId, doc) ->
+  for tag in Tags.find(beacons: doc._id).fetch()
+    Tags.update tag._id, $pull: { beacons: doc._id }

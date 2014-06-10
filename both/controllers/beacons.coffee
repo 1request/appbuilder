@@ -19,13 +19,10 @@ Beacons.edit = AppController.extend
 
 
 Beacons.createBeacon = (data, callback) ->
-  console.log('Fired Create Beacon', data)
   Meteor.call('createBeacon', data, callback)
 
 Beacons.updateBeacon = (data, callback) ->
-  console.log('Fired Update Beacon', data)
   Meteor.call('updateBeacon', data, callback)
 
 Beacons.destroyBeacon = (data, callback) ->
-  console.log('Fired Destroy Beacon', data)
-  Meteor.call('Beacons.destroy', data, callback)
+  Meteor.call('destroyBeacon', data, callback)
