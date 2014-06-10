@@ -9,7 +9,6 @@ Router.map ->
     waitOn: ->
       Meteor.subscribe 'mobile', {}
       Meteor.subscribe 'members', {}
-  @route 'ibeacon', { path: 'config-ibeacon' }
   @route 'mobile',
     path: 'mobile/:deviceId'
     waitOn: ->
@@ -27,13 +26,6 @@ Router.map ->
         Meteor.subscribe 'logs', {}
         Meteor.subscribe 'mobile', {}
         Meteor.subscribe 'members', {}
-      ]
-  @route 'beacons',
-    path: 'beacons'
-    waitOn: ->
-      [
-        Meteor.subscribe 'tags', {}
-        Meteor.subscribe 'beacons', {}
       ]
   @route 'beacons',    { path: '/beacons',          controller: Beacons.index }
   @route 'newBeacon',  { path: '/beacons/new',      controller: Beacons.new }

@@ -8,6 +8,10 @@ Template.newBeacon.events
       major: $(e.target).find('[name=major]').val()
       minor: $(e.target).find('[name=minor]').val()
       notes: $(e.target).find('[name=notes]').val()
-    console.log 'post', post
+    Beacons.create post, (error, result) ->
+      if error
+        throwAlert(error.reason)
+      else
+        Router.go('beacons')
 
 Template.newBeacon.rendered = ->

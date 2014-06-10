@@ -10,16 +10,14 @@ Meteor.publish 'beacons', (options) ->
     member = Members.findOne(deviceId: options.deviceId)
     Beacons.find appId: member.appId
   else
-    app = _.pluck Mobile.find(userId: @userId).fetch(), '_id'
-    Beacons.find(appId: {$in: app})
+    Beacons.find(userId: @userId)
 
 Meteor.publish 'tags', (options) ->
   if options.deviceId
     member = Members.findOne(deviceId: options.deviceId)
     Tags.find(appId: member.appId)
   else
-    app = _.pluck Mobile.find(userId: @userId).fetch(), '_id'
-    Tags.find(appId: {$in: app})
+    Tags.find(userId: @userId)
 
 Meteor.publish 'logs', (options) ->
   if options.deviceId

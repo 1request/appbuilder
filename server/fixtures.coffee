@@ -1,14 +1,16 @@
 if Meteor.users.find().count() is 0
   Accounts.createUser {username: 'joe', email: 'joe@j.com', password: '1'}
 
+userId = Meteor.users.findOne(username: 'joe')._id
+
 if Mobile.find().count() is 0
   mobiles = [
     {
-      userId: Meteor.users.findOne(username: 'joe')._id
+      userId: userId
       title: 'initial'
       imageUrls: []
     }, {
-      userId: Meteor.users.findOne(username: 'joe')._id
+      userId: userId
       title: 'initial2'
       imageUrls: []
     }
@@ -41,9 +43,9 @@ if Tags.find().count() is 0
   tags1 = ['Reception', 'Estimote', 'Open Area', 'Roof', 'Member Zone', 'Classroom']
   tags2 = ['Cyber Port', 'Garage', 'Cocoon']
   for i in tags1
-    Tags.insert {name: i, appId: Mobile.findOne(title: 'initial')._id}
+    Tags.insert {name: i, userId: userId}
   for i in tags2
-    Tags.insert {name: i, appId: Mobile.findOne(title: 'initial2')._id}
+    Tags.insert {name: i, userId: userId}
 
 if Beacons.find().count() is 0
   beacons1 = [
@@ -107,9 +109,9 @@ if Beacons.find().count() is 0
     }
   ]
   for beacon in beacons1
-    Beacons.insert (_.extend beacon, {appId: Mobile.findOne(title: 'initial')._id})
+    Beacons.insert (_.extend beacon, {userId: userId})
   for beacon in beacons2
-    Beacons.insert (_.extend beacon, {appId: Mobile.findOne(title: 'initial2')._id})
+    Beacons.insert (_.extend beacon, {userId: userId})
 
 if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->
