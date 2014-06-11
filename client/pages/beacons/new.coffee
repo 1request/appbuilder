@@ -17,4 +17,4 @@ Template.newBeacon.events
 
 Template.newBeacon.rendered = ->
   $('#tags').select2
-    tags: _.pluck Tags.find().fetch(), 'name'
+    tags: _.pluck Tags.find().fetch(), 'text'
