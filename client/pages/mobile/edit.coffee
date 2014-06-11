@@ -1,3 +1,11 @@
+runSelect2 = ->
+  $('#tags').select2
+    tags: _.pluck Tags.find().fetch(), 'text'
+  $('#tags').select2('val', Session.get('selectedTags'))
+
+setSelectedTags = (tags) ->
+  _.pluck(Tags.find(_id: {$in: tags}).fetch(), 'text')
+
 Template.edit.helpers
   mobiles: ->
     Mobile.find()
@@ -13,18 +21,11 @@ Template.edit.helpers
     if Session.get 'selectedTags'
       _.pluck(Tags.find(text: {$in: Session.get 'selectedTags'}).fetch(), 'text').join(',')
 
-runSelect2 = ->
-  $('#tags').select2
-    tags: _.pluck Tags.find().fetch(), 'text'
-  $('#tags').select2('val', Session.get('selectedTags'))
-
 Template.edit.rendered = ->
   Session.setDefault('selectedMobileId', Mobile.findOne()._id)
-  selectedTags = _.pluck(Tags.find(_id: {$in: Mobile.findOne().tags}).fetch(), 'text')
-  Session.setDefault('selectedTags', selectedTags)
+  Session.setDefault('selectedTags', setSelectedTags(Mobile.findOne().tags))
   Session.setDefault('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
   runSelect2()
-
 
 Template.edit.events
   'keyup input[name=title]': (e, context) ->
@@ -47,6 +48,9 @@ Template.edit.events
   'change #selected-app': (e, context) ->
     Session.set 'selectedMobileId', e.target.value
     Session.set 'selectedDeviceId', Members.findOne(appId: e.target.value).deviceId
+    mobile = Mobile.findOne(Session.get('selectedMobileId'))
+    Session.set 'selectedTags', setSelectedTags(mobile.tags)
+    runSelect2()
 
   'change #tags': (e) ->
     mobile = Mobile.findOne Session.get('selectedMobileId')
@@ -54,7 +58,7 @@ Template.edit.events
       Mobile.update mobile._id, $addToSet: {tags: Tags.findOne(text: e.added.text)._id}
     else
       Mobile.update mobile._id, $pull: {tags: Tags.findOne(text: e.removed.text)._id}
-    document.getElementById('iphone').contentWindow.location.reload(true)
+    # document.getElementById('iphone').contentWindow.location.reload(true)
 
 
 
