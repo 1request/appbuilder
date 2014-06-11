@@ -7,9 +7,9 @@ if Tags.find().count() is 0
   tags1 = ['Reception', 'Estimote', 'Open Area', 'Roof', 'Member Zone', 'Classroom']
   tags2 = ['Cyber Port', 'Garage', 'Cocoon']
   for i in tags1
-    Tags.insert {name: i, userId: userId}
+    Tags.insert {text: i, userId: userId}
   for i in tags2
-    Tags.insert {name: i, userId: userId}
+    Tags.insert {text: i, userId: userId}
 
 if Beacons.find().count() is 0
   beacons1 = [
@@ -86,12 +86,12 @@ if Mobile.find().count() is 0
       title: 'initial'
       imageUrls: []
       _id: 'jdFYjuCqWyCdrywPT'
-      tags: _.pluck Tags.find(name: {$in: tags1}).fetch(), '_id'
+      tags: _.pluck Tags.find(text: {$in: tags1}).fetch(), '_id'
     }, {
       userId: userId
       title: 'initial2'
       imageUrls: []
-      tags: _.pluck Tags.find(name: {$in: tags2}).fetch(), '_id'
+      tags: _.pluck Tags.find(text: {$in: tags2}).fetch(), '_id'
     }
   ]
   for mobile in mobiles

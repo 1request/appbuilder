@@ -10,7 +10,7 @@ BrowserPolicy.framing.allowAll();
 // -------------  Content options  -------------
 
 BrowserPolicy.content.allowInlineScripts();
-BrowserPolicy.content.disallowInlineScripts();
+// BrowserPolicy.content.disallowInlineScripts();
 BrowserPolicy.content.allowOriginForAll('*');
 BrowserPolicy.content.allowEval();
 //BrowserPolicy.content.disallowEval(); // default

@@ -9,6 +9,7 @@ Router.map ->
     waitOn: ->
       Meteor.subscribe 'mobile', {}
       Meteor.subscribe 'members', {}
+      Meteor.subscribe 'tags', {}
   @route 'mobile',
     path: 'mobile/:deviceId'
     waitOn: ->

@@ -34,8 +34,8 @@ Beacons.allow
 
 Beacons.after.insert (userId, doc) ->
   for tag in doc.tags
-    Tags.upsert {name: tag, userId: doc.userId}, $addToSet: { beacons: doc._id }
-  tag_ids = _.pluck Tags.find(name: {$in: doc.tags}).fetch(), '_id'
+    Tags.upsert {text: tag, userId: doc.userId}, $addToSet: { beacons: doc._id }
+  tag_ids = _.pluck Tags.find(text: {$in: doc.tags}).fetch(), '_id'
   Beacons.update doc._id, {
     $set: {tags: tag_ids}
   }

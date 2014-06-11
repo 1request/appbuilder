@@ -20,8 +20,12 @@
             <input id="title" type="text" data-id="{{mobile._id}}" name="title" class="form-control" placeholder="Enter title" value="{{mobile.title}}">
           </div>
           <div class="form-group">
-          <label for="image">Insert slide image</label>
-          <input id="image" type="text" data-id="{{mobile._id}}" name="imageUrl" class="form-control" placeholder="Enter image url">
+            <label for="image">Insert slide image</label>
+            <input id="image" type="text" data-id="{{mobile._id}}" name="imageUrl" class="form-control" placeholder="Enter image url">
+          </div>
+          <div class="form-group">
+            <label for="tags">Manage app tags</label>
+            <input type="text" class="form-control" name="tags" id="tags" placeholder="input tag names" value="{{selectedTags}}">
           </div>
         </form>
         <a href="{{path}}">View mobile app page</a>
