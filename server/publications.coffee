@@ -19,27 +19,29 @@ Meteor.publish 'tags', (options) ->
 Meteor.publish 'currentTags', (options) ->
   self = @
   member = Members.findOne(deviceId: options.deviceId)
-  app = Mobile.findOne(member.appId)
   tags = Mobile.findOne(member.appId).tags
+
   initializing = true
 
-  if initializing
-    for tag in Tags.find(_id: {$in: app.tags}).fetch()
-      self.added 'tags', tag._id, tag
+  for tag in Tags.find(_id: {$in: tags}).fetch()
+    console.log 'in tag loop'
+    self.added 'tags', tag._id, tag
 
-  tagHandler = Mobile.find(member.appId).observeChanges
-    changed: (id, fields) ->
+  tagHandler = Mobile.find(member.appId).observe
+    changed: (newDocument, oldDocument) ->
       unless initializing
-        if fields.tags
-          added = _.difference(fields.tags, tags)
-          removed = _.difference(tags, fields.tags)
-          if added.length
-            self.added 'tags', added[0], Tags.findOne added[0]
-          else
-            self.removed 'tags', removed[0]
-          tags = fields.tags
+        added   = _.difference newDocument.tags, oldDocument.tags
+        removed = _.difference oldDocument.tags, newDocument.tags
+        if added.length
+          console.log 'add ', Tags.findOne(added[0]).text
+          self.added 'tags', added[0], Tags.findOne added[0]
+        else
+          console.log 'remove ', Tags.findOne(removed[0]).text
+          console.log 'id to be removed', removed[0]
+          self.removed 'tags', removed[0]
 
   initializing = false
+
   self.ready()
   self.onStop ->
     tagHandler.stop()

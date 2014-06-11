@@ -14,7 +14,6 @@ Router.map ->
     path: 'mobile/:deviceId'
     waitOn: ->
       [
-        Meteor.subscribe 'tags', { deviceId: @params.deviceId }
         Meteor.subscribe 'currentTags', { deviceId: @params.deviceId }
         Meteor.subscribe 'mobile', { deviceId: @params.deviceId }
         Meteor.subscribe 'members', { deviceId: @params.deviceId }
