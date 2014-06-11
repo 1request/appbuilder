@@ -8,5 +8,7 @@ Template.tag.helpers
 
 Template.tag.rendered = ->
   tagId = @.data._id
+
   Deps.autorun ->
-    countTag(tagId) if Tags.findOne(tagId)
+    logCount = Logs.find().count()
+    countTag(tagId)
