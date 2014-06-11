@@ -58,7 +58,6 @@ Template.edit.events
       Mobile.update mobile._id, $addToSet: {tags: Tags.findOne(text: e.added.text)._id}
     else
       Mobile.update mobile._id, $pull: {tags: Tags.findOne(text: e.removed.text)._id}
-    # document.getElementById('iphone').contentWindow.location.reload(true)
 
 
 

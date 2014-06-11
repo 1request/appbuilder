@@ -9,4 +9,4 @@ Template.tag.helpers
 Template.tag.rendered = ->
   tagId = @.data._id
   Deps.autorun ->
-    countTag(tagId)
+    countTag(tagId) if Tags.findOne(tagId)
