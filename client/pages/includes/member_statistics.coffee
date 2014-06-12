@@ -1,5 +1,5 @@
 renderAnalytic = (type) ->
-  member = Members.findOne(Session.get 'selectedMemberId')
+  member = Members.findOne(deviceId: Session.get('selectedDeviceId'))
   startDate = Session.get('memberStartDate')
   endDate = Session.get('memberEndDate')
   totalDays = moment(endDate).diff(moment(startDate), 'days')
@@ -11,37 +11,35 @@ Template.memberStatistics.helpers
   members: ->
     Members.find(appId: Session.get 'selectedMobileId')
   member: ->
-    Members.findOne(Session.get 'selectedMemberId')
+    Members.findOne(deviceId: Session.get('selectedDeviceId'))
 
 Template.memberStatistics.rendered = ->
   Session.setDefault('memberStartDate', moment().startOf('day').subtract('days', 6).valueOf())
   Session.setDefault('memberEndDate', moment().startOf('day').valueOf())
-  Session.setDefault('selectedMemberId', Members.findOne(appId: Session.get 'selectedMobileId')._id)
+  Session.setDefault('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
 
-  renderAnalytic('day')
+
   $inputFrom = $('#memberDateFrom').pickadate
     onStart: ->
       @set 'select', Session.get('memberStartDate')
     onSet: (e) ->
       Session.set 'memberStartDate', moment(e.select).startOf('days').valueOf()
-      renderAnalytic('day')
 
   $inputTo = $('#memberDateTo').pickadate
     onStart: ->
       @set 'select', Session.get('memberEndDate')
     onSet: (e) ->
       Session.set 'memberEndDate', moment(e.select).startOf('days').valueOf()
-      renderAnalytic('day')
 
   Deps.autorun ->
-    if Session.get 'selectedMemberId'
-      member = Members.findOne Session.get 'selectedMemberId'
-      Meteor.subscribe 'counts-by-member', {deviceId: member.deviceId }
+    deviceId = Session.get 'selectedDeviceId'
+    if deviceId
+      Meteor.subscribe 'counts-by-member', {deviceId: deviceId }
 
-      Counts.findOne(Session.get 'selectedMemberId')
+  Deps.autorun ->
+    if Counts.findOne(Session.get 'selectedDeviceId')
       renderAnalytic('day')
 
 Template.memberStatistics.events
   'change #selected-member': (e, context) ->
-    Session.set 'selectedMemberId', e.target.value
-    renderAnalytic('day')
+    Session.set 'selectedDeviceId', e.target.value
