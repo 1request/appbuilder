@@ -45,18 +45,10 @@ Meteor.publish 'mobileTags', (options) ->
   self.onStop ->
     tagHandler.stop()
 
-Meteor.publish 'logs', ->
-  app = _.pluck Mobile.find(userId: @userId).fetch(), '_id'
-  members = Members.find(appId: {$in: app}).fetch()
-  membersDevices = _.pluck members, 'deviceId'
-  Logs.find(deviceId: {$in: membersDevices})
-
 Meteor.publish 'counts-by-member', (options) ->
   self = @
   count = 0
   initializing = true
-
-  console.log 'logs of this device: ', Logs.find(deviceId: options.deviceId).count()
 
   handle = Logs.find(deviceId: options.deviceId).observeChanges
     added: ->
@@ -70,6 +62,26 @@ Meteor.publish 'counts-by-member', (options) ->
 
   self.onStop ->
     handle.stop()
+
+Meteor.publish 'counts-by-app', (options) ->
+  self = @
+  count = 0
+  initializing = true
+  deviceIds = _.pluck Members.find(appId: options.appId).fetch(), 'deviceId'
+
+  handle = Logs.find(deviceId: {$in: deviceIds}).observeChanges
+    added: ->
+      count++
+      unless initializing
+        self.changed 'counts', options.appId, {count: count}
+
+  initializing = false
+  self.added 'counts', options.appId, {count: count}
+  self.ready()
+
+  self.onStop ->
+    handle.stop()
+
 
 Meteor.publish 'members', (options) ->
   if options.deviceId

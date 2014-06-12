@@ -23,7 +23,6 @@ Router.map ->
     path: 'dashboard'
     waitOn: ->
       [
-        Meteor.subscribe 'logs'
         Meteor.subscribe 'mobile', {}
         Meteor.subscribe 'members', {}
       ]

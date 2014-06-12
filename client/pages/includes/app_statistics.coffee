@@ -33,13 +33,22 @@ Template.appStatistics.rendered = ->
       Session.set 'appEndDate', moment(e.select).startOf('days').valueOf()
       renderAnalytic('day')
 
+  Deps.autorun ->
+    Session.get 'selectedMemberId'
+    $('#selected-member').trigger('change')
+
+    if Session.get 'selectedMobileId'
+      Meteor.subscribe 'counts-by-app', {appId: Session.get 'selectedMobileId'}
+
+      count = Counts.findOne(Session.get 'selectedMobileId')
+      renderAnalytic('day')
+
 Template.appStatistics.events
   'change #selected-app': (e, context) ->
     Session.set 'selectedMobileId', e.target.value
+    console.log 'member name in change selected-app', Members.findOne(appId: Session.get('selectedMobileId')).username
     memberId = Members.findOne(appId: Session.get('selectedMobileId'))
     Session.set 'selectedMemberId', memberId
     renderAnalytic('day')
 
-Deps.autorun ->
-  Session.get 'selectedMemberId'
-  $('#selected-member').trigger('change')
+

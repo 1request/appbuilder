@@ -33,6 +33,14 @@ Template.memberStatistics.rendered = ->
       Session.set 'memberEndDate', moment(e.select).startOf('days').valueOf()
       renderAnalytic('day')
 
+  Deps.autorun ->
+    if Session.get 'selectedMemberId'
+      member = Members.findOne Session.get 'selectedMemberId'
+      Meteor.subscribe 'counts-by-member', {deviceId: member.deviceId }
+
+      Counts.findOne(Session.get 'selectedMemberId')
+      renderAnalytic('day')
+
 Template.memberStatistics.events
   'change #selected-member': (e, context) ->
     Session.set 'selectedMemberId', e.target.value
