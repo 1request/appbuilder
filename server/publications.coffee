@@ -16,7 +16,7 @@ Meteor.publish 'tags', (options) ->
   else
     Tags.find(userId: @userId)
 
-Meteor.publish 'currentTags', (options) ->
+Meteor.publish 'mobileTags', (options) ->
   self = @
   member = Members.findOne(deviceId: options.deviceId)
   tags = Mobile.findOne(member.appId).tags
@@ -24,7 +24,6 @@ Meteor.publish 'currentTags', (options) ->
   initializing = true
 
   for tag in Tags.find(_id: {$in: tags}).fetch()
-    console.log 'in tag loop'
     self.added 'tags', tag._id, tag
 
   tagHandler = Mobile.find(member.appId).observe
@@ -46,14 +45,31 @@ Meteor.publish 'currentTags', (options) ->
   self.onStop ->
     tagHandler.stop()
 
-Meteor.publish 'logs', (options) ->
-  if options.deviceId
-    Logs.find(deviceId: options.deviceId)
-  else
-    app = _.pluck Mobile.find(userId: @userId).fetch(), '_id'
-    members = Members.find(appId: {$in: app}).fetch()
-    membersDevices = _.pluck members, 'deviceId'
-    Logs.find(deviceId: {$in: membersDevices})
+Meteor.publish 'logs', ->
+  app = _.pluck Mobile.find(userId: @userId).fetch(), '_id'
+  members = Members.find(appId: {$in: app}).fetch()
+  membersDevices = _.pluck members, 'deviceId'
+  Logs.find(deviceId: {$in: membersDevices})
+
+Meteor.publish 'counts-by-member', (options) ->
+  self = @
+  count = 0
+  initializing = true
+
+  console.log 'logs of this device: ', Logs.find(deviceId: options.deviceId).count()
+
+  handle = Logs.find(deviceId: options.deviceId).observeChanges
+    added: ->
+      count++
+      unless initializing
+        self.changed 'counts', options.deviceId, {count: count}
+
+  initializing = false
+  self.added 'counts', options.deviceId, {count: count}
+  self.ready()
+
+  self.onStop ->
+    handle.stop()
 
 Meteor.publish 'members', (options) ->
   if options.deviceId

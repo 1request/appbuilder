@@ -14,16 +14,16 @@ Router.map ->
     path: 'mobile/:deviceId'
     waitOn: ->
       [
-        Meteor.subscribe 'currentTags', { deviceId: @params.deviceId }
+        Meteor.subscribe 'mobileTags', { deviceId: @params.deviceId }
         Meteor.subscribe 'mobile', { deviceId: @params.deviceId }
         Meteor.subscribe 'members', { deviceId: @params.deviceId }
-        Meteor.subscribe 'logs', { deviceId: @params.deviceId }
+        Meteor.subscribe 'counts-by-member', { deviceId: @params.deviceId }
       ]
   @route 'dashboard',
     path: 'dashboard'
     waitOn: ->
       [
-        Meteor.subscribe 'logs', {}
+        Meteor.subscribe 'logs'
         Meteor.subscribe 'mobile', {}
         Meteor.subscribe 'members', {}
       ]
