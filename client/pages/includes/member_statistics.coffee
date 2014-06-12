@@ -16,8 +16,6 @@ Template.memberStatistics.helpers
 Template.memberStatistics.rendered = ->
   Session.setDefault('memberStartDate', moment().startOf('day').subtract('days', 6).valueOf())
   Session.setDefault('memberEndDate', moment().startOf('day').valueOf())
-  Session.setDefault('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
-
 
   $inputFrom = $('#memberDateFrom').pickadate
     onStart: ->
@@ -30,6 +28,9 @@ Template.memberStatistics.rendered = ->
       @set 'select', Session.get('memberEndDate')
     onSet: (e) ->
       Session.set 'memberEndDate', moment(e.select).startOf('days').valueOf()
+  Deps.autorun ->
+    if Session.get 'selectedMobileId'
+      Session.setDefault('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
 
   Deps.autorun ->
     deviceId = Session.get 'selectedDeviceId'
