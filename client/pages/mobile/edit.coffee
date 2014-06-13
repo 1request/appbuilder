@@ -6,7 +6,7 @@ runSelect2 = ->
 setSelectedTags = (tags) ->
   _.pluck(Tags.find(_id: {$in: tags}).fetch(), 'text')
 
-Template.edit.helpers
+Template.editMobile.helpers
   mobiles: ->
     Mobile.find()
   mobile: ->
@@ -21,13 +21,13 @@ Template.edit.helpers
     if Session.get 'selectedTags'
       _.pluck(Tags.find(text: {$in: Session.get 'selectedTags'}).fetch(), 'text').join(',')
 
-Template.edit.rendered = ->
-  Session.setDefault('selectedMobileId', Mobile.findOne()._id)
-  Session.setDefault('selectedTags', setSelectedTags(Mobile.findOne().tags))
-  Session.setDefault('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
+Template.editMobile.rendered = ->
+  Session.set('selectedMobileId', Mobile.findOne()._id)
+  Session.set('selectedTags', setSelectedTags(Mobile.findOne().tags))
+  Session.set('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
   runSelect2()
 
-Template.edit.events
+Template.editMobile.events
   'keyup input[name=title]': (e, context) ->
     Mobile.update e.target.dataset.id, $set: {title: e.target.value}
 

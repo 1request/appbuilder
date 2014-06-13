@@ -1,7 +1,8 @@
 renderAnalytic = (type) ->
-  app = Mobile.findOne(Session.get 'selectedMobileId')
-  startDate = Session.get('appStartDate')
-  endDate = Session.get('appEndDate')
+  appId = Session.get 'selectedMobileId'
+  startDate = Session.get 'appStartDate'
+  endDate = Session.get 'appEndDate'
+  app = Mobile.findOne(appId)
   totalDays = moment(endDate).diff(moment(startDate), 'days')
   if totalDays
     Meteor.call 'getAppAnalytic', app._id, startDate, endDate, type, (error, result) ->
@@ -14,10 +15,14 @@ Template.appStatistics.helpers
     Mobile.findOne(Session.get 'selectedMobileId')
 
 Template.appStatistics.rendered = ->
+  @appDep = Deps.autorun ->
+    count = Counts.findOne(Session.get('selectedMobileId'))
+    if count
+      renderAnalytic('day')
+
   Session.setDefault('appStartDate', moment().startOf('day').subtract('days', 6).valueOf())
   Session.setDefault('appEndDate', moment().startOf('day').valueOf())
-  Session.setDefault('selectedMobileId', Mobile.findOne(userId: Meteor.userId())._id)
-
+  Meteor.subscribe 'counts-by-app', {appId: Session.get 'selectedMobileId'}
 
   $inputFrom = $('#appDateFrom').pickadate
     onStart: ->
@@ -31,22 +36,14 @@ Template.appStatistics.rendered = ->
     onSet: (e) ->
       Session.set 'appEndDate', moment(e.select).startOf('days').valueOf()
 
-  Deps.autorun ->
-    Session.get 'selectedMemberId'
-    $('#selected-member').trigger('change')
-
-  Deps.autorun ->
-    if Session.get 'selectedMobileId'
-      Meteor.subscribe 'counts-by-app', {appId: Session.get 'selectedMobileId'}
-
-  Deps.autorun ->
-    if Counts.findOne(Session.get('selectedMobileId'))
-      renderAnalytic('day')
-
 Template.appStatistics.events
   'change #selected-app': (e, context) ->
     Session.set 'selectedMobileId', e.target.value
-    memberId = Members.findOne(appId: Session.get('selectedMobileId'))
-    Session.set 'selectedMemberId', memberId
+    deviceId = Members.findOne(appId: Session.get('selectedMobileId')).deviceId
+    Session.set 'selectedDeviceId', deviceId
+    $('#selected-member').trigger('change')
+    Meteor.subscribe 'counts-by-app', {appId: e.target.value}
 
-
+Template.appStatistics.destroyed = ->
+  if @appDep
+    @appDep.stop()

@@ -1,8 +1,11 @@
 renderAnalytic = (type) ->
-  member = Members.findOne(deviceId: Session.get('selectedDeviceId'))
-  startDate = Session.get('memberStartDate')
-  endDate = Session.get('memberEndDate')
+  deviceId = Session.get 'selectedDeviceId'
+  startDate = Session.get 'memberStartDate'
+  endDate = Session.get 'memberEndDate'
+
+  member = Members.findOne(deviceId: deviceId)
   totalDays = moment(endDate).diff(moment(startDate), 'days')
+
   if totalDays
     Meteor.call 'getMemberAnalytic', member.deviceId, startDate, endDate, type, (error, result) ->
       renderDailyChart('#graph-member-lines', result, moment(startDate).valueOf(), totalDays)
@@ -14,6 +17,7 @@ Template.memberStatistics.helpers
     Members.findOne(deviceId: Session.get('selectedDeviceId'))
 
 Template.memberStatistics.rendered = ->
+
   Session.setDefault('memberStartDate', moment().startOf('day').subtract('days', 6).valueOf())
   Session.setDefault('memberEndDate', moment().startOf('day').valueOf())
 
@@ -29,19 +33,16 @@ Template.memberStatistics.rendered = ->
     onSet: (e) ->
       Session.set 'memberEndDate', moment(e.select).startOf('days').valueOf()
 
-  Deps.autorun ->
-    if Session.get 'selectedMobileId'
-      Session.set('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
-
-  Deps.autorun ->
+  @memberDep = Deps.autorun ->
     deviceId = Session.get 'selectedDeviceId'
-    if deviceId
-      Meteor.subscribe 'counts-by-member', {deviceId: deviceId }
-
-  Deps.autorun ->
-    if Counts.findOne(Session.get 'selectedDeviceId')
+    Meteor.subscribe 'counts-by-member', {deviceId: deviceId }
+    if Counts.findOne(deviceId)
       renderAnalytic('day')
 
 Template.memberStatistics.events
   'change #selected-member': (e, context) ->
     Session.set 'selectedDeviceId', e.target.value
+
+Template.memberStatistics.destroyed = ->
+  if @memberDep
+    @memberDep.stop()

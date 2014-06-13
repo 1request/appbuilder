@@ -9,7 +9,11 @@ Template.tag.helpers
 Template.tag.rendered = ->
   tagId = @.data._id
 
-  Deps.autorun ->
+  @tagDep = Deps.autorun ->
     deviceId = Members.findOne().deviceId
     count = Counts.findOne(deviceId)
     countTag(tagId, deviceId)
+
+Template.tag.destroyed = ->
+  if @tagDep
+    @tagDep.stop()

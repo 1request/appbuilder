@@ -4,8 +4,8 @@ Router.configure
 
 Router.map ->
   @route 'main', { path: '/' }
-  @route 'edit',
-    path: 'edit'
+  @route 'editMobile',
+    path: 'edit-apps'
     waitOn: ->
       Meteor.subscribe 'mobile', {}
       Meteor.subscribe 'members', {}
