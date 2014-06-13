@@ -2,7 +2,44 @@
 {{> header}}
 {{> alerts}}
 <div class='edit-beacon'>
-
+  <div class="container">
+    <h2>Edit beacon</h2>
+    <form role="form">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="uuid">Beacon UUID</label>
+          <input type="text" class="form-control" name="uuid" placeholder="e.g. B9407F30-F5F8-466E-AFF9-25556B57FE6D" value="{{uuid}}">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="major">Major</label>
+          <input type="number" class="form-control" name="major" placeholder="1" value="{{major}}">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="minor">Minor</label>
+          <input type="number" class="form-control" name="minor" placeholder="1" value="{{minor}}">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input type="text" class="form-control" name="tags" id="tags" placeholder="input tag names">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <input type="text" class="form-control" name="notes" placeholder="" value="{{notes}}">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 </template>

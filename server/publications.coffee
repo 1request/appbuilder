@@ -6,7 +6,10 @@ Meteor.publish 'mobile', (options) ->
     Mobile.find({ userId: @userId })
 
 Meteor.publish 'beacons', (options) ->
-  Beacons.find(userId: @userId)
+  if options.beaconId
+    Beacons.find(options.beaconId)
+  else
+    Beacons.find(userId: @userId)
 
 Meteor.publish 'tags', (options) ->
   if options.deviceId
@@ -32,11 +35,8 @@ Meteor.publish 'mobileTags', (options) ->
         added   = _.difference newDocument.tags, oldDocument.tags
         removed = _.difference oldDocument.tags, newDocument.tags
         if added.length
-          console.log 'add ', Tags.findOne(added[0]).text
           self.added 'tags', added[0], Tags.findOne added[0]
         else
-          console.log 'remove ', Tags.findOne(removed[0]).text
-          console.log 'id to be removed', removed[0]
           self.removed 'tags', removed[0]
 
   initializing = false

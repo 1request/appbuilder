@@ -42,7 +42,7 @@ requireLogin = (pause) ->
 
 afterLogin = (pause) ->
   if Meteor.user()
-    Router.go 'edit'
+    Router.go 'editMobile'
     pause()
 
 Router.onBeforeAction 'loading'

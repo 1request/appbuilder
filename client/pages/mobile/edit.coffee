@@ -1,11 +1,3 @@
-runSelect2 = ->
-  $('#tags').select2
-    tags: _.pluck Tags.find().fetch(), 'text'
-  $('#tags').select2('val', Session.get('selectedTags'))
-
-setSelectedTags = (tags) ->
-  _.pluck(Tags.find(_id: {$in: tags}).fetch(), 'text')
-
 Template.editMobile.helpers
   mobiles: ->
     Mobile.find()
