@@ -36,7 +36,7 @@ Meteor.publish 'mobileTags', (options) ->
         removed = _.difference oldDocument.tags, newDocument.tags
         if added.length
           self.added 'tags', added[0], Tags.findOne added[0]
-        else
+        if removed.length
           self.removed 'tags', removed[0]
 
   initializing = false

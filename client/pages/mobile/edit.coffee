@@ -23,7 +23,6 @@ Template.editMobile.events
   'keyup input[name=title]': (e, context) ->
     Mobile.update e.target.dataset.id, $set: {title: e.target.value}
 
-
   'keyup input[name=imageUrl]': (e, context) ->
     if /\.(jpg|gif|png)$/.test e.target.value
       Mobile.update e.target.dataset.id, $addToSet: {imageUrls: e.target.value}
