@@ -1,20 +1,20 @@
-<template name="mobile">
+<template name="mobileApp">
   <div class="o-page">
     <div id="page">
       <!-- Header -->
       <div id="header">
         <a href="#menu"></a>
-        <h1 class="brandname">{{mobile.title}}</h1>
+        <h1 class="brandname">{{mobileApp.title}}</h1>
         <a class="backBtn" href="javascript:history.back();"></a>
       </div>
-      <div class="subHeader"><i class="i-home i-small"></i>Welcome {{mobileAppUser.username}}!</div>
+      <div class="subHeader"><i class="i-home i-small"></i>Welcome!</div>
 
       <!-- Banner -->
       <div class="bannerPane">
         <section class="slider">
         <div class="flexslider">
           <ul class="slides">
-            {{#each mobile.imageUrls}}
+            {{#each mobileApp.imageUrls}}
               {{> slide}}
             {{/each}}
           </ul>

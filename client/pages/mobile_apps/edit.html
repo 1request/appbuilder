@@ -1,4 +1,4 @@
-<template name="editMobile">
+<template name="editMobileApp">
   {{> header}}
   {{> alerts}}
   <div class="container">
@@ -8,7 +8,7 @@
         <h2>Select your mobile apps</h2>
         <form class="form-horizontal" role="form">
           <select name="selectedApp" id="selected-app" class="form-control">
-          {{#each mobiles}}
+          {{#each mobileApps}}
             <option value="{{_id}}">{{title}}</option>
           {{/each}}
           </select>
@@ -17,11 +17,11 @@
         <form role="form">
           <div class="form-group">
             <label for="title">Title</label>
-            <input id="title" type="text" data-id="{{mobile._id}}" name="title" class="form-control" placeholder="Enter title" value="{{mobile.title}}">
+            <input id="title" type="text" data-id="{{mobileApp._id}}" name="title" class="form-control" placeholder="Enter title" value="{{mobileApp.title}}">
           </div>
           <div class="form-group">
             <label for="image">Insert slide image</label>
-            <input id="image" type="text" data-id="{{mobile._id}}" name="imageUrl" class="form-control" placeholder="Enter image url">
+            <input id="image" type="text" data-id="{{mobileApp._id}}" name="imageUrl" class="form-control" placeholder="Enter image url">
           </div>
           <div class="form-group">
             <label for="tags">Manage app tags</label>
@@ -31,7 +31,7 @@
         <a href="{{path}}">View mobile app page</a>
       </div>
       <div class="col-md-6 iphone-portrait">
-        <img class="iphone-pic" src="images/iphone.png" alt="iphone">
+        <img class="iphone-pic" src="/images/iphone.png" alt="iphone">
         <div class="hide-scroll"></div>
         <iframe id="iphone" src="{{path}}" frameborder="0"></iframe>
       </div>

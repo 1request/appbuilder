@@ -1,5 +1,5 @@
 renderAnalytic = (type) ->
-  deviceId = Session.get 'selectedDeviceId'
+  deviceId = Session.get 'deviceId'
   startDate = Session.get 'mobileAppUserStartDate'
   endDate = Session.get 'mobileAppUserEndDate'
 
@@ -12,9 +12,9 @@ renderAnalytic = (type) ->
 
 Template.mobileAppUserStatistics.helpers
   mobileAppUsers: ->
-    MobileAppUsers.find(appId: Session.get 'selectedMobileId')
+    MobileAppUsers.find(appId: Session.get 'mobileAppId')
   mobileAppUser: ->
-    MobileAppUsers.findOne(deviceId: Session.get('selectedDeviceId'))
+    MobileAppUsers.findOne(deviceId: Session.get('deviceId'))
 
 Template.mobileAppUserStatistics.rendered = ->
 
@@ -34,14 +34,14 @@ Template.mobileAppUserStatistics.rendered = ->
       Session.set 'mobileAppUserEndDate', moment(e.select).startOf('days').valueOf()
 
   @mobileAppUserDep = Deps.autorun ->
-    deviceId = Session.get 'selectedDeviceId'
+    deviceId = Session.get 'deviceId'
     Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: deviceId }
     if Counts.findOne(deviceId)
       renderAnalytic('day')
 
 Template.mobileAppUserStatistics.events
   'change #selected-mobile-app-user': (e, context) ->
-    Session.set 'selectedDeviceId', e.target.value
+    Session.set 'deviceId', e.target.value
 
 Template.mobileAppUserStatistics.destroyed = ->
   if @mobileAppUserDep

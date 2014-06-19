@@ -1,28 +1,28 @@
 renderAnalytic = (type) ->
-  appId = Session.get 'selectedMobileId'
+  appId = Session.get 'mobileAppId'
   startDate = Session.get 'appStartDate'
   endDate = Session.get 'appEndDate'
-  app = Mobile.findOne(appId)
+  app = MobileApps.findOne(appId)
   totalDays = moment(endDate).diff(moment(startDate), 'days')
   if totalDays
     Meteor.call 'getAppAnalytic', app._id, startDate, endDate, type, (error, result) ->
       renderDailyChart('#graph-app-lines', result, moment(startDate).valueOf(), totalDays)
 
 Template.appStatistics.helpers
-  mobiles: ->
-    Mobile.find()
-  mobile: ->
-    Mobile.findOne(Session.get 'selectedMobileId')
+  mobileApps: ->
+    MobileApps.find()
+  mobileApp: ->
+    MobileApps.findOne(Session.get 'mobileAppId')
 
 Template.appStatistics.rendered = ->
   @appDep = Deps.autorun ->
-    count = Counts.findOne(Session.get('selectedMobileId'))
+    count = Counts.findOne(Session.get('mobileAppId'))
     if count
       renderAnalytic('day')
 
   Session.setDefault('appStartDate', moment().startOf('day').subtract('days', 6).valueOf())
   Session.setDefault('appEndDate', moment().startOf('day').valueOf())
-  Meteor.subscribe 'counts-by-app', {appId: Session.get 'selectedMobileId'}
+  Meteor.subscribe 'counts-by-app', {appId: Session.get 'mobileAppId'}
 
   $inputFrom = $('#appDateFrom').pickadate
     onStart: ->
@@ -38,9 +38,9 @@ Template.appStatistics.rendered = ->
 
 Template.appStatistics.events
   'change #selected-app': (e, context) ->
-    Session.set 'selectedMobileId', e.target.value
-    deviceId = MobileAppUsers.findOne(appId: Session.get('selectedMobileId')).deviceId
-    Session.set 'selectedDeviceId', deviceId
+    Session.set 'mobileAppId', e.target.value
+    deviceId = MobileAppUsers.findOne(appId: Session.get('mobileAppId')).deviceId
+    Session.set 'deviceId', deviceId
     Meteor.subscribe 'counts-by-app', {appId: e.target.value}
 
 Template.appStatistics.destroyed = ->

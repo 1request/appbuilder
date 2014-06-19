@@ -1,4 +1,4 @@
-Template.mobile.created = ->
+Template.mobileApp.created = ->
   $('head').append '<link rel="stylesheet" href="/stylesheets/foundation.css"/>'
   $('head').append '<link rel="stylesheet" href="/stylesheets/flexslider.css"/>'
   $('head').append '<link rel="stylesheet" href="/stylesheets/jquery.mobile-1.0rc2.min.css"/>'
@@ -7,26 +7,26 @@ Template.mobile.created = ->
   $('head').append '<script type="text/javascript" src="/js/jquery.mobile-1.0rc2.min.js"/>'
   $('head').append '<script type="text/javascript" src="/js/jquery.mmenu.min.all.js"/>'
 
-Template.mobile.helpers
-  mobile: ->
-    Mobile.findOne()
+Template.mobileApp.helpers
+  mobileApp: ->
+    MobileApps.findOne()
   imageUrl: ->
-    if Mobile.findOne().imageUrls
-      "<img src='#{Mobile.findOne().imageUrl}' class='responsive-image' alt='img'>"
+    if MobileApps.findOne().imageUrls
+      "<img src='#{MobileApps.findOne().imageUrl}' class='responsive-image' alt='img'>"
   tags: ->
     Tags.find()
-  mobileAppUer: ->
-    MobileAppUers.findOne()
+  mobileAppUser: ->
+    MobileAppUsers.findOne()
 
-Template.mobile.rendered = ->
+Template.mobileApp.rendered = ->
   $('nav#menu').mmenu
     searchfield : true
     slidingSubmenus: true
-  if Mobile.findOne().imageUrls
+  if MobileApps.findOne().imageUrls
     $('.flexslider').flexslider
       animation: "slide"
 
-Template.mobile.destroyed = ->
+Template.mobileApp.destroyed = ->
   $('link[href="/stylesheets/foundation.css"]').remove()
   $('link[href="/stylesheets/flexslider.css"]').remove()
   $('link[href="/stylesheets/jquery.mobile-1.0rc2.min.css"]').remove()

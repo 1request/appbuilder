@@ -4,33 +4,29 @@ Router.configure
 
 Router.map ->
   @route 'main', { path: '/' }
-  @route 'editMobile',
-    path: 'edit-apps'
+
+  @route 'mobileApp',
+    path: 'app/:deviceId'
     waitOn: ->
-      Meteor.subscribe 'mobile', {}
-      Meteor.subscribe 'mobileAppUsers', {}
-      Meteor.subscribe 'tags', {}
-  @route 'mobile',
-    path: 'mobile/:deviceId'
-    waitOn: ->
-      [
         Meteor.subscribe 'mobileTags', { deviceId: @params.deviceId }
-        Meteor.subscribe 'mobile', { deviceId: @params.deviceId }
+        Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
         Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
         Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
-      ]
+
   @route 'dashboard',
     path: 'dashboard'
     waitOn: ->
-      [
-        Meteor.subscribe 'mobile', {}
-        Meteor.subscribe 'mobileAppUsers', {}
-      ]
+      Meteor.subscribe 'mobileApps', {}
+      Meteor.subscribe 'mobileAppUsers', {}
 
   @route 'beacons',    { path: '/beacons',          controller: Beacons.index }
   @route 'newBeacon',  { path: '/beacons/new',      controller: Beacons.new }
   @route 'showBeacon', { path: '/beacons/:id',      controller: Beacons.show }
   @route 'editBeacon', { path: '/beacons/edit/:id', controller: Beacons.edit }
+
+  @route 'mobileApps',    { path: '/apps',          controller: MobileApps.index }
+  @route 'newMobileApp',  { path: '/apps/new',      controller: MobileApps.new }
+  @route 'editMobileApp', { path: '/apps/edit',     controller: MobileApps.edit }
 
 requireLogin = (pause) ->
   unless Meteor.user()
@@ -42,10 +38,10 @@ requireLogin = (pause) ->
 
 afterLogin = (pause) ->
   if Meteor.user()
-    Router.go 'editMobile'
+    Router.go 'editMobileApp'
     pause()
 
 Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()
-Router.onBeforeAction requireLogin, { except: ['main', 'mobile'] }
+Router.onBeforeAction requireLogin, { except: ['main', 'mobileApp'] }
 Router.onBeforeAction afterLogin, { only: 'main' }

@@ -77,10 +77,8 @@ if Beacons.find().count() is 0
   for beacon in beacons2
     Beacons.insert (_.extend beacon, {userId: userId})
 
-
-
-if Mobile.find().count() is 0
-  mobiles = [
+if MobileApps.find().count() is 0
+  mobileApps = [
     {
       userId: userId
       title: 'initial'
@@ -94,22 +92,22 @@ if Mobile.find().count() is 0
       tags: _.pluck Tags.find(text: {$in: tags2}).fetch(), '_id'
     }
   ]
-  for mobile in mobiles
-    Mobile.insert mobile
+  for mobileApp in mobileApps
+    MobileApps.insert mobileApp
 
 
 if MobileAppUsers.find().count() is 0
   mobileAppUsers = [
     {
-      appId: Mobile.findOne(title: 'initial')._id
+      appId: MobileApps.findOne(title: 'initial')._id
       username: 'harryng'
       deviceId: '3516AE72-4277-4783-93E8-CB5830E44ED2'
     }, {
-      appId: Mobile.findOne(title: 'initial2')._id
+      appId: MobileApps.findOne(title: 'initial2')._id
       username: 'joseph'
       deviceId: 'A343F3D3-7BF6-4E3A-93B0-E562D99A82C8'
     }, {
-      appId: Mobile.findOne(title: 'initial')._id
+      appId: MobileApps.findOne(title: 'initial')._id
       username: 'kevin'
       deviceId: '7E8E5CA6-A7CC-4759-A4B6-D795D7E105F6'
     }
@@ -121,7 +119,7 @@ if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->
     nextDay = moment(momentObj).endOf('day')
     momentObj.add 'milliseconds', Math.random() * Math.min(36000000 / times, nextDay.diff(momentObj))
-  for app in Mobile.find().fetch()
+  for app in MobileApps.find().fetch()
     for mobileAppUser in MobileAppUsers.find(appId: app._id).fetch()
       for tag in Tags.find(_id: {$in: app.tags}).fetch()
         for beacon in Beacons.find(_id: {$in: tag.beacons}).fetch()

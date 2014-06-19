@@ -1,9 +1,9 @@
-Meteor.publish 'mobile', (options) ->
+Meteor.publish 'mobileApps', (options) ->
   if options.deviceId
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
-    Mobile.find mobileAppUser.appId
+    MobileApps.find mobileAppUser.appId
   else
-    Mobile.find({ userId: @userId })
+    MobileApps.find({ userId: @userId })
 
 Meteor.publish 'beacons', (options) ->
   if options.beaconId
@@ -14,7 +14,7 @@ Meteor.publish 'beacons', (options) ->
 Meteor.publish 'tags', (options) ->
   if options.deviceId
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
-    app = Mobile.findOne(mobileAppUser.appId)
+    app = MobileApps.findOne(mobileAppUser.appId)
     Tags.find(_id: {$in: app.tags})
   else
     Tags.find(userId: @userId)
@@ -22,14 +22,14 @@ Meteor.publish 'tags', (options) ->
 Meteor.publish 'mobileTags', (options) ->
   self = @
   mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
-  tags = Mobile.findOne(mobileAppUser.appId).tags
+  tags = MobileApps.findOne(mobileAppUser.appId).tags
 
   initializing = true
 
   for tag in Tags.find(_id: {$in: tags}).fetch()
     self.added 'tags', tag._id, tag
 
-  tagHandler = Mobile.find(mobileAppUser.appId).observe
+  tagHandler = MobileApps.find(mobileAppUser.appId).observe
     changed: (newDocument, oldDocument) ->
       unless initializing
         added   = _.difference newDocument.tags, oldDocument.tags
@@ -88,5 +88,5 @@ Meteor.publish 'mobileAppUsers', (options) ->
   else if options.mobileAppUserId
     MobileAppUsers.find options.mobileAppUserId
   else
-    appIds = _.pluck Mobile.find({ userId: @userId }).fetch(), '_id'
+    appIds = _.pluck MobileApps.find({ userId: @userId }).fetch(), '_id'
     MobileAppUsers.find appId: { $in: appIds }
