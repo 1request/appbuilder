@@ -35,7 +35,7 @@ Template.mobileAppUserStatistics.rendered = ->
 
   @mobileAppUserDep = Deps.autorun ->
     deviceId = Session.get 'selectedDeviceId'
-    Meteor.subscribe 'counts-by-mobileAppUser', {deviceId: deviceId }
+    Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: deviceId }
     if Counts.findOne(deviceId)
       renderAnalytic('day')
 

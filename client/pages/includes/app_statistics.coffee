@@ -41,7 +41,6 @@ Template.appStatistics.events
     Session.set 'selectedMobileId', e.target.value
     deviceId = MobileAppUsers.findOne(appId: Session.get('selectedMobileId')).deviceId
     Session.set 'selectedDeviceId', deviceId
-    $('#selected-mobile-app-user').trigger('change')
     Meteor.subscribe 'counts-by-app', {appId: e.target.value}
 
 Template.appStatistics.destroyed = ->
