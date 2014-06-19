@@ -3,21 +3,21 @@ Meteor.publish 'mobileApps', (options) ->
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
     MobileApps.find(appKey: mobileAppUser.appKey)
   else
-    MobileApps.find({ userId: @userId })
+    MobileApps.find({ userId: @userId }, {sort: {createdAt: 1}})
 
 Meteor.publish 'beacons', (options) ->
   if options.beaconId
     Beacons.find(options.beaconId)
   else
-    Beacons.find(userId: @userId)
+    Beacons.find({userId: @userId}, {sort: {createdAt: 1}})
 
 Meteor.publish 'tags', (options) ->
   if options.deviceId
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
     app = MobileApps.findOne(appKey: mobileAppUser.appKey)
-    Tags.find(_id: {$in: app.tags})
+    Tags.find({_id: {$in: app.tags}}, {sort: {text: 1}})
   else
-    Tags.find(userId: @userId)
+    Tags.find({userId: @userId}, {sort: {text: 1}})
 
 Meteor.publish 'mobileTags', (options) ->
   self = @
@@ -91,4 +91,4 @@ Meteor.publish 'mobileAppUsers', (options) ->
     MobileAppUsers.find options.mobileAppUserId
   else
     appKeys = _.pluck MobileApps.find({ userId: @userId }).fetch(), 'appKey'
-    MobileAppUsers.find appKey: { $in: appKeys }
+    MobileAppUsers.find({appKey: { $in: appKeys }}, {sort: {createdAt: 1}})
