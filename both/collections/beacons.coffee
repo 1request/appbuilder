@@ -13,9 +13,11 @@ processBeaconData = (beaconAttributes) ->
     _.flatten [beaconAttributes.tags.split(',')]
   else
     beaconAttributes.tags = []
-  beacon = _.extend(_.pick(beaconAttributes, '_id', 'uuid', 'major', 'minor', 'notes'), {
+  beacon = _.extend(_.pick(beaconAttributes, '_id', 'uuid', 'notes'), {
     userId: user._id
     tags: tags
+    major: parseInt(beaconAttributes.major)
+    minor: parseInt(beaconAttributes.minor)
     })
 
 Meteor.methods
