@@ -1,10 +1,8 @@
 Beacons.index = AppController.extend
   template: 'beacons'
   waitOn: ->
-    [
-      Meteor.subscribe 'tags', {}
-      Meteor.subscribe 'beacons', {}
-    ]
+    Meteor.subscribe 'tags', {}
+    Meteor.subscribe 'beacons', {}
 
 Beacons.new = AppController.extend
   template: 'newBeacon'
@@ -14,10 +12,8 @@ Beacons.new = AppController.extend
 Beacons.edit = AppController.extend
   template: 'editBeacon'
   waitOn: ->
-    [
-      Meteor.subscribe 'tags', {}
-      Meteor.subscribe 'beacons', { beaconId: @params.id }
-    ]
+    Meteor.subscribe 'tags', {}
+    Meteor.subscribe 'beacons', { beaconId: @params.id }
 
 Beacons.createBeacon = (data, callback) ->
   Meteor.call('createBeacon', data, callback)
