@@ -1,15 +1,14 @@
-<template name="memberStatistics">
+<template name="mobileAppUserStatistics">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
         <form class="form-horizontal" role="form">
-          <label for="selected-memeber">Select member</label>
-          <select name="selected-member" id="selected-member" class="form-control">
-          {{#each members}}
+          <label for="selected-memeber">Select app user</label>
+          <select name="selected-mobile-app-user" id="selected-mobile-app-user" class="form-control">
+          {{#each mobileAppUsers}}
             <option value="{{deviceId}}">{{username}}</option>
           {{/each}}
           </select>
-          {{memberDailyData}}
         </form>
       </div>
     <div class="row">
@@ -17,7 +16,7 @@
         <div class="panel">
           <div class="panel-heading">
             <div class="pos-abs t-10 l-15 f-18"><i class="fa fa-list"></i></div>
-            <h2 class="panel-title width-100p c-red text-center w-500 f-20 carrois">Member Daily Activities - {{member.username}}</h2>
+            <h2 class="panel-title width-100p c-red text-center w-500 f-20 carrois">App User Daily Activities - {{mobileAppUser.username}}</h2>
           </div>
           <div class="panel-body">
             <div class="row">
@@ -26,16 +25,16 @@
                   <div class="graph-info p-r-10">
                     <div class="row">
                       <div class="col-md-5">
-                        <input id="memberDateFrom" class="pickadate form-control" type="text" placeholder="Click me to see modal calendar" />
+                        <input id="mobileAppUserDateFrom" class="pickadate form-control" type="text" placeholder="Click me to see modal calendar" />
                       </div>
                       <div class="col-md-2">to</div>
                       <div class="col-md-5">
-                        <input id="memberDateTo" class="pickadate form-control" type="text" placeholder="Click me to see modal calendar" />
+                        <input id="mobileAppUserDateTo" class="pickadate form-control" type="text" placeholder="Click me to see modal calendar" />
                       </div>
                     </div>
                   </div>
                   <div class="h-300">
-                    <div class="h-300" id="graph-member-lines" style="width:100%"></div>
+                    <div class="h-300" id="mobile-app-user-lines" style="width:100%"></div>
                   </div>
                 </div>
               </div>

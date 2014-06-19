@@ -1,7 +1,7 @@
 Meteor.publish 'mobile', (options) ->
   if options.deviceId
-    member = Members.findOne(deviceId: options.deviceId)
-    Mobile.find member.appId
+    mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
+    Mobile.find mobileAppUser.appId
   else
     Mobile.find({ userId: @userId })
 
@@ -13,23 +13,23 @@ Meteor.publish 'beacons', (options) ->
 
 Meteor.publish 'tags', (options) ->
   if options.deviceId
-    member = Members.findOne(deviceId: options.deviceId)
-    app = Mobile.findOne(member.appId)
+    mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
+    app = Mobile.findOne(mobileAppUser.appId)
     Tags.find(_id: {$in: app.tags})
   else
     Tags.find(userId: @userId)
 
 Meteor.publish 'mobileTags', (options) ->
   self = @
-  member = Members.findOne(deviceId: options.deviceId)
-  tags = Mobile.findOne(member.appId).tags
+  mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
+  tags = Mobile.findOne(mobileAppUser.appId).tags
 
   initializing = true
 
   for tag in Tags.find(_id: {$in: tags}).fetch()
     self.added 'tags', tag._id, tag
 
-  tagHandler = Mobile.find(member.appId).observe
+  tagHandler = Mobile.find(mobileAppUser.appId).observe
     changed: (newDocument, oldDocument) ->
       unless initializing
         added   = _.difference newDocument.tags, oldDocument.tags
@@ -45,7 +45,7 @@ Meteor.publish 'mobileTags', (options) ->
   self.onStop ->
     tagHandler.stop()
 
-Meteor.publish 'counts-by-member', (options) ->
+Meteor.publish 'counts-by-mobileAppUser', (options) ->
   self = @
   count = 0
   initializing = true
@@ -67,7 +67,7 @@ Meteor.publish 'counts-by-app', (options) ->
   self = @
   count = 0
   initializing = true
-  deviceIds = _.pluck Members.find(appId: options.appId).fetch(), 'deviceId'
+  deviceIds = _.pluck MobileAppUsers.find(appId: options.appId).fetch(), 'deviceId'
 
   handle = Logs.find(deviceId: {$in: deviceIds}).observeChanges
     added: ->
@@ -82,12 +82,11 @@ Meteor.publish 'counts-by-app', (options) ->
   self.onStop ->
     handle.stop()
 
-
-Meteor.publish 'members', (options) ->
+Meteor.publish 'mobileAppUsers', (options) ->
   if options.deviceId
-    Members.find deviceId: options.deviceId
-  else if options.memberId
-    Members.find options.memberId
+    MobileAppUsers.find deviceId: options.deviceId
+  else if options.mobileAppUserId
+    MobileAppUsers.find options.mobileAppUserId
   else
     appIds = _.pluck Mobile.find({ userId: @userId }).fetch(), '_id'
-    Members.find appId: { $in: appIds }
+    MobileAppUsers.find appId: { $in: appIds }

@@ -1,0 +1,1 @@
+@MobileAppUsers = new Meteor.Collection 'mobileAppUsers'

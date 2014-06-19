@@ -1,5 +1,5 @@
-countTag = (tagId, memberId) ->
-  Meteor.call 'countByTag', tagId, memberId, (error, result) ->
+countTag = (tagId, mobileAppUserId) ->
+  Meteor.call 'countByTag', tagId, mobileAppUserId, (error, result) ->
     Session.set "#{tagId}", result
 
 Template.tag.helpers
@@ -10,7 +10,7 @@ Template.tag.rendered = ->
   tagId = @.data._id
 
   @tagDep = Deps.autorun ->
-    deviceId = Members.findOne().deviceId
+    deviceId = MobileAppUsers.findOne().deviceId
     count = Counts.findOne(deviceId)
     countTag(tagId, deviceId)
 

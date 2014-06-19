@@ -8,7 +8,7 @@ Router.map ->
     path: 'edit-apps'
     waitOn: ->
       Meteor.subscribe 'mobile', {}
-      Meteor.subscribe 'members', {}
+      Meteor.subscribe 'mobileAppUsers', {}
       Meteor.subscribe 'tags', {}
   @route 'mobile',
     path: 'mobile/:deviceId'
@@ -16,15 +16,15 @@ Router.map ->
       [
         Meteor.subscribe 'mobileTags', { deviceId: @params.deviceId }
         Meteor.subscribe 'mobile', { deviceId: @params.deviceId }
-        Meteor.subscribe 'members', { deviceId: @params.deviceId }
-        Meteor.subscribe 'counts-by-member', { deviceId: @params.deviceId }
+        Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
+        Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
       ]
   @route 'dashboard',
     path: 'dashboard'
     waitOn: ->
       [
         Meteor.subscribe 'mobile', {}
-        Meteor.subscribe 'members', {}
+        Meteor.subscribe 'mobileAppUsers', {}
       ]
 
   @route 'beacons',    { path: '/beacons',          controller: Beacons.index }

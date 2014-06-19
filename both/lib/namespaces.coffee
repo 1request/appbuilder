@@ -1,3 +1,5 @@
 @db = {}
 
 @Beacons = {}
+
+@MobileAppUsers = {}

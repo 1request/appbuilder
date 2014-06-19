@@ -15,38 +15,38 @@ if Beacons.find().count() is 0
   beacons1 = [
     {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-      major: '9'
-      minor: '62353'
+      major: 9
+      minor: 62353
       tags: ['Reception', 'Estimote']
       notes: 'Beacon placed at reception of 9/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-      major: '9'
-      minor: '26057'
+      major: 9
+      minor: 26057
       tags: ['Open Area', 'Estimote']
       notes: 'Beacon placed at the Open Area of 9/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-      major: '9'
-      minor: '50549'
+      major: 9
+      minor: 50549
       tags: ['Roof', 'Estimote']
       notes: 'Beacon placed at Roof (Outdoor) at 9/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-      major: '8'
-      minor: '7102'
+      major: 8
+      minor: 7102
       tags: ['Reception', 'Estimote']
       notes: 'Beacon placed at Reception at 8/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-      major: '8'
-      minor: '31008'
+      major: 8
+      minor: 31008
       tags: ['Member Zone', 'Estimote']
       notes: 'Beacon placed at Member Area at 8/F Garage Society'
     }, {
       uuid: 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'
-      major: '8'
-      minor: '31664'
+      major: 8
+      minor: 31664
       tags: ['Classroom', 'Estimote']
       notes: 'Beacon placed inside GA Batman Classroom at 8/F Garage Society'
     }
@@ -54,20 +54,20 @@ if Beacons.find().count() is 0
   beacons2 = [
     {
       uuid: '884EBE62-891D-495A-AF57-17CA0CDA86B8'
-      major: '1'
-      minor: '0001'
+      major: 1
+      minor: 1
       tags: ['Cyber Port']
       notes: 'Cyber Port is so empty'
     }, {
       uuid: 'F5645C90-A5FD-4E46-8090-B39B42280372'
-      major: '1'
-      minor: '0002'
+      major: 1
+      minor: 2
       tags: ['Garage']
       notes: 'Garage needs more comfortable chairs'
     }, {
       uuid: '13662EC6-9FAA-49A4-B73B-2FC3B32CA012'
-      major: '1'
-      minor: '0003'
+      major: 1
+      minor: 3
       tags: ['Cocoon']
       notes: 'Cocoon is spacious'
     }
@@ -98,8 +98,8 @@ if Mobile.find().count() is 0
     Mobile.insert mobile
 
 
-if Members.find().count() is 0
-  members = [
+if MobileAppUsers.find().count() is 0
+  mobileAppUsers = [
     {
       appId: Mobile.findOne(title: 'initial')._id
       username: 'harryng'
@@ -114,15 +114,15 @@ if Members.find().count() is 0
       deviceId: '7E8E5CA6-A7CC-4759-A4B6-D795D7E105F6'
     }
   ]
-  for member in members
-    Members.insert member
+  for mobileAppUser in mobileAppUsers
+    MobileAppUsers.insert mobileAppUser
 
 if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->
     nextDay = moment(momentObj).endOf('day')
     momentObj.add 'milliseconds', Math.random() * Math.min(36000000 / times, nextDay.diff(momentObj))
   for app in Mobile.find().fetch()
-    for member in Members.find(appId: app._id).fetch()
+    for mobileAppUser in MobileAppUsers.find(appId: app._id).fetch()
       for tag in Tags.find(_id: {$in: app.tags}).fetch()
         for beacon in Beacons.find(_id: {$in: tag.beacons}).fetch()
           for i in [10..1]
@@ -136,5 +136,5 @@ if Logs.find().count() is 0
                   uuid: beacon.uuid
                   major: beacon.major
                   minor: beacon.minor
-                log.deviceId = member.deviceId
+                log.deviceId = mobileAppUser.deviceId
                 Logs.insert log

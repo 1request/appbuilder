@@ -16,7 +16,7 @@ Template.editMobile.helpers
 Template.editMobile.rendered = ->
   Session.set('selectedMobileId', Mobile.findOne()._id)
   Session.set('selectedTags', setSelectedTags(Mobile.findOne().tags))
-  Session.set('selectedDeviceId', Members.findOne(appId: Session.get 'selectedMobileId').deviceId)
+  Session.set('selectedDeviceId', MobileAppUsers.findOne(appId: Session.get 'selectedMobileId').deviceId)
   runSelect2()
 
 Template.editMobile.events
@@ -38,7 +38,7 @@ Template.editMobile.events
 
   'change #selected-app': (e, context) ->
     Session.set 'selectedMobileId', e.target.value
-    Session.set 'selectedDeviceId', Members.findOne(appId: e.target.value).deviceId
+    Session.set 'selectedDeviceId', MobileAppUsers.findOne(appId: e.target.value).deviceId
     mobile = Mobile.findOne(Session.get('selectedMobileId'))
     Session.set 'selectedTags', setSelectedTags(mobile.tags)
     runSelect2()
