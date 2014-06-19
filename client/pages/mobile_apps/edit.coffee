@@ -2,9 +2,7 @@ Template.editMobileApp.helpers
   mobileApps: ->
     MobileApps.find()
   mobileApp: ->
-    MobileApps.findOne(Session.get 'mobileAppId')
-  mobileAppId: ->
-    Session.get 'mobileAppId'
+    MobileApps.findOne(appKey: Session.get 'mobileAppKey')
   deviceId: ->
     Session.get 'deviceId'
   path: ->
@@ -17,9 +15,11 @@ Template.editMobileApp.rendered = ->
 
   @editMobileAppDep = Deps.autorun ->
     if MobileApps.findOne()
-      Session.set('mobileAppId', MobileApps.findOne()._id)
-      Session.set('selectedTags', setSelectedTags(MobileApps.findOne().tags))
-      Session.set('deviceId', MobileAppUsers.findOne(appId: Session.get 'mobileAppId').deviceId)
+      Session.setDefault('mobileAppKey', MobileApps.findOne().appKey)
+      app = MobileApps.findOne(appKey: Session.get 'mobileAppKey')
+      Session.set('selectedTags', setSelectedTags(app.tags))
+      Session.set('deviceId', MobileAppUsers.findOne(appKey: Session.get 'mobileAppKey').deviceId)
+      $('#selected-app').val("#{Session.get 'mobileAppKey'}")
       runSelect2()
 
 Template.editMobileApp.events
@@ -40,14 +40,14 @@ Template.editMobileApp.events
     e.preventDefault()
 
   'change #selected-app': (e, context) ->
-    Session.set 'mobileAppId', e.target.value
-    Session.set 'deviceId', MobileAppUsers.findOne(appId: e.target.value).deviceId
-    mobileApp = MobileApps.findOne(Session.get('mobileAppId'))
+    Session.set 'mobileAppKey', e.target.value
+    Session.set 'deviceId', MobileAppUsers.findOne(appKey: e.target.value).deviceId
+    mobileApp = MobileApps.findOne(appKey: e.target.value)
     Session.set 'selectedTags', setSelectedTags(mobileApp.tags)
     runSelect2()
 
   'change #tags': (e) ->
-    mobileApp = MobileApps.findOne Session.get('mobileAppId')
+    mobileApp = MobileApps.findOne(appKey: Session.get('mobileAppKey'))
     if e.added
       MobileApps.update mobileApp._id, $addToSet: {tags: Tags.findOne(text: e.added.text)._id}
     else

@@ -83,7 +83,7 @@ if MobileApps.find().count() is 0
       userId: userId
       title: 'initial'
       imageUrls: []
-      _id: 'jdFYjuCqWyCdrywPT'
+      appKey: 'jdFYjuCqWyCdrywPT'
       tags: _.pluck Tags.find(text: {$in: tags1}).fetch(), '_id'
     }, {
       userId: userId
@@ -99,15 +99,15 @@ if MobileApps.find().count() is 0
 if MobileAppUsers.find().count() is 0
   mobileAppUsers = [
     {
-      appId: MobileApps.findOne(title: 'initial')._id
+      appKey: MobileApps.findOne(title: 'initial').appKey
       username: 'harryng'
       deviceId: '3516AE72-4277-4783-93E8-CB5830E44ED2'
     }, {
-      appId: MobileApps.findOne(title: 'initial2')._id
+      appKey: MobileApps.findOne(title: 'initial2').appKey
       username: 'joseph'
       deviceId: 'A343F3D3-7BF6-4E3A-93B0-E562D99A82C8'
     }, {
-      appId: MobileApps.findOne(title: 'initial')._id
+      appKey: MobileApps.findOne(title: 'initial').appKey
       username: 'kevin'
       deviceId: '7E8E5CA6-A7CC-4759-A4B6-D795D7E105F6'
     }
@@ -120,7 +120,7 @@ if Logs.find().count() is 0
     nextDay = moment(momentObj).endOf('day')
     momentObj.add 'milliseconds', Math.random() * Math.min(36000000 / times, nextDay.diff(momentObj))
   for app in MobileApps.find().fetch()
-    for mobileAppUser in MobileAppUsers.find(appId: app._id).fetch()
+    for mobileAppUser in MobileAppUsers.find(appKey: app.appKey).fetch()
       for tag in Tags.find(_id: {$in: app.tags}).fetch()
         for beacon in Beacons.find(_id: {$in: tag.beacons}).fetch()
           for i in [10..1]

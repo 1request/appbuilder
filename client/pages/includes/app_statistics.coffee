@@ -1,28 +1,28 @@
 renderAnalytic = (type) ->
-  appId = Session.get 'mobileAppId'
+  appKey = Session.get 'mobileAppKey'
   startDate = Session.get 'appStartDate'
   endDate = Session.get 'appEndDate'
-  app = MobileApps.findOne(appId)
+  app = MobileApps.findOne(appKey: appKey)
   totalDays = moment(endDate).diff(moment(startDate), 'days')
   if totalDays
-    Meteor.call 'getAppAnalytic', app._id, startDate, endDate, type, (error, result) ->
+    Meteor.call 'getAppAnalytic', app.appKey, startDate, endDate, type, (error, result) ->
       renderDailyChart('#graph-app-lines', result, moment(startDate).valueOf(), totalDays)
 
 Template.appStatistics.helpers
   mobileApps: ->
     MobileApps.find()
   mobileApp: ->
-    MobileApps.findOne(Session.get 'mobileAppId')
+    MobileApps.findOne(Session.get 'mobileAppKey')
 
 Template.appStatistics.rendered = ->
   @appDep = Deps.autorun ->
-    count = Counts.findOne(Session.get('mobileAppId'))
+    count = Counts.findOne(Session.get('mobileAppKey'))
     if count
       renderAnalytic('day')
-
+  $('#selected-app').val("#{Session.get 'mobileAppKey'}")
   Session.setDefault('appStartDate', moment().startOf('day').subtract('days', 6).valueOf())
   Session.setDefault('appEndDate', moment().startOf('day').valueOf())
-  Meteor.subscribe 'counts-by-app', {appId: Session.get 'mobileAppId'}
+  Meteor.subscribe 'counts-by-app', {appKey: Session.get 'mobileAppKey'}
 
   $inputFrom = $('#appDateFrom').pickadate
     onStart: ->
@@ -38,10 +38,10 @@ Template.appStatistics.rendered = ->
 
 Template.appStatistics.events
   'change #selected-app': (e, context) ->
-    Session.set 'mobileAppId', e.target.value
-    deviceId = MobileAppUsers.findOne(appId: Session.get('mobileAppId')).deviceId
+    Session.set 'mobileAppKey', e.target.value
+    deviceId = MobileAppUsers.findOne(appKey: Session.get('mobileAppKey')).deviceId
     Session.set 'deviceId', deviceId
-    Meteor.subscribe 'counts-by-app', {appId: e.target.value}
+    Meteor.subscribe 'counts-by-app', {appKey: e.target.value}
 
 Template.appStatistics.destroyed = ->
   if @appDep

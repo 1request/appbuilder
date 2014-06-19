@@ -12,7 +12,7 @@ renderAnalytic = (type) ->
 
 Template.mobileAppUserStatistics.helpers
   mobileAppUsers: ->
-    MobileAppUsers.find(appId: Session.get 'mobileAppId')
+    MobileAppUsers.find(appKey: Session.get 'mobileAppKey')
   mobileAppUser: ->
     MobileAppUsers.findOne(deviceId: Session.get('deviceId'))
 

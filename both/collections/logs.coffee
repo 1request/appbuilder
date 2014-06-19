@@ -1,12 +1,13 @@
 @Logs = new Meteor.Collection 'logs'
 
 Meteor.methods
-  'getAppAnalytic': (appId, startDate, endDate, type) ->
+  'getAppAnalytic': (appKey, startDate, endDate, type) ->
+    app = MobileApps.findOne(appKey: appKey)
     days = moment(endDate).diff(moment(startDate), 'days')
     _.map [0..days], (i) ->
       start = moment(startDate).add('days', i).valueOf()
       end = moment(startDate).add('days', i + 1).valueOf()
-      mobileAppUsers = MobileAppUsers.find(appId: appId).fetch()
+      mobileAppUsers = MobileAppUsers.find(appKey: app.appKey).fetch()
       result = _.reduce mobileAppUsers, (sum, member) ->
         count = Logs.find(deviceId: member.deviceId, time: { $gt: start, $lt: end }).count()
         sum + count
