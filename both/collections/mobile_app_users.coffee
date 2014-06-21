@@ -5,5 +5,12 @@ MobileAppUsers.before.insert (userId, doc) ->
   doc.updatedAt = doc.createdAt
 
 MobileAppUsers.before.update (userId, doc, fieldNames, modifier, options) ->
-  modifier.$set = modifier.$set || {}
+  modifier.$set or= {}
   modifier.$set.updatedAt = Date.now()
+
+Meteor.methods
+  'createMobileAppUser': (appKey, deviceId) ->
+    unless MobileAppUsers.findOne(deviceId: deviceId)
+      MobileAppUsers.insert
+        deviceId: deviceId
+        appKey:   appKey

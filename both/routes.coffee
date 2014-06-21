@@ -6,12 +6,14 @@ Router.map ->
   @route 'main', { path: '/' }
 
   @route 'mobileApp',
-    path: 'app/:deviceId'
+    path: 'app/:appKey/:deviceId'
+    onBeforeAction: ->
+      createAppUser(@params)
     waitOn: ->
-        Meteor.subscribe 'mobileTags', { deviceId: @params.deviceId }
-        Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
-        Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
-        Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileTags', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
+      Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
 
   @route 'dashboard',
     path: 'dashboard'
@@ -40,6 +42,10 @@ afterLogin = (pause) ->
   if Meteor.user()
     Router.go 'editMobileApp'
     pause()
+
+createAppUser = (params) ->
+  Meteor.call 'createMobileAppUser', params.appKey, params.deviceId, (error, result) ->
+    console.log 'mobile app user is created: ', result
 
 Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()

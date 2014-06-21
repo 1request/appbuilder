@@ -6,7 +6,7 @@ Template.editMobileApp.helpers
   deviceId: ->
     Session.get 'deviceId'
   path: ->
-    Router.routes['mobileApp'].path({deviceId: Session.get 'deviceId'})
+    Router.routes['mobileApp'].path({deviceId: Session.get('deviceId'), appKey: Session.get('mobileAppKey')})
   selectedTags: ->
     if Session.get 'selectedTags'
       _.pluck(Tags.find(text: {$in: Session.get 'selectedTags'}).fetch(), 'text').join(',')
