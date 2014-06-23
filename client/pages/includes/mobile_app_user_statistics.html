@@ -6,7 +6,7 @@
           <label for="selected-memeber">Select app user</label>
           <select name="selected-mobile-app-user" id="selected-mobile-app-user" class="form-control">
           {{#each mobileAppUsers}}
-            <option value="{{deviceId}}">{{username}}</option>
+            <option value="{{deviceId}}">{{deviceId}}</option>
           {{/each}}
           </select>
         </form>
@@ -16,7 +16,7 @@
         <div class="panel">
           <div class="panel-heading">
             <div class="pos-abs t-10 l-15 f-18"><i class="fa fa-list"></i></div>
-            <h2 class="panel-title width-100p c-red text-center w-500 f-20 carrois">App User Daily Activities - {{mobileAppUser.username}}</h2>
+            <h2 class="panel-title width-100p c-red text-center w-500 f-20 carrois">App User Daily Activities - {{mobileAppUser.deviceId}}</h2>
           </div>
           <div class="panel-body">
             <div class="row">

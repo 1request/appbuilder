@@ -4,24 +4,10 @@
       <!-- Header -->
       <div id="header">
         <a href="#menu"></a>
-        <h1 class="brandname">{{mobileApp.title}}</h1>
+        <h1 class="brandname">{{mobileApp.name}}</h1>
         <a class="backBtn" href="javascript:history.back();"></a>
       </div>
       <div class="subHeader"><i class="i-home i-small"></i>Welcome!</div>
-
-      <!-- Banner -->
-      <div class="bannerPane">
-        <section class="slider">
-        <div class="flexslider">
-          <ul class="slides">
-            {{#each mobileApp.imageUrls}}
-              {{> slide}}
-            {{/each}}
-          </ul>
-        </div>
-        </section>
-      </div>
-      <!-- End Banner -->
 
       <!-- Content -->
       <div id="content">

@@ -23,8 +23,8 @@ Template.editMobileApp.rendered = ->
       runSelect2()
 
 Template.editMobileApp.events
-  'keyup input[name=title]': (e, context) ->
-    MobileApps.update e.target.dataset.id, $set: {title: e.target.value}
+  'keyup input[name=name]': (e, context) ->
+    MobileApps.update e.target.dataset.id, $set: {name: e.target.value}
 
   'keyup input[name=imageUrl]': (e, context) ->
     if /\.(jpg|gif|png)$/.test e.target.value

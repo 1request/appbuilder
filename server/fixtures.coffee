@@ -81,39 +81,17 @@ if MobileApps.find().count() is 0
   mobileApps = [
     {
       userId: userId
-      title: 'initial'
-      imageUrls: []
+      name: 'KODW'
       appKey: 'jdFYjuCqWyCdrywPT'
       tags: _.pluck Tags.find(text: {$in: tags1}).fetch(), '_id'
     }, {
       userId: userId
-      title: 'initial2'
-      imageUrls: []
+      name: 'demo'
       tags: _.pluck Tags.find(text: {$in: tags2}).fetch(), '_id'
     }
   ]
   for mobileApp in mobileApps
     MobileApps.insert mobileApp
-
-
-if MobileAppUsers.find().count() is 0
-  mobileAppUsers = [
-    {
-      appKey: MobileApps.findOne(title: 'initial').appKey
-      username: 'harryng'
-      deviceId: '3516AE72-4277-4783-93E8-CB5830E44ED2'
-    }, {
-      appKey: MobileApps.findOne(title: 'initial2').appKey
-      username: 'joseph'
-      deviceId: 'A343F3D3-7BF6-4E3A-93B0-E562D99A82C8'
-    }, {
-      appKey: MobileApps.findOne(title: 'initial').appKey
-      username: 'kevin'
-      deviceId: '7E8E5CA6-A7CC-4759-A4B6-D795D7E105F6'
-    }
-  ]
-  for mobileAppUser in mobileAppUsers
-    MobileAppUsers.insert mobileAppUser
 
 if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->

@@ -22,9 +22,6 @@ Template.mobileApp.rendered = ->
   $('nav#menu').mmenu
     searchfield : true
     slidingSubmenus: true
-  if MobileApps.findOne().imageUrls
-    $('.flexslider').flexslider
-      animation: "slide"
 
 Template.mobileApp.destroyed = ->
   $('link[href="/stylesheets/foundation.css"]').remove()
