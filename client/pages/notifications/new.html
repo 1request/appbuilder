@@ -30,7 +30,10 @@
         <table class="table">
           <tbody>
             {{# each notifications}}
-              <tr><td>{{dateFormat createdAt}}</td><td>{{message}} ({{url}})</td></tr>
+              <tr>
+                <td>{{dateFormat createdAt}}</td>
+                <td>{{message}} <a href="{{url}}">{{url}}</a></td>
+              </tr>
             {{/ each}}
             <tr><td></td><td></td></tr>
           </tbody>
