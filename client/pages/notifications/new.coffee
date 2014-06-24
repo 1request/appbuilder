@@ -3,11 +3,16 @@ Template.newNotification.helpers
     MobileApps.find()
   mobileApp: ->
     MobileApps.findOne(appKey: Session.get 'mobileAppKey')
+  notifications: -> 
+    Notifications.find({appKey: Session.get 'mobileAppKey'}, {sort: {createdAt: -1}})
+  dateFormat: (date) ->
+    moment(date).format('MMM DD')
 
 Template.newNotification.rendered = ->
   @newNotificationDep = Deps.autorun ->
     if MobileApps.findOne()
       Session.setDefault('mobileAppKey', MobileApps.findOne().appKey)
+      $('#selected-app').val("#{Session.get 'mobileAppKey'}")
 
 Template.newNotification.events
   'change #selected-app': (e, context) ->

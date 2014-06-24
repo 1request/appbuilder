@@ -92,3 +92,7 @@ Meteor.publish 'mobileAppUsers', (options) ->
   else
     appKeys = _.pluck MobileApps.find({ userId: @userId }).fetch(), 'appKey'
     MobileAppUsers.find({appKey: { $in: appKeys }}, {sort: {createdAt: 1}})
+
+Meteor.publish 'notifications', (options) ->
+  if options.appKey
+    Notifications.find({appKey: options.appKey})
