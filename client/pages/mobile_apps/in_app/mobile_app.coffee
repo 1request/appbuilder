@@ -4,11 +4,13 @@ Template.mobileApp.created = ->
 Template.mobileApp.helpers
   mobileApp: ->
     MobileApps.findOne()
+  notificationPath: ->
+    Router.routes['notification'].path({ appKey: Session.get('mobileAppKey') })
   count: ->
     Session.get 'monthCount'
   path: ->
     if MobileAppUsers.findOne() and MobileApps.findOne()
-      Router.routes['monthlyLog'].path({deviceId: MobileAppUsers.findOne().deviceId, appKey: MobileApps.findOne().appKey})
+      Router.routes['monthlyLog'].path({deviceId: MobileAppUsers.findOne().deviceId, appKey: Session.get('mobileAppKey') })
 
 Template.mobileApp.rendered = ->
   $('nav#menu').mmenu

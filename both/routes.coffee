@@ -18,6 +18,8 @@ Router.map ->
     onBeforeAction: ->
       if @params.deviceId is 'notification'
         Router.go 'notification'
+    onAfterAction: ->
+      Session.set('mobileAppKey', @params.appKey)
     waitOn: ->
       createAppUser(@params)
       Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
