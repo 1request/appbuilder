@@ -2,6 +2,8 @@ Meteor.publish 'mobileApps', (options) ->
   if options.deviceId
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
     MobileApps.find(appKey: mobileAppUser.appKey)
+  else if options.appKey
+    MobileApps.find(appKey: options.appKey)
   else
     MobileApps.find({ userId: @userId }, {sort: {createdAt: 1}})
 
