@@ -19,8 +19,8 @@ Template.notification.destroyed = ->
 
 Template.notification.helpers
   mobileApp: ->
-    MobileApps.findOne(appKey: Session.get 'mobileAppKey')
+    MobileApps.findOne()
   notifications: -> 
-    Notifications.find({appKey: Session.get 'mobileAppKey'}, {sort: {createdAt: -1}})
+    Notifications.find({}, {sort: {createdAt: -1}})
   dateFormat: (date) ->
     moment(date).format('MMM DD')

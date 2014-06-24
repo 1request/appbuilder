@@ -7,8 +7,6 @@ Router.map ->
 
   @route 'notification',
     path: '/app/:appKey/notification'
-    onAfterAction: ->
-      Session.set('mobileAppKey', @params.appKey)
     waitOn: ->
       Meteor.subscribe 'notifications', { appKey: @params.appKey }
       Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
