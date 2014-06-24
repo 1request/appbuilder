@@ -24,3 +24,8 @@ Template.notification.helpers
     Notifications.find({}, {sort: {createdAt: -1}})
   dateFormat: (date) ->
     moment(date).format('MMM DD')
+  outsideUrl: (url) ->
+    if url.match("http://")
+      url
+    else
+      "http://" + url
