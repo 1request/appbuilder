@@ -9,7 +9,13 @@ Router.map ->
     path: 'app/:appKey/:deviceId'
     waitOn: ->
       createAppUser(@params)
-      Meteor.subscribe 'mobileTags', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
+      Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
+
+  @route 'monthlyLog',
+    path: 'app/:appKey/:deviceId/monthly-log'
+    waitOn: ->
       Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
       Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
       Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
