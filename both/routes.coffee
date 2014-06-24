@@ -5,6 +5,13 @@ Router.configure
 Router.map ->
   @route 'main', { path: '/' }
 
+  @route 'notification',
+    path: '/app/:appKey/notifications'
+    onAfterAction: ->
+      Session.set('mobileAppKey', @params.appKey)
+    waitOn: ->
+      Meteor.subscribe 'notifications', {appKey: @params.appKey}
+
   @route 'mobileApp',
     path: 'app/:appKey/:deviceId'
     waitOn: ->
@@ -34,6 +41,8 @@ Router.map ->
   @route 'mobileApps',    { path: '/apps',          controller: MobileApps.index }
   @route 'newMobileApp',  { path: '/apps/new',      controller: MobileApps.new }
   @route 'editMobileApp', { path: '/apps/edit',     controller: MobileApps.edit }
+
+  @route 'newNotification',  { path: '/notifications/new',      controller: Notifications.new }
 
 requireLogin = (pause) ->
   unless Meteor.user()
