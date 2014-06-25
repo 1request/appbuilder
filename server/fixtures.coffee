@@ -112,5 +112,6 @@ if Logs.find().count() is 0
                   uuid: beacon.uuid
                   major: beacon.major
                   minor: beacon.minor
+                  appKey: app.appKey
                 log.deviceId = mobileAppUser.deviceId
                 Logs.insert log

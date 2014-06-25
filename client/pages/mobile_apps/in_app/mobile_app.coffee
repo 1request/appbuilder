@@ -10,7 +10,7 @@ Template.mobileApp.helpers
     Session.get 'monthCount'
   path: ->
     if MobileAppUsers.findOne() and MobileApps.findOne()
-      Router.routes['monthlyLog'].path({deviceId: MobileAppUsers.findOne().deviceId, appKey: Session.get('mobileAppKey') })
+      Router.routes['monthlyLog'].path({deviceId: Session.get('deviceId'), appKey: Session.get('mobileAppKey') })
 
 Template.mobileApp.rendered = ->
   $('nav#menu').mmenu
@@ -19,7 +19,7 @@ Template.mobileApp.rendered = ->
 
   @countDep = Deps.autorun ->
     Counts.findOne()
-    Meteor.call 'monthlyCount', MobileAppUsers.findOne().deviceId, (error, result) ->
+    Meteor.call 'monthlyCount', Session.get('deviceId'), Session.get('mobileAppKey'), (error, result) ->
       Session.set 'monthCount', result
 
 Template.mobileApp.destroyed = ->

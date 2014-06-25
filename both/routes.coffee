@@ -20,18 +20,22 @@ Router.map ->
         Router.go 'notification'
     onAfterAction: ->
       Session.set('mobileAppKey', @params.appKey)
+      Session.set('deviceId', @params.deviceId)
     waitOn: ->
       createAppUser(@params)
-      Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
-      Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
-      Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
+      Meteor.subscribe 'mobileAppUsers', { appKey: @params.appKey, deviceId: @params.deviceId }
+      Meteor.subscribe 'counts-by-mobileAppUser', { appKey: @params.appKey, deviceId: @params.deviceId }
 
   @route 'monthlyLog',
     path: 'app/:appKey/:deviceId/monthly-log'
+    onAfterAction: ->
+      Session.set('mobileAppKey', @params.appKey)
+      Session.set('deviceId', @params.deviceId)
     waitOn: ->
-      Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
-      Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
-      Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
+      Meteor.subscribe 'mobileAppUsers', { appKey: @params.appKey, deviceId: @params.deviceId }
+      Meteor.subscribe 'counts-by-mobileAppUser', { appKey: @params.appKey, deviceId: @params.deviceId }
 
   @route 'dashboard',
     path: 'dashboard'

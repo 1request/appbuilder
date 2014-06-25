@@ -1,8 +1,5 @@
 Meteor.publish 'mobileApps', (options) ->
-  if options.deviceId
-    mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
-    MobileApps.find(appKey: mobileAppUser.appKey)
-  else if options.appKey
+  if options.appKey
     MobileApps.find(appKey: options.appKey)
   else
     MobileApps.find({ userId: @userId }, {sort: {createdAt: 1}})
@@ -52,7 +49,7 @@ Meteor.publish 'counts-by-mobileAppUser', (options) ->
   count = 0
   initializing = true
 
-  handle = Logs.find(deviceId: options.deviceId).observeChanges
+  handle = Logs.find(deviceId: options.deviceId, appKey: options.appKey).observeChanges
     added: ->
       count++
       unless initializing
@@ -69,11 +66,8 @@ Meteor.publish 'counts-by-app', (options) ->
   self = @
   count = 0
   initializing = true
-  app = MobileApps.findOne(appKey: options.appKey)
 
-  deviceIds = _.pluck MobileAppUsers.find(appKey: app.appKey).fetch(), 'deviceId'
-
-  handle = Logs.find(deviceId: {$in: deviceIds}).observeChanges
+  handle = Logs.find(appKey: options.appKey).observeChanges
     added: ->
       count++
       unless initializing
@@ -87,10 +81,8 @@ Meteor.publish 'counts-by-app', (options) ->
     handle.stop()
 
 Meteor.publish 'mobileAppUsers', (options) ->
-  if options.deviceId
-    MobileAppUsers.find deviceId: options.deviceId
-  else if options.mobileAppUserId
-    MobileAppUsers.find options.mobileAppUserId
+  if options.deviceId and options.appKey
+    MobileAppUsers.find(deviceId: options.deviceId, appKey: options.appKey)
   else
     appKeys = _.pluck MobileApps.find({ userId: @userId }).fetch(), 'appKey'
     MobileAppUsers.find({appKey: { $in: appKeys }}, {sort: {createdAt: 1}})
