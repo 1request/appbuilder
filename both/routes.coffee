@@ -68,5 +68,5 @@ createAppUser = (params) ->
 
 Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()
-Router.onBeforeAction requireLogin, { except: ['main', 'mobileApp'] }
+Router.onBeforeAction requireLogin, { except: ['main', 'mobileApp', 'notification'] }
 Router.onBeforeAction afterLogin, { only: 'main' }
