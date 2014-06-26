@@ -1,4 +1,4 @@
-Template.mobileApp.created = ->
+Template.notification.created = ->
   $('head').append '<link rel="stylesheet" href="/stylesheets/foundation.css"/>'
   $('head').append '<link rel="stylesheet" href="/stylesheets/flexslider.css"/>'
   $('head').append '<link rel="stylesheet" href="/stylesheets/jquery.mobile-1.0rc2.min.css"/>'
@@ -7,23 +7,7 @@ Template.mobileApp.created = ->
   $('head').append '<script type="text/javascript" src="/js/jquery.mobile-1.0rc2.min.js"/>'
   $('head').append '<script type="text/javascript" src="/js/jquery.mmenu.min.all.js"/>'
 
-Template.mobileApp.helpers
-  mobileApp: ->
-    MobileApps.findOne()
-  imageUrl: ->
-    if MobileApps.findOne().imageUrls
-      "<img src='#{MobileApps.findOne().imageUrl}' class='responsive-image' alt='img'>"
-  tags: ->
-    Tags.find()
-  mobileAppUser: ->
-    MobileAppUsers.findOne()
-
-Template.mobileApp.rendered = ->
-  $('nav#menu').mmenu
-    searchfield : true
-    slidingSubmenus: true
-
-Template.mobileApp.destroyed = ->
+Template.notification.destroyed = ->
   $('link[href="/stylesheets/foundation.css"]').remove()
   $('link[href="/stylesheets/flexslider.css"]').remove()
   $('link[href="/stylesheets/jquery.mobile-1.0rc2.min.css"]').remove()
@@ -32,3 +16,16 @@ Template.mobileApp.destroyed = ->
   $('script[src="/js/jquery.mobile-1.0rc2.min.js"]').remove()
   $('script[src="/js/jquery.mmenu.min.all.js"]').remove()
   location.reload()
+
+Template.notification.helpers
+  mobileApp: ->
+    MobileApps.findOne()
+  notifications: -> 
+    Notifications.find({}, {sort: {createdAt: -1}})
+  dateFormat: (date) ->
+    moment(date).format('MMM DD')
+  outsideUrl: (url) ->
+    if url.match("http://")
+      url
+    else
+      "http://" + url

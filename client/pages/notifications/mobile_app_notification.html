@@ -1,0 +1,24 @@
+<template name="notification">
+  <div class="o-page">
+    <div id="page">
+      <!-- Header -->
+      <div id="header">
+        <a href="#menu"></a>
+        <h1 class="brandname">{{mobileApp.name}}</h1>
+        <a class="backBtn" href="javascript:history.back();"></a>
+      </div>
+      <div class="subHeader"><i class="i-home i-small"></i>Notifications</div>
+
+      <!-- Content -->
+      <div id="content">
+        {{#each notifications}}
+          <h3>{{dateFormat date}}</h3>
+          <div class="columns twelve">
+            {{message}} <a href="{{outsideUrl url}}">{{url}}</a>
+          </div>
+          <hr>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</template>

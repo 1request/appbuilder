@@ -2,6 +2,8 @@ Meteor.publish 'mobileApps', (options) ->
   if options.deviceId
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
     MobileApps.find(appKey: mobileAppUser.appKey)
+  else if options.appKey
+    MobileApps.find(appKey: options.appKey)
   else
     MobileApps.find({ userId: @userId }, {sort: {createdAt: 1}})
 
@@ -92,3 +94,7 @@ Meteor.publish 'mobileAppUsers', (options) ->
   else
     appKeys = _.pluck MobileApps.find({ userId: @userId }).fetch(), 'appKey'
     MobileAppUsers.find({appKey: { $in: appKeys }}, {sort: {createdAt: 1}})
+
+Meteor.publish 'notifications', (options) ->
+  if options.appKey
+    Notifications.find({appKey: options.appKey})

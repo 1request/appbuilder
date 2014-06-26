@@ -29,3 +29,17 @@ Meteor.methods
       count = Logs.find(uuid: beacon.uuid, major: beacon.major, minor: beacon.minor, deviceId: deviceId).count()
       sum + count
     , 0
+
+  'monthlyCount': (deviceId) ->
+    daysInMonth = moment().daysInMonth()
+    _.reduce [1..daysInMonth], (sum, date) ->
+      start = moment().date(date).startOf('day').valueOf()
+      end = moment().date(date).endOf('day').valueOf()
+      sum += 1 if !!Logs.find(deviceId: deviceId, time: {$gt: start, $lt: end}).count()
+      sum
+    , 0
+
+  'dayCount': (deviceId, date) ->
+    start = moment().date(date).startOf('day').valueOf()
+    end = moment().date(date).endOf('day').valueOf()
+    !!Logs.find(deviceId: deviceId, time: {$gt: start, $lt: end}).count()

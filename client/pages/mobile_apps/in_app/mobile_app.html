@@ -1,0 +1,44 @@
+<template name="mobileApp">
+  <div class="o-page">
+    <div id="page">
+      <!-- Header -->
+      <div id="header">
+        <h1 class="brandname">{{mobileApp.name}}</h1>
+        <a class="backBtn" href="javascript:history.back();"></a>
+      </div>
+      <div class="subHeader"><i class="i-home i-small"></i>Welcome!</div>
+
+      <!-- Content -->
+      <div id="content">
+        <div class="columns twelve">
+          <p class="tag-name">Experiment</p>
+        </div>
+        <hr>
+        <div class="row tag">
+          <a href="{{path}}">
+            <div class="mobile-three">
+              <p class="tag-name">Visits this month</p>
+            </div>
+            <div class="mobile-one">
+              <span class="i-pane i-green">
+                <p class="count">{{count}}</p>
+              </span>
+            </div>
+          </a>
+        </div>
+        <hr>
+        <div class="row tag">
+          <div class="mobile-three">
+            <p class="tag-name">Version</p>
+          </div>
+          <div class="mobile-one">
+            <span class="i-pane i-green">
+              <p class="count">0.1</p>
+            </span>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+</template>

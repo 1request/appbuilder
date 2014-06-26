@@ -5,11 +5,26 @@ Router.configure
 Router.map ->
   @route 'main', { path: '/' }
 
+  @route 'notification',
+    path: '/app/:appKey/notification'
+    waitOn: ->
+      Meteor.subscribe 'notifications', { appKey: @params.appKey }
+      Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
+
   @route 'mobileApp',
     path: 'app/:appKey/:deviceId'
+    onBeforeAction: ->
+      if @params.deviceId is 'notification'
+        Router.go 'notification'
     waitOn: ->
       createAppUser(@params)
-      Meteor.subscribe 'mobileTags', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
+      Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
+      Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
+
+  @route 'monthlyLog',
+    path: 'app/:appKey/:deviceId/monthly-log'
+    waitOn: ->
       Meteor.subscribe 'mobileApps', { deviceId: @params.deviceId }
       Meteor.subscribe 'mobileAppUsers', { deviceId: @params.deviceId }
       Meteor.subscribe 'counts-by-mobileAppUser', { deviceId: @params.deviceId }
@@ -28,6 +43,8 @@ Router.map ->
   @route 'mobileApps',    { path: '/apps',          controller: MobileApps.index }
   @route 'newMobileApp',  { path: '/apps/new',      controller: MobileApps.new }
   @route 'editMobileApp', { path: '/apps/edit',     controller: MobileApps.edit }
+
+  @route 'newNotification',  { path: '/notifications/new',      controller: Notifications.new }
 
 requireLogin = (pause) ->
   unless Meteor.user()
