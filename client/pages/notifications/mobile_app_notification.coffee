@@ -7,8 +7,13 @@ Template.notification.destroyed = ->
 
 Template.notification.helpers
   mobileApp: ->
-    MobileApps.findOne(appKey: Session.get 'mobileAppKey')
-  notifications: ->
-    Notifications.find({appKey: Session.get 'mobileAppKey'}, {sort: {createdAt: -1}})
+    MobileApps.findOne()
+  notifications: -> 
+    Notifications.find({}, {sort: {createdAt: -1}})
   dateFormat: (date) ->
     moment(date).format('MMM DD')
+  outsideUrl: (url) ->
+    if url.match("http://")
+      url
+    else
+      "http://" + url
