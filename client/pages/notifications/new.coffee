@@ -1,8 +1,4 @@
 Template.newNotification.helpers
-  mobileApps: ->
-    MobileApps.find()
-  mobileApp: ->
-    MobileApps.findOne(appKey: Session.get 'mobileAppKey')
   notifications: -> 
     Notifications.find({appKey: Session.get 'mobileAppKey'}, {sort: {createdAt: -1}})
   dateFormat: (date) ->
@@ -13,16 +9,7 @@ Template.newNotification.helpers
     else
       "http://" + url
 
-Template.newNotification.rendered = ->
-  @newNotificationDep = Deps.autorun ->
-    if MobileApps.findOne()
-      Session.setDefault('mobileAppKey', MobileApps.findOne().appKey)
-      $('#selected-app').val("#{Session.get 'mobileAppKey'}")
-
 Template.newNotification.events
-  'change #selected-app': (e, context) ->
-    Session.set 'mobileAppKey', e.target.value
-
   'submit form': (e) ->
     e.preventDefault()
     message = $('input[name="message"]').val()
