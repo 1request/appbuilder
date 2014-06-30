@@ -18,9 +18,6 @@
               <a href="{{pathFor 'dashboard'}}">Dashboard</a>
             </li>
             <li>
-              <a href="{{pathFor 'editMobileApp'}}">Edit apps</a>
-            </li>
-            <li>
               <a href="{{pathFor 'newNotification'}}">Notifications</a>
             </li>
             <li>
@@ -45,12 +42,22 @@
   {{#if hasMobileApp}}
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        {{mobileApp.name}}<br/>App Key: {{mobileApp.appKey}}  
+        {{mobileApp.name}}
         <b class="caret"></b>
       </a>
       <ul class="dropdown-menu">
+        <li>
+          <a href="{{pathFor 'editMobileApp'}}">
+            {{mobileApp.name}}<br/>
+            App Key: {{mobileApp.appKey}}
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li class="dropdown-header">Switch apps</li>        
         {{# each mobileApps}}
-          <li><a href="#">{{name}}</a></li>
+          <li>
+            <a href="#">{{name}}</a>
+          </li>
         {{/ each}}
         <li class="divider"></li>
         <li><a href="{{pathFor 'newMobileApp'}}">Create app</a></li>  
