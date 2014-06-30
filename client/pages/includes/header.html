@@ -13,27 +13,57 @@
       <div class="navbar-collapse collapse" id="sidebar">
         <!-- BEGIN TOP NAVIGATION MENU -->
         <ul class="nav navbar-nav header-menu">
-          <li>
-            <a href="{{pathFor 'dashboard'}}">Dashboard</a>
-          </li>
-          <li>
-            <a href="{{pathFor 'newMobileApp'}}">Create app</a>
-          </li>
-          <li>
-            <a href="{{pathFor 'editMobileApp'}}">Edit apps</a>
-          </li>
-          <li>
-            <a href="{{pathFor 'newNotification'}}">Notifications</a>
-          </li>
-          <li>
-            <a href="{{pathFor 'beacons'}}">Manage beacons</a>
-          </li>
+          {{#if currentUser}}  
+            <li>
+              <a href="{{pathFor 'dashboard'}}">Dashboard</a>
+            </li>
+            <li>
+              <a href="{{pathFor 'newNotification'}}">Notifications</a>
+            </li>
+            <li>
+              <a href="{{pathFor 'beacons'}}">Manage beacons</a>
+            </li>
+          {{/if}}
         </ul>
         <ul class="nav navbar-nav navbar-right">
+          {{#if currentUser}}  
+            {{> appSelect}}
+          {{/if}}
           {{> loginButtons}}
+          }
         </ul>
         <!-- END TOP NAVIGATION MENU -->
       </div>
     </div>
   </nav>
+</template>
+
+<template name="appSelect">
+  {{#if hasMobileApp}}
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        {{mobileApp.name}}
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="{{pathFor 'editMobileApp'}}">
+            {{mobileApp.name}}<br/>
+            App Key: {{mobileApp.appKey}}
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li class="dropdown-header">Switch apps</li>        
+        {{# each mobileApps}}
+          <li>
+            <a href="#">{{name}}</a>
+          </li>
+        {{/ each}}
+        <li class="divider"></li>
+        <li><a href="{{pathFor 'newMobileApp'}}">Create app</a></li>  
+      </ul>
+    </li>
+  {{else}}
+    <li><a href="{{pathFor 'newMobileApp'}}">Create app</a></li>  
+  {{/if}}
 </template>
