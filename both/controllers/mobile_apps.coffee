@@ -15,6 +15,7 @@ MobileApps.edit = AppController.extend
     Meteor.subscribe 'mobileApps', {}
     Meteor.subscribe 'mobileAppUsers', {}
     Meteor.subscribe 'tags', {}
+    Meteor.subscribe 'p12s', {}
 
 MobileApps.createMobileApp = (data, callback) ->
   Meteor.call('createMobileApp', data, callback)

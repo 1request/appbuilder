@@ -1,7 +1,7 @@
 @Alerts = new Meteor.Collection null
 
 @throwAlert = (message) ->
-  Alerts.insert {message: message, seen: false}
+  Alerts.insert {message: message, seen: false} if !!message
 
 @clearAlerts = ->
   Alerts.remove {seen: true}
@@ -16,4 +16,4 @@ Template.alert.rendered = ->
     Alerts.update alert._id, $set: {seen: true}
   Meteor.setTimeout ->
     clearAlerts()
-  , 1500
+  , 300000000
