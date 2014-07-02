@@ -1,0 +1,37 @@
+<template name="notifications">
+  {{> header}}
+  {{> alerts}}
+  <div class="container">
+    <h2>{{title}}</h2>
+    {{#if notifications}}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Message</th>
+            <th>Type</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each notifications}}
+          <tr>
+            <td>{{timeFormat createdAt}}</td>
+            <td>{{message}}</td>
+            <td>
+              {{#if url}}
+                Open URL
+              {{else}}
+                Push Notification
+              {{/if}}
+            </td>
+            <td>{{url}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    <a class="btn btn-success" href="{{pathFor 'newNotification'}}">Add Notification</a>
+  </div>
+</template>

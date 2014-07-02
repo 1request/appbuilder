@@ -17,19 +17,6 @@
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>
       </div>
-      <div class="col-md-6">
-        <table class="table">
-          <tbody>
-            {{# each notifications}}
-              <tr>
-                <td>{{dateFormat createdAt}}</td>
-                <td>{{message}} <a href="{{outsideUrl url}}">{{url}}</a></td>
-              </tr>
-            {{/ each}}
-            <tr><td></td><td></td></tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 </template>
