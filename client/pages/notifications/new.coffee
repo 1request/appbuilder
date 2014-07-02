@@ -1,13 +1,4 @@
 Template.newNotification.helpers
-  notifications: -> 
-    Notifications.find({appKey: Session.get 'mobileAppKey'}, {sort: {createdAt: -1}})
-  dateFormat: (date) ->
-    moment(date).format('MMM DD')
-  outsideUrl: (url) ->
-    if url.match("http://")
-      url
-    else
-      "http://" + url
 
 Template.newNotification.events
   'submit form': (e) ->
