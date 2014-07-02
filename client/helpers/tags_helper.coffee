@@ -1,7 +1,7 @@
-@runSelect2 = ->
+@runSelect2 = (val) ->
   $('#tags').select2
     tags: _.pluck Tags.find().fetch(), 'text'
-  $('#tags').select2('val', Session.get('selectedTags'))
+  $('#tags').select2('val', val)
 
 @setSelectedTags = (tags) ->
   _.pluck(Tags.find(_id: {$in: tags}).fetch(), 'text')

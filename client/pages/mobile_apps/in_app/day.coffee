@@ -6,6 +6,7 @@ Template.day.helpers
 
 Template.day.rendered = ->
   date = @data
-  unless moment().date() == @.valueOf()
+  @countDep = Deps.autorun ->
+    Counts.findOne()
     Meteor.call 'dayCount', Session.get('deviceId'), Session.get('mobileAppKey'), date, (error, result) ->
       Session.set "day#{date}", result

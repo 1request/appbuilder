@@ -18,7 +18,7 @@ Template.editMobileApp.rendered = ->
       Session.set('selectedTags', setSelectedTags(app.tags))
       Session.set('deviceId', MobileAppUsers.findOne(appKey: Session.get 'mobileAppKey').deviceId)
       $('#selected-app').val("#{Session.get 'mobileAppKey'}")
-      runSelect2()
+      runSelect2(Session.get('selectedTags'))
 
 Template.editMobileApp.events
   'keyup input[name=name]': (e, context) ->
