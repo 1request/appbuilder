@@ -86,12 +86,18 @@ if MobileApps.find().count() is 0
       tags: _.pluck Tags.find(text: {$in: tags1}).fetch(), '_id'
     }, {
       userId: userId
-      name: 'demo'
+      name: 'Garage'
       tags: _.pluck Tags.find(text: {$in: tags2}).fetch(), '_id'
     }
   ]
   for mobileApp in mobileApps
     MobileApps.insert mobileApp
+  kodw = MobileApps.findOne(name: 'KODW')
+  id = MobileAppUsers.findOne(appKey: kodw.appKey)
+  MobileAppUsers.update id,
+    $set:
+      token: 'edf738034d2c903cba3a985bb466baedc22c7636ab976e9adb46d4480d8cec96'
+      deviceType: 'iOS'
 
 if Logs.find().count() is 0
   randomTimestamp = (momentObj, times) ->

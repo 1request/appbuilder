@@ -16,4 +16,4 @@ Template.alert.rendered = ->
     Alerts.update alert._id, $set: {seen: true}
   Meteor.setTimeout ->
     clearAlerts()
-  , 300000000
+  , 3000

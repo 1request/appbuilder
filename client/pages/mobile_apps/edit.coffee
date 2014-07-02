@@ -76,5 +76,4 @@ Template.editMobileApp.events
 
 Template.editMobileApp.destroyed = ->
   if @editMobileAppDep then @editMobileAppDep.stop()
-  if @p12Dep then @p12Dep.stop()
   delete Session.keys['p12']

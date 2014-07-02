@@ -1,5 +1,5 @@
 @P12s = new FS.Collection 'p12s',
-  stores: [new FS.Store.FileSystem('p12s', path: '~/uploads/p12s')]
+  stores: [new FS.Store.FileSystem('p12s', path: "#{Meteor.settings.public.storageDirectory}/p12s")]
   filter:
     maxSize: 4096
     allow:
@@ -15,7 +15,7 @@ P12s.allow
     true
 
 @Pems = new FS.Collection 'pems',
-  stores: [new FS.Store.FileSystem('pems', path: '~/uploads/pems')]
+  stores: [new FS.Store.FileSystem('pems', path: "#{Meteor.settings.public.storageDirectory}/pems")]
   filter:
     maxSize: 4096
     allow:
@@ -51,9 +51,9 @@ processP12 = (id) ->
 
     fut         = new Future()
     p12         = P12s.findOne(id)
-    p12Path     = Meteor.settings.storageDirectory + 'p12s/' + p12.copies.p12s.key
-    certPemPath = Meteor.settings.storageDirectory + 'tmp/cert-' + p12._id + '.pem'
-    keyPemPath  = Meteor.settings.storageDirectory + 'tmp/key-' + p12._id + '.pem'
+    p12Path     = Meteor.settings.public.storageDirectory + 'p12s/' + p12.copies.p12s.key
+    certPemPath = Meteor.settings.public.storageDirectory + 'tmp/cert-' + p12._id + '.pem'
+    keyPemPath  = Meteor.settings.public.storageDirectory + 'tmp/key-' + p12._id + '.pem'
 
     exec "openssl pkcs12 -in #{p12Path} -out #{certPemPath} -clcerts -nokeys -password pass:", { timeout: 100 }, (error, stdout, stderr) ->
       if /password/i.test stderr.toString()
