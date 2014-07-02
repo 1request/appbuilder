@@ -90,3 +90,6 @@ Meteor.publish 'mobileAppUsers', (options) ->
 Meteor.publish 'notifications', (options) ->
   if options.appKey
     Notifications.find({appKey: options.appKey})
+
+Meteor.publish 'p12s', (options) ->
+  P12s.find()
