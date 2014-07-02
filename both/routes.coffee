@@ -46,6 +46,7 @@ Router.map ->
   @route 'newMobileApp',  { path: '/apps/new',      controller: MobileApps.new }
   @route 'editMobileApp', { path: '/apps/edit',     controller: MobileApps.edit }
 
+  @route 'instantNotifications', { path: '/apps/instantNotifications', controller: Notifications.instantNotifications }
   @route 'newNotification',  { path: '/notifications/new',      controller: Notifications.new }
 
 requireLogin = (pause) ->
