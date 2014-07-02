@@ -2,7 +2,7 @@
   {{> header}}
   {{> alerts}}
   <div class="container">
-    <h2>Instant Notifications</h2>
+    <h2>{{title}}</h2>
     {{#if notifications}}
       <table class="table table-striped">
         <thead>
@@ -32,6 +32,6 @@
       </table>
     {{/if}}
 
-    <a class="btn btn-success" href="{{pathFor 'newNotification'}}">Add Instant Notification</a>
+    <a class="btn btn-success" href="{{pathFor 'newNotification'}}">Add Notification</a>
   </div>
 </template>
