@@ -17,8 +17,6 @@ setDropZone = (callback) ->
 
 
 Template.editMobileApp.helpers
-  mobileApps: ->
-    MobileApps.find()
   mobileApp: ->
     MobileApps.findOne(appKey: Session.get 'mobileAppKey')
   deviceId: ->
@@ -38,7 +36,7 @@ Template.editMobileApp.rendered = ->
       Session.set('selectedTags', setSelectedTags(app.tags))
       Session.set('deviceId', MobileAppUsers.findOne(appKey: Session.get 'mobileAppKey').deviceId)
       $('#selected-app').val("#{Session.get 'mobileAppKey'}")
-      runSelect2()
+      runSelect2(Session.get('selectedTags'))
 
   @p12Dep = ->
     Deps.autorun (computation) ->
@@ -68,13 +66,6 @@ Template.editMobileApp.events
 
   'submit form': (e) ->
     e.preventDefault()
-
-  'change #selected-app': (e, context) ->
-    Session.set 'mobileAppKey', e.target.value
-    Session.set 'deviceId', MobileAppUsers.findOne(appKey: e.target.value).deviceId
-    mobileApp = MobileApps.findOne(appKey: e.target.value)
-    Session.set 'selectedTags', setSelectedTags(mobileApp.tags)
-    runSelect2()
 
   'change #tags': (e) ->
     mobileApp = MobileApps.findOne(appKey: Session.get('mobileAppKey'))

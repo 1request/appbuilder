@@ -9,7 +9,6 @@ Router.map ->
     path: '/app/:appKey/notification'
     waitOn: ->
       Meteor.subscribe 'notifications', { appKey: @params.appKey }
-      Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
 
   @route 'mobileApp',
     path: 'app/:appKey/:deviceId'
@@ -21,7 +20,6 @@ Router.map ->
       Session.set('deviceId', @params.deviceId)
     waitOn: ->
       createAppUser(@params)
-      Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
       Meteor.subscribe 'mobileAppUsers', { appKey: @params.appKey, deviceId: @params.deviceId }
       Meteor.subscribe 'counts-by-mobileAppUser', { appKey: @params.appKey, deviceId: @params.deviceId }
 
@@ -31,14 +29,12 @@ Router.map ->
       Session.set('mobileAppKey', @params.appKey)
       Session.set('deviceId', @params.deviceId)
     waitOn: ->
-      Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
       Meteor.subscribe 'mobileAppUsers', { appKey: @params.appKey, deviceId: @params.deviceId }
       Meteor.subscribe 'counts-by-mobileAppUser', { appKey: @params.appKey, deviceId: @params.deviceId }
 
   @route 'dashboard',
     path: 'dashboard'
     waitOn: ->
-      Meteor.subscribe 'mobileApps', {}
       Meteor.subscribe 'mobileAppUsers', {}
 
   @route 'beacons',    { path: '/beacons',          controller: Beacons.index }
@@ -72,3 +68,5 @@ Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()
 Router.onBeforeAction requireLogin, { except: ['main', 'mobileApp', 'notification', 'monthlyLog'] }
 Router.onBeforeAction afterLogin, { only: 'main' }
+Router.waitOn -> 
+  Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
