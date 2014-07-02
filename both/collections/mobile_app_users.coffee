@@ -10,7 +10,7 @@ MobileAppUsers.before.update (userId, doc, fieldNames, modifier, options) ->
 
 Meteor.methods
   'createMobileAppUser': (appKey, deviceId) ->
-    unless MobileAppUsers.findOne(deviceId: deviceId)
+    unless MobileAppUsers.findOne(deviceId: deviceId, appKey: appKey)
       MobileAppUsers.insert
         deviceId: deviceId
         appKey:   appKey
