@@ -23,8 +23,8 @@ Template.editBeacon.rendered = ->
   @editBeaconDep = Deps.autorun ->
     beacon = Beacons.findOne()
     if beacon
-      Session.set('selectedTags', setSelectedTags(beacon.tags))
-      runSelect2(Session.get('selectedTags'))
+      Session.set('selectedZones', setSelectedZones(beacon.zones))
+      runSelect2(Session.get('selectedZones'))
 
 Template.editBeacon.destroyed = ->
   if @editBeaconDep

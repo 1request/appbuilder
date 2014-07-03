@@ -11,5 +11,5 @@ Template.newBeacon.events
         Router.go('beacons')
 
 Template.newBeacon.rendered = ->
-  $('#tags').select2
-    tags: _.pluck Tags.find().fetch(), 'text'
+  $('#zones').select2()
+    # zones: _.pluck Zones.find().fetch(), 'text'

@@ -1,6 +1,6 @@
 Template.beaconDetail.helpers
-  tags: ->
-    _.pluck(Tags.find(_id: {$in: @tags}).fetch(), 'text').join(', ')
+  zones: ->
+    _.pluck(Zones.find(_id: {$in: @zones}).fetch(), 'text').join(', ')
 
 Template.beaconDetail.events
   'click a[data-remove]': (e) ->

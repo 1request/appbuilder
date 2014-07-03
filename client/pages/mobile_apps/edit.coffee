@@ -23,9 +23,9 @@ Template.editMobileApp.helpers
     Session.get 'deviceId'
   path: ->
     Router.routes['mobileApp'].path({deviceId: Session.get('deviceId'), appKey: Session.get('mobileAppKey')})
-  selectedTags: ->
-    if Session.get 'selectedTags'
-      _.pluck(Tags.find(text: {$in: Session.get 'selectedTags'}).fetch(), 'text').join(',')
+  selectedZones: ->
+    if Session.get 'selectedZones'
+      _.pluck(Zones.find(text: {$in: Session.get 'selectedZones'}).fetch(), 'text').join(',')
 
 Template.editMobileApp.rendered = ->
 
@@ -33,10 +33,10 @@ Template.editMobileApp.rendered = ->
     if MobileApps.findOne()
       Session.setDefault('mobileAppKey', MobileApps.findOne().appKey)
       app = MobileApps.findOne(appKey: Session.get 'mobileAppKey')
-      Session.set('selectedTags', setSelectedTags(app.tags))
+      Session.set('selectedZones', setSelectedZones(app.zones))
       Session.set('deviceId', MobileAppUsers.findOne(appKey: Session.get 'mobileAppKey').deviceId)
       $('#selected-app').val("#{Session.get 'mobileAppKey'}")
-      runSelect2(Session.get('selectedTags'))
+      runSelect2(Session.get('selectedZones'))
 
   @p12Dep = ->
     Deps.autorun (computation) ->
@@ -67,12 +67,12 @@ Template.editMobileApp.events
   'submit form': (e) ->
     e.preventDefault()
 
-  'change #tags': (e) ->
+  'change #zones': (e) ->
     mobileApp = MobileApps.findOne(appKey: Session.get('mobileAppKey'))
     if e.added
-      MobileApps.update mobileApp._id, $addToSet: {tags: Tags.findOne(text: e.added.text)._id}
+      MobileApps.update mobileApp._id, $addToSet: {zones: Zones.findOne(text: e.added.text)._id}
     else
-      MobileApps.update mobileApp._id, $pull: {tags: Tags.findOne(text: e.removed.text)._id}
+      MobileApps.update mobileApp._id, $pull: {zones: Zones.findOne(text: e.removed.text)._id}
 
 Template.editMobileApp.destroyed = ->
   if @editMobileAppDep then @editMobileAppDep.stop()
