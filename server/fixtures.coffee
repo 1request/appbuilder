@@ -87,6 +87,7 @@ if MobileApps.find().count() is 0
     }, {
       userId: userId
       name: 'Garage'
+      appKey: 'ff4d7e089391392c14547f2d'
       zones: _.pluck Zones.find(text: {$in: zones2}).fetch(), '_id'
     }
   ]

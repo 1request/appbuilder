@@ -73,6 +73,6 @@ Meteor.methods
       pushTokens = PushTokens
         .find(appKey: attributes.appKey, pushType: 'ios')
         .fetch()
-
-      for token in pushTokens
-        notifyIOS(attributes.message, attributes.appKey, token.pushToken)
+      if pushTokens
+        for token in pushTokens
+          notifyIOS(attributes.message, attributes.appKey, token.pushToken)
