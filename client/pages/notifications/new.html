@@ -11,10 +11,6 @@
             <input type="text" class="form-control" name="message" id="message" placeholder="text here...">
           </div>
           <div class="form-group">
-            <label for="url">URL</label>
-            <input type="text" class="form-control" name="url" id="url" placeholder="text here...">
-          </div>
-          <div class="form-group">
             <label for="type">Type</label>
             <select class="form-control" name="type" id="type">
               <option value="instant" selected="{{location}}">Instant Notification</option>
@@ -23,6 +19,21 @@
           </div>
           {{#if location}}
             {{> notificationZone}}
+          {{/if}}
+          <div class="form-group">
+            <label for="action">Action</label>
+            <select class="form-control" name="action" id="action">
+              <option value="message">Only message</option>
+              <option value="url">Open web page</option>
+              <option value="image">Open image</option>
+              <option value="video">Open video</option>
+            </select>
+          </div>
+          {{#if url}}
+            <div class="form-group">
+              <label for="url">URL</label>
+              <input type="text" class="form-control" name="url" id="url" placeholder="text here...">
+            </div>
           {{/if}}
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>

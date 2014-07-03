@@ -82,3 +82,10 @@ setHover = (graphId) ->
     else
       $("#flot-tooltip").remove()
       previousPoint = null
+
+@showAction = (action) ->
+  switch action
+    when 'message'  then 'Message only'
+    when 'url'      then 'Open web page'
+    when 'image'    then 'Open image'
+    when 'video'    then 'Open video'

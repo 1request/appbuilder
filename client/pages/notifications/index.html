@@ -10,7 +10,7 @@
             <th>Time</th>
             <th>Message</th>
             <th>Type</th>
-            <th></th>
+            <th>Link</th>
           </tr>
         </thead>
         <tbody>
@@ -18,13 +18,7 @@
           <tr>
             <td>{{timeFormat createdAt}}</td>
             <td>{{message}}</td>
-            <td>
-              {{#if url}}
-                Open URL
-              {{else}}
-                Push Notification
-              {{/if}}
-            </td>
+            <td>{{showAction action}}</td>
             <td>{{url}}</td>
           </tr>
         {{/each}}

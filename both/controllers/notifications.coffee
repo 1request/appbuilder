@@ -26,6 +26,7 @@ Notifications.new = AppController.extend
   template: 'newNotification'
   onStop: ->
     Session.set 'location', null
+    Session.set "url", null
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}
     Meteor.subscribe 'zones', {}

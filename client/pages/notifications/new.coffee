@@ -12,6 +12,9 @@ createNotification = (notification) ->
 Template.newNotification.helpers
   location: ->
     Session.get('location')
+  url: ->
+    Session.get('url')
+
 
 Template.newNotification.rendered = ->
   Session.setDefault('location', false)
@@ -23,32 +26,35 @@ Template.newNotification.events
     else
       Session.set "location", false
 
+  'change #action': (e) ->
+    if e.target.value is 'url'
+      Session.set "url", true
+    else
+      Session.set "url", false
+
   'submit form': (e) ->
     e.preventDefault()
     message = $('input[name="message"]').val()
     url = $('input[name="url"]').val()
     type = $('select[name="type"]').val()
+    action = $('select[name="action"]').val()
+    zone = $('select[name="zone"]').val()
 
     notification =
       appKey: Session.get('mobileAppKey')
       message: message
       type: type
-      url: url
+      action: action
+
+    if action is 'url' then _.extend notification, { url: url }
+    if type is 'location' then _.extend notification, { zone: zone }
 
     unless !!message
       throwAlert('Please provide message')
-    else unless !!url
+    else if action is 'url' and !url
       throwAlert('Please provide url')
-    else if type is 'instant'
-      createNotification(notification)
     else
-      zone = $('select[name="zone"]').val()
-      notification = _.extend notification, { zone: zone }
       createNotification(notification)
-
-Template.newNotification.destroyed = ->
-  delete Session.keys['location']
-
 
 
 

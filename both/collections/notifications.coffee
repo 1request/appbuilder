@@ -42,6 +42,12 @@ Meteor.methods
     unless !!attributes.message
       throw new Meteor.Error(422, 'Please fill in message')
 
+    unless !!attributes.action
+      throw new Meteor.Error(422, 'Please fill in action')
+
+    unless attributes.action in ['message', 'url', 'image', 'video']
+      throw new Meteor.Error(422, 'Please fill in correct action')
+
     unless !!attributes.type
       throw new Meteor.Error(422, 'Please fill in type')
 
@@ -51,12 +57,15 @@ Meteor.methods
     notification =
       appKey    : attributes.appKey
       message   : attributes.message
-      url       : attributes.url
       type      : attributes.type
+      action    : attributes.action
       createdAt : Date.now()
 
     if attributes.type is 'location'
       _.extend notification, { zone: attributes.zone }
+
+    if attributes.action is 'url'
+      _.extend notification, { url: attributes.url }
 
     Notifications.insert notification
 
