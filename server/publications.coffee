@@ -88,7 +88,7 @@ Meteor.publish 'mobileAppUsers', (options) ->
     MobileAppUsers.find({appKey: { $in: appKeys }}, {sort: {createdAt: 1}})
 
 Meteor.publish 'notifications', (options) ->
-  Notifications.find({appKey: options.appKey})
+  Notifications.find({appKey: options.appKey, type: options.type})
 
 Meteor.publish 'p12s', (options) ->
   P12s.find()

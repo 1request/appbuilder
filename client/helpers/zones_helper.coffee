@@ -1,6 +1,5 @@
 @runSelect2 = (val) ->
   if val
-    console.log 'text: ', _.pluck(Zones.find().fetch(), 'text')
     $('#zones').select2
       tags: _.pluck(Zones.find().fetch(), 'text')
     $('#zones').select2('val', val)
