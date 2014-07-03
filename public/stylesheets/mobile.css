@@ -384,11 +384,11 @@ div.gallery-item img { display: block; width: 100%; height: auto; }
 #loaderInner { left: 50%; margin: -50px 0 0 -62px; position: absolute; top: 50%; color: #fff; font-size: 25px; }
 #loaderInner p { margin-left: 22px; font-size: 17px; }
 
-.tag {
+.zone {
   margin-bottom: 10px;
 }
 
-.tag-name {
+.zone-name {
   font-size: 30px;
   padding-top: 10px;
 }

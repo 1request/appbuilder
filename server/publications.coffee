@@ -10,39 +10,39 @@ Meteor.publish 'beacons', (options) ->
   else
     Beacons.find({userId: @userId}, {sort: {createdAt: 1}})
 
-Meteor.publish 'tags', (options) ->
+Meteor.publish 'zones', (options) ->
   if options.deviceId
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
     app = MobileApps.findOne(appKey: mobileAppUser.appKey)
-    Tags.find({_id: {$in: app.tags}}, {sort: {text: 1}})
+    Zones.find({_id: {$in: app.zones}}, {sort: {text: 1}})
   else
-    Tags.find({userId: @userId}, {sort: {text: 1}})
+    Zones.find({userId: @userId}, {sort: {text: 1}})
 
-Meteor.publish 'mobileTags', (options) ->
+Meteor.publish 'mobileZones', (options) ->
   self = @
   mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
-  tags = MobileApps.findOne(appKey: mobileAppUser.appKey).tags
+  zones = MobileApps.findOne(appKey: mobileAppUser.appKey).zones
 
   initializing = true
 
-  for tag in Tags.find(_id: {$in: tags}).fetch()
-    self.added 'tags', tag._id, tag
+  for zone in Zones.find(_id: {$in: zones}).fetch()
+    self.added 'zones', zone._id, zone
 
-  tagHandler = MobileApps.find(appKey: mobileAppUser.appKey).observe
+  zoneHandler = MobileApps.find(appKey: mobileAppUser.appKey).observe
     changed: (newDocument, oldDocument) ->
       unless initializing
-        added   = _.difference newDocument.tags, oldDocument.tags
-        removed = _.difference oldDocument.tags, newDocument.tags
+        added   = _.difference newDocument.zones, oldDocument.zones
+        removed = _.difference oldDocument.zones, newDocument.zones
         if added.length
-          self.added 'tags', added[0], Tags.findOne added[0]
+          self.added 'zones', added[0], Zones.findOne added[0]
         if removed.length
-          self.removed 'tags', removed[0]
+          self.removed 'zones', removed[0]
 
   initializing = false
 
   self.ready()
   self.onStop ->
-    tagHandler.stop()
+    zoneHandler.stop()
 
 Meteor.publish 'counts-by-mobileAppUser', (options) ->
   self = @
@@ -88,7 +88,7 @@ Meteor.publish 'mobileAppUsers', (options) ->
     MobileAppUsers.find({appKey: { $in: appKeys }}, {sort: {createdAt: 1}})
 
 Meteor.publish 'notifications', (options) ->
-  Notifications.find({appKey: options.appKey})
+  Notifications.find({appKey: options.appKey, type: options.type})
 
 Meteor.publish 'p12s', (options) ->
   P12s.find()

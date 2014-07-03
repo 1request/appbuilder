@@ -42,12 +42,26 @@ Meteor.methods
     unless !!attributes.message
       throw new Meteor.Error(422, 'Please fill in message')
 
+    unless !!attributes.type
+      throw new Meteor.Error(422, 'Please fill in type')
+
+    unless attributes.type is 'instant' or attributes.type is 'location'
+      throw new Meteor.Error(422, 'Please fill in correct type')
+
     notification =
       appKey    : attributes.appKey
       message   : attributes.message
       url       : attributes.url
+      type      : attributes.type
       createdAt : Date.now()
 
+    if attributes.type is 'location'
+      _.extend notification, { zone: attributes.zone }
+
     Notifications.insert notification
-    for mobileAppUser in MobileAppUsers.find(appKey: attributes.appKey, deviceType: 'iOS').fetch()
-      notifyIOS(attributes.message, attributes.appKey, mobileAppUser.token)
+
+    if attributes.type is 'instant'
+      query = {appKey: attributes.appKey, deviceType: 'iOS'}
+      users = MobileAppUsers.find(query).fetch()
+      for mobileAppUser in users
+        notifyIOS(attributes.message, attributes.appKey, mobileAppUser.token)

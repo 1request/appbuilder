@@ -9,13 +9,13 @@ processBeaconData = (beaconAttributes) ->
   unless beaconAttributes.uuid or beaconAttributes.major or beaconAttributes.minor
     throw new Meteor.Error(422, 'Please fill in uuid, major, minor')
 
-  tags = if beaconAttributes.tags
-    _.flatten [beaconAttributes.tags.split(',')]
+  zones = if beaconAttributes.zones
+    _.flatten [beaconAttributes.zones.split(',')]
   else
-    beaconAttributes.tags = []
+    beaconAttributes.zones = []
   beacon = _.extend(_.pick(beaconAttributes, '_id', 'uuid', 'notes'), {
     userId: user._id
-    tags: tags
+    zones: zones
     major: parseInt(beaconAttributes.major)
     minor: parseInt(beaconAttributes.minor)
     })
@@ -32,7 +32,7 @@ Meteor.methods
       major: beacon.major,
       minor: beacon.minor,
       notes: beacon.notes,
-      tags: beacon.tags,
+      zones: beacon.zones,
       userId: beacon.userId
     }
 
@@ -48,21 +48,21 @@ Beacons.allow
     !! userId
 
 Beacons.before.insert (userId, doc) ->
-  for tag in doc.tags
-    Tags.upsert {text: tag, userId: doc.userId}, $addToSet: { beacons: doc._id }
-  doc.tags = _.pluck Tags.find(text: {$in: doc.tags}).fetch(), '_id'
+  for zone in doc.zones
+    Zones.upsert {text: zone, userId: doc.userId}, $addToSet: { beacons: doc._id }
+  doc.zones = _.pluck Zones.find(text: {$in: doc.zones}).fetch(), '_id'
   doc.createdAt = Date.now()
   doc.updatedAt = doc.createdAt
 
 Beacons.before.update (userId, doc, fieldNames, modifier, options) ->
-  for tag in doc.tags
-    Tags.update tag._id, $pull: { beacons: doc._id }
-  for tag in modifier.$set.tags
-    Tags.upsert {text: tag, userId: doc.userId}, $addToSet: { beacons: doc._id }
-  tag_ids = _.pluck Tags.find(text: {$in: modifier.$set.tags}).fetch(), '_id'
-  modifier.$set.tags = tag_ids
+  for zone in doc.zones
+    Zones.update zone._id, $pull: { beacons: doc._id }
+  for zone in modifier.$set.zones
+    Zones.upsert {text: zone, userId: doc.userId}, $addToSet: { beacons: doc._id }
+  zone_ids = _.pluck Zones.find(text: {$in: modifier.$set.zones}).fetch(), '_id'
+  modifier.$set.zones = zone_ids
   modifier.$set.updatedAt = Date.now()
 
 Beacons.after.remove (userId, doc) ->
-  for tag in Tags.find(beacons: doc._id).fetch()
-    Tags.update tag._id, $pull: { beacons: doc._id }
+  for zone in Zones.find(beacons: doc._id).fetch()
+    Zones.update zone._id, $pull: { beacons: doc._id }

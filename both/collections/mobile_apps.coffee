@@ -18,7 +18,7 @@ MobileApps.before.insert (userId, doc) ->
   doc.createdAt = Date.now()
   doc.updatedAt = doc.createdAt
   doc.userId    = userId unless doc.userId
-  doc.tags      = [] unless doc.tags
+  doc.zones     = [] unless doc.zones
   doc.appKey    = new Meteor.Collection.ObjectID()._str unless doc.appKey
   createDemoUser(doc)
 

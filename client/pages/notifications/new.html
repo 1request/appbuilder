@@ -3,17 +3,27 @@
   {{> alerts}}
   <div class="container">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <h2>Notifications</h2>
         <form role="form">
           <div class="form-group">
-            <label for="tags">Message</label>
+            <label for="message">Message</label>
             <input type="text" class="form-control" name="message" id="message" placeholder="text here...">
           </div>
           <div class="form-group">
-            <label for="tags">URL</label>
+            <label for="url">URL</label>
             <input type="text" class="form-control" name="url" id="url" placeholder="text here...">
           </div>
+          <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control" name="type" id="type">
+              <option value="instant" selected="{{location}}">Instant Notification</option>
+              <option value="location" selected="{{location}}">Location Based Notification</option>
+            </select>
+          </div>
+          {{#if location}}
+            {{> notificationZone}}
+          {{/if}}
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>
       </div>

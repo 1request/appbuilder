@@ -1,20 +1,20 @@
 MobileApps.index = AppController.extend
   template: 'mobileApps'
   waitOn: ->
-    Meteor.subscribe 'tags', {}
+    Meteor.subscribe 'zones', {}
     Meteor.subscribe 'mobileApps', {}
 
 MobileApps.new = AppController.extend
   template: 'newMobileApp'
   waitOn: ->
-    Meteor.subscribe 'tags', {}
+    Meteor.subscribe 'zones', {}
 
 MobileApps.edit = AppController.extend
   template: 'editMobileApp'
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}
     Meteor.subscribe 'mobileAppUsers', {}
-    Meteor.subscribe 'tags', {}
+    Meteor.subscribe 'zones', {}
     Meteor.subscribe 'p12s', {}
 
 MobileApps.createMobileApp = (data, callback) ->
