@@ -1,0 +1,1 @@
+@PushTokens = new Meteor.Collection 'pushTokens'

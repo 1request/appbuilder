@@ -12,9 +12,9 @@ setNotificationNote = (apn, message) ->
     note
 
 notifyIOS = (message, appKey, token) ->
-  apn = Meteor.require 'apn'
+  apn       = Meteor.require 'apn'
   mobileApp = MobileApps.findOne(appKey: appKey)
-  base = "#{Meteor.settings.public.storageDirectory}pems/"
+  base      = "#{Meteor.settings.public.storageDirectory}pems/"
   cert      = Pems.findOne(mobileApp.cert)
   key       = Pems.findOne(mobileApp.key)
 
@@ -70,7 +70,9 @@ Meteor.methods
     Notifications.insert notification
 
     if attributes.type is 'instant'
-      query = {appKey: attributes.appKey, deviceType: 'iOS'}
-      users = MobileAppUsers.find(query).fetch()
-      for mobileAppUser in users
-        notifyIOS(attributes.message, attributes.appKey, mobileAppUser.token)
+      pushTokens = PushTokens
+        .find(appKey: attributes.appKey, pushType: 'ios')
+        .fetch()
+
+      for token in pushTokens
+        notifyIOS(attributes.message, attributes.appKey, token.pushToken)

@@ -1,5 +1,7 @@
 @db = {}
 
+@PushTokens = {}
+
 @Beacons = {}
 
 @MobileApps = {}
