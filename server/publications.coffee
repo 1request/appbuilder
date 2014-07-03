@@ -15,6 +15,9 @@ Meteor.publish 'zones', (options) ->
     mobileAppUser = MobileAppUsers.findOne(deviceId: options.deviceId)
     app = MobileApps.findOne(appKey: mobileAppUser.appKey)
     Zones.find({_id: {$in: app.zones}}, {sort: {text: 1}})
+  else if options.appKey
+    app = MobileApps.findOne(appKey: options.appKey)
+    Zones.find({_id: {$in: app.zones}}, {sort: {text: 1}})
   else
     Zones.find({userId: @userId}, {sort: {text: 1}})
 

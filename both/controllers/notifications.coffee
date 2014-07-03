@@ -29,5 +29,5 @@ Notifications.new = AppController.extend
     Session.set "url", null
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}
-    Meteor.subscribe 'zones', {}
+    Meteor.subscribe 'zones', {appKey: Session.get('mobileAppKey')}
     Meteor.subscribe 'notifications', {appKey: Session.get('mobileAppKey')}
