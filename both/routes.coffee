@@ -8,7 +8,7 @@ Router.map ->
   @route 'notification',
     path: '/app/:appKey/notification'
     waitOn: ->
-      Meteor.subscribe 'notifications', { appKey: @params.appKey }
+      Meteor.subscribe 'notifications', { appKey: @params.appKey, type: 'instant' }
 
   @route 'mobileApp',
     path: 'app/:appKey/:deviceId'
