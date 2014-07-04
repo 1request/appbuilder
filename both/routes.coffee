@@ -20,6 +20,7 @@ Router.map ->
       Session.set('deviceId', @params.deviceId)
     waitOn: ->
       createAppUser(@params)
+      Meteor.subscribe 'mobileApps', { appKey: @params.appKey }
       Meteor.subscribe 'mobileAppUsers', { appKey: @params.appKey, deviceId: @params.deviceId }
       Meteor.subscribe 'counts-by-mobileAppUser', { appKey: @params.appKey, deviceId: @params.deviceId }
 
