@@ -1,0 +1,35 @@
+<template name="lbNotifications">
+  {{> header}}
+  {{> alerts}}
+  <div class="container">
+    <h2>Location Based Notification</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Zone</th>
+            <th>Action</th>
+            <th>Message</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each zones}}
+          {{> zoneNotifications}}
+        {{/each}}
+        </tbody>
+      </table>
+
+    <a class="btn btn-success" href="{{pathFor 'newNotification'}}">Add Notification</a>
+  </div>
+</template>
+
+<template name="zoneNotifications">
+  <tr>
+    <td>{{text}}</td>
+    <td>No Action</td>
+    <td></td>
+    <td>
+      <a href="{{pathFor 'newNotification'}}" class="btn btn-info">Edit</a>
+    </td>
+  </tr>
+</template>

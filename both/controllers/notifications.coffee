@@ -11,13 +11,11 @@ Notifications.instantNotifications = AppController.extend
       type: 'instant'
 
 Notifications.lbNotifications = AppController.extend
-  template: 'notifications'
-  data:
-    title: -> 'Location Based Notifications'
-    showZone: -> true
+  template: 'lbNotifications'
   onAfterAction: ->
     Session.set('location', true)
   waitOn: ->
+    Meteor.subscribe 'zones', {}
     Meteor.subscribe 'notifications',
       appKey: Session.get('mobileAppKey')
       type: 'location'
