@@ -10,6 +10,7 @@
             <th>Action</th>
             <th>Message</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +31,9 @@
     <td></td>
     <td>
       <a href="{{pathFor 'editLbNotifications' zone=this._id}}" class="btn btn-info">Edit</a>
+    </td>
+    <td>
+      <a href="#" data-remove="{{_id}}" class="btn btn-danger delete-beacon">Delete</a>
     </td>
   </tr>
 </template>

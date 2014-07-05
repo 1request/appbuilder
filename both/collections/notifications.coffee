@@ -31,6 +31,13 @@ notifyIOS = (message, appKey, token) ->
   apnConnection.pushNotification(note, device)
 
 Meteor.methods
+  'destroyNotification': (notificationId) ->
+    user = Meteor.user()
+    unless user
+      throw new Meteor.Error(401, 'You need to login to delete existing beacons')
+
+    Notifications.remove notificationId
+
   'createNotification': (attributes) ->
     user = Meteor.user()
     unless user

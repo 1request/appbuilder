@@ -11,6 +11,7 @@
             <th>Message</th>
             <th>Type</th>
             <th>Link</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -20,6 +21,9 @@
             <td>{{message}}</td>
             <td>{{showAction action}}</td>
             <td>{{url}}</td>
+            <td>
+              <a href="#" data-remove="{{_id}}" class="btn btn-danger delete-beacon">Delete</a>
+            </td>
           </tr>
         {{/each}}
         </tbody>
