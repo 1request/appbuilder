@@ -10,6 +10,8 @@ createNotification = (notification) ->
       throwAlert("successfully send notification")
 
 Template.newNotification.helpers
+  zone: ->
+    Zones.findOne(_id: Session.get 'zone')
   location: ->
     Session.get('location')
   url: ->
@@ -36,9 +38,12 @@ Template.newNotification.events
     e.preventDefault()
     message = $('input[name="message"]').val()
     url = $('input[name="url"]').val()
-    type = $('select[name="type"]').val()
+    type = if Session.get 'location'
+      'location'
+    else
+      'instant'
     action = $('select[name="action"]').val()
-    zone = $('select[name="zone"]').val()
+    zone = Session.get 'zone'
 
     notification =
       appKey: Session.get('mobileAppKey')

@@ -76,3 +76,7 @@ Meteor.methods
       if pushTokens
         for token in pushTokens
           notifyIOS(attributes.message, attributes.appKey, token.pushToken)
+
+Notifications.allow
+  update: ->
+    true
