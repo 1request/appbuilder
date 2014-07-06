@@ -25,15 +25,31 @@
 </template>
 
 <template name="zoneNotifications">
-  <tr>
-    <td>{{text}}</td>
-    <td>No Action</td>
-    <td></td>
-    <td>
-      <a href="{{pathFor 'editLbNotifications' zone=this._id}}" class="btn btn-info">Edit</a>
-    </td>
-    <td>
-      <a href="#" data-remove="{{_id}}" class="btn btn-danger delete-beacon">Delete</a>
-    </td>
-  </tr>
+  {{#if hasNotifications}}
+    {{#each notifications}}
+      <tr>
+        <td>{{zone.text}}</td>
+        <td>{{showAction action}}</td>
+        <td>{{message}}</td>
+        <td>
+          <a href="{{pathFor 'editLbNotifications' zone=zone._id}}" class="btn btn-info">Edit</a>
+        </td>
+        <td>
+          <a href="#" data-remove="{{this._id}}" class="btn btn-danger delete-beacon">Delete</a>
+        </td>
+      </tr>
+    {{/each}}
+  {{else}}
+    <tr>
+      <td>{{this.text}}</td>
+      <td>No Action</td>
+      <td></td>
+      <td>
+        <a href="{{pathFor 'editLbNotifications' zone=this._id}}" class="btn btn-info">Edit</a>
+      </td>
+      <td>
+        <a href="#" data-remove="{{this._id}}" class="btn btn-danger delete-beacon disabled">Delete</a>
+      </td>
+    </tr>
+  {{/if}}
 </template>
