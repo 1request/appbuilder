@@ -29,6 +29,7 @@ Notifications.editLbNotifications = AppController.extend
       Session.set 'notification', notification._id
       Session.set 'showUrl', !!notification.url
       Session.set 'url', notification.url
+      Session.set 'message', notification.message
 
   onStop: ->
     Session.set 'location', null
@@ -37,6 +38,7 @@ Notifications.editLbNotifications = AppController.extend
     Session.set 'showUrl', null
     Session.set 'url', null
     Session.set 'inApp', null
+    Session.set 'message', null
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}
     Meteor.subscribe 'zones', {_id: Session.get 'zone'}
