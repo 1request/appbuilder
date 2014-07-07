@@ -23,14 +23,19 @@ Notifications.editLbNotifications = AppController.extend
   onAfterAction: ->
     Session.set 'location', true
     Session.set 'zone', @params.zone
+    if @params.id
+      notification = Notifications.findOne(@params.id)
+      Session.set 'notification', notification._id
+      Session.set 'url', notification.url
   onStop: ->
     Session.set 'location', null
     Session.set 'zone', null
+    Session.set 'notification', null
     Session.set 'url', null
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}
     Meteor.subscribe 'zones', {_id: Session.get 'zone'}
-    Meteor.subscribe 'notifications', {appKey: Session.get 'mobileAppKey'}
+    Meteor.subscribe 'notifications', {appKey: Session.get('mobileAppKey')}
 
 Notifications.new = AppController.extend
   template: 'newNotification'

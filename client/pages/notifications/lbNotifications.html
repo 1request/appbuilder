@@ -7,8 +7,9 @@
         <thead>
           <tr>
             <th>Zone</th>
-            <th>Action</th>
             <th>Message</th>
+            <th>Action</th>
+            <th>Link</th>
             <th></th>
             <th></th>
           </tr>
@@ -19,8 +20,6 @@
         {{/each}}
         </tbody>
       </table>
-
-    <a class="btn btn-success" href="{{pathFor 'newNotification'}}">Add Notification</a>
   </div>
 </template>
 
@@ -29,10 +28,11 @@
     {{#each notifications}}
       <tr>
         <td>{{zone.text}}</td>
-        <td>{{showAction action}}</td>
         <td>{{message}}</td>
+        <td>{{showAction action}}</td>
+        <td>{{url}}</td>
         <td>
-          <a href="{{pathFor 'editLbNotifications' zone=zone._id}}" class="btn btn-info">Edit</a>
+          <a href="{{pathFor 'editLbNotifications' zone=zone._id id=this._id}}" class="btn btn-info">Edit</a>
         </td>
         <td>
           <a href="#" data-remove="{{this._id}}" class="btn btn-danger delete-beacon">Delete</a>
@@ -42,10 +42,10 @@
   {{else}}
     <tr>
       <td>{{this.text}}</td>
-      <td>No Action</td>
       <td></td>
+      <td>No Action</td>
       <td>
-        <a href="{{pathFor 'editLbNotifications' zone=this._id}}" class="btn btn-info">Edit</a>
+        <a href="{{pathFor 'newLbNotifications' zone=this._id}}" class="btn btn-info">New</a>
       </td>
       <td>
         <a href="#" data-remove="{{this._id}}" class="btn btn-danger delete-beacon disabled">Delete</a>

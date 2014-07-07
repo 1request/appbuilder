@@ -84,6 +84,22 @@ Meteor.methods
         for token in pushTokens
           notifyIOS(attributes.message, attributes.appKey, token.pushToken)
 
-Notifications.allow
-  update: ->
-    true
+  'updateNotification': (attributes) ->
+    setOpt = 
+      action: attributes.action
+      message: attributes.message
+
+    switch attributes.action
+      when 'message'
+        unsetOpt = 
+          url: 1
+      when 'url'
+        setOpt.url = attributes.url
+
+    if unsetOpt 
+      Notifications.update attributes._id, 
+        $set: setOpt
+        $unset: unsetOpt
+    else
+      Notifications.update attributes._id, 
+        $set: setOpt
