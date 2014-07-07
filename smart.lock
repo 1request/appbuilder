@@ -15,7 +15,8 @@
       "select2": {},
       "select2-bootstrap3-css": {},
       "collectionFS": {},
-      "npm": {}
+      "npm": {},
+      "font-awesome-sass": {}
     },
     "packages": {
       "iron-router": {
@@ -55,8 +56,8 @@
       },
       "collection-hooks": {
         "git": "https://github.com/matb33/meteor-collection-hooks.git",
-        "tag": "v0.7.0",
-        "commit": "20a6de81f3818f112bccf67b5e1d3db342cf0b18"
+        "tag": "v0.7.2",
+        "commit": "261f61f07b371ae913463fba8964a9b93cab531b"
       },
       "collection-api": {
         "git": "https://github.com/crazytoad/meteor-collectionapi.git",
@@ -65,8 +66,8 @@
       },
       "accounts-ui-bootstrap-3": {
         "git": "https://github.com/mangasocial/meteor-accounts-ui-bootstrap-3.git",
-        "tag": "v0.3.0-1",
-        "commit": "93ffa5d0e325dc7026de89f6d90c178fa04bdd3a"
+        "tag": "v0.3.3",
+        "commit": "2e50b605d8d5ed68e48c4529a65f13552d8af3f9"
       },
       "select2": {
         "git": "https://github.com/nate-strauser/meteor-select2.git",
@@ -87,6 +88,11 @@
         "git": "https://github.com/arunoda/meteor-npm.git",
         "tag": "v0.2.6",
         "commit": "177ab6118de5bf8cffb19481343d5762ff7a2aaf"
+      },
+      "font-awesome-sass": {
+        "git": "https://github.com/reywood/meteor-font-awesome-sass.git",
+        "tag": "v4.1.0-1",
+        "commit": "64b05d3c7654cf83b9f85240d1a340cbe1d55123"
       },
       "cfs-base-package": {
         "git": "https://github.com/CollectionFS/Meteor-cfs-base-package.git",
@@ -110,8 +116,8 @@
       },
       "cfs-access-point": {
         "git": "https://github.com/CollectionFS/Meteor-cfs-access-point.git",
-        "tag": "v0.0.30",
-        "commit": "a1a02ef8d145aae414bf9fe483f5944a24e35bf5"
+        "tag": "v0.0.31",
+        "commit": "e2ccc9cdcfdf1a26d40acaeff3f3a6b5324e1ef6"
       },
       "cfs-worker": {
         "git": "https://github.com/CollectionFS/Meteor-cfs-worker.git",
