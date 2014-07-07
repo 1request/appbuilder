@@ -1,3 +1,10 @@
+.iphone-portrait {
+  position: relative;
+  height: 796px;
+  width: 380px;
+  margin: 0px auto;
+}
+
 .iphone-pic, .hide-scroll, #iphone {
   position: absolute;
 }
@@ -5,16 +12,16 @@
   background-image: url(/images/fixscroll.png);
   height:779px;
   width:29px;
-  margin-left:352px;
-  margin-top:11px;
+  margin-left:93%;
+  margin-top:3%;
   z-index:999;
 }
 
 #iphone {
   width: 321px;
   height: 574px;
-  margin-top: 115px;
-  margin-left: 30px;
+  margin-top: 30%;
+  margin-left: 8%;
   // z-index: 999;
 }
 
@@ -26,4 +33,37 @@
 
 body {
   margin-top: 70px;
+}
+
+.in-out-buttons {
+  margin: 10px auto;
+}
+
+.lock-screen-page {
+  background-image: url(/images/iphone-lock-screen.png);
+  position: absolute;
+  background-size: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.lock-screen-app-title {
+  position: absolute;
+  margin-top: 77%;
+  margin-left: 25%;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.lock-screen-app-text {
+  position: absolute;
+  margin-top: 85%;
+  margin-left: 25%;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.preview-button {
+  margin-top: 20px;
+  text-decoration: none !important;
 }

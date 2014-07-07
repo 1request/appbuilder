@@ -5,6 +5,8 @@ Router.configure
 Router.map ->
   @route 'main', { path: '/' }
 
+  @route 'cors', { path: '/cors'}
+
   @route 'notification',
     path: '/app/:appKey/notification'
     waitOn: ->

@@ -28,6 +28,8 @@ Template.newNotification.helpers
   isLbn: ->
     Session.get('location')
   showUrl: ->
+    !!Session.get('showUrl')
+  url: ->
     Session.get('url')
   notification: ->
     notification = Notifications.findOne(Session.get 'notification')
@@ -35,9 +37,22 @@ Template.newNotification.helpers
     notification = Notifications.findOne(Session.get 'notification')
     if notification
       action == notification.action
+  mobileApp: ->
+    MobileApps.findOne(appKey: Session.get('mobileAppKey'))
+  message: ->
+    Session.get('message')
+  inApp: ->
+    Session.get('inApp')
 
 Template.newNotification.rendered = ->
   Session.setDefault('location', false)
+  $('.preview-button').tooltip()
+
+  @corsDep = Deps.autorun ->
+    url = Session.get('url')
+    Meteor.call 'testCORS', url, (error, result) ->
+      if Session.get('showUrl')
+        Session.set('url', result)
 
 Template.newNotification.events
   'change #type': (e) ->
@@ -48,9 +63,15 @@ Template.newNotification.events
 
   'change #action': (e) ->
     if e.target.value is 'url'
-      Session.set "url", true
+      Session.set "showUrl", true
     else
-      Session.set "url", false
+      Session.set "showUrl", false
+
+  'keyup input[name="message"]': (e) ->
+    Session.set('message', e.target.value)
+
+  'change input[name="url"]': (e) ->
+    Session.set('url', e.target.value)
 
   'submit form': (e) ->
     e.preventDefault()
@@ -79,7 +100,7 @@ Template.newNotification.events
         notification.message = message
 
         updateNotification(notification)
-      else 
+      else
         notification =
           appKey: Session.get('mobileAppKey')
           message: message
@@ -91,6 +112,15 @@ Template.newNotification.events
 
         createNotification(notification)
 
+  'click .preview-button': (e) ->
+    Session.set('inApp', !Session.get('inApp'))
+    if Session.get 'inApp'
+      $(e.target).removeClass('fa-caret-square-o-right')
+      $(e.target).addClass('fa-caret-square-o-left')
+    else
+      $(e.target).removeClass('fa-caret-square-o-left')
+      $(e.target).addClass('fa-caret-square-o-right')
 
-
-
+Template.newNotification.destroyed = ->
+  if @corsDep
+    @corsDep.stop()

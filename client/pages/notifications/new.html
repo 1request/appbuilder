@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-6">
         {{#if isLbn}}
-          <h2>Location Based Notificaiton</h2>
+          <h2>Location Based Notification</h2>
           <h3>Zone: {{zone.text}}</h3>
         {{else}}
           <h2>Instant Notifications</h2>
@@ -38,9 +38,36 @@
               <input type="text" class="form-control" name="message" id="message" placeholder="text here...">
             {{/if}}
           </div>
-          <button class="btn btn-primary" type="submit">Submit</button>
+          <button class="btn btn-success" type="submit">Submit</button>
         </form>
+      </div>
+      <div class="col-md-6">
+        <div class="iphone-portrait">
+          <div class="row">
+            <div class="col-xs-3">
+              <h2 class="preview-title">Preview</h2>
+            </div>
+            <div class="col-xs-3 col-xs-offset-6">
+              <a href="#" data-toggle="tooltip" data-placement="top" title="In/Out" class="fa fa-caret-square-o-left fa-2x preview-button"></a>
+            </div>
+          </div>
+          <div class="row">
+          {{#if inApp}}
+            <img class="iphone-pic" src="/images/iphone.png" alt="iphone">
+            <div class="hide-scroll"></div>
+            <iframe id="iphone" src="{{url}}" frameborder="0"></iframe>
+          {{else}}
+            <div class="lock-screen-page">
+              <div class="lock-screen-app-title">{{mobileApp.name}}</div>
+              <div class="lock-screen-app-text">
+                {{message}}
+              </div>
+            </div>
+          {{/if}}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
