@@ -49,6 +49,8 @@ Router.map ->
 
   @route 'instantNotifications', { path: '/apps/instantNotifications', controller: Notifications.instantNotifications }
   @route 'lbNotifications', { path: '/apps/lbNotifications', controller: Notifications.lbNotifications }
+  @route 'newLbNotifications', { path: '/apps/lbNotifications/new/:zone', controller: Notifications.editLbNotifications }
+  @route 'editLbNotifications', { path: '/apps/lbNotifications/edit/:zone/:id', controller: Notifications.editLbNotifications }
   @route 'newNotification',  { path: '/notifications/new',      controller: Notifications.new }
 
 requireLogin = (pause) ->

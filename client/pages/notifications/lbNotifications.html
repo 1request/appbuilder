@@ -1,0 +1,55 @@
+<template name="lbNotifications">
+  {{> header}}
+  {{> alerts}}
+  <div class="container">
+    <h2>Location Based Notification</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Zone</th>
+            <th>Message</th>
+            <th>Action</th>
+            <th>Link</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each zones}}
+          {{> zoneNotifications}}
+        {{/each}}
+        </tbody>
+      </table>
+  </div>
+</template>
+
+<template name="zoneNotifications">
+  {{#if hasNotifications}}
+    {{#each notifications}}
+      <tr>
+        <td>{{zone.text}}</td>
+        <td>{{message}}</td>
+        <td>{{showAction action}}</td>
+        <td>{{url}}</td>
+        <td>
+          <a href="{{pathFor 'editLbNotifications' zone=zone._id id=this._id}}" class="btn btn-info">Edit</a>
+        </td>
+        <td>
+          <a href="#" data-remove="{{this._id}}" class="btn btn-danger delete-beacon">Delete</a>
+        </td>
+      </tr>
+    {{/each}}
+  {{else}}
+    <tr>
+      <td>{{this.text}}</td>
+      <td></td>
+      <td>No Action</td>
+      <td>
+        <a href="{{pathFor 'newLbNotifications' zone=this._id}}" class="btn btn-info">New</a>
+      </td>
+      <td>
+        <a href="#" data-remove="{{this._id}}" class="btn btn-danger delete-beacon disabled">Delete</a>
+      </td>
+    </tr>
+  {{/if}}
+</template>

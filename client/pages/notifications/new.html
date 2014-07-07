@@ -3,38 +3,41 @@
   {{> alerts}}
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
-        <h2>Notifications</h2>
+      <div class="col-md-6">
+        {{#if isLbn}}
+          <h2>Location Based Notificaiton</h2>
+          <h3>Zone: {{zone.text}}</h3>
+        {{else}}
+          <h2>Instant Notifications</h2>
+        {{/if}}
         <form role="form">
-          <div class="form-group">
-            <label for="message">Message</label>
-            <input type="text" class="form-control" name="message" id="message" placeholder="text here...">
-          </div>
-          <div class="form-group">
-            <label for="type">Type</label>
-            <select class="form-control" name="type" id="type">
-              <option value="instant" selected="{{location}}">Instant Notification</option>
-              <option value="location" selected="{{location}}">Location Based Notification</option>
-            </select>
-          </div>
-          {{#if location}}
-            {{> notificationZone}}
-          {{/if}}
           <div class="form-group">
             <label for="action">Action</label>
             <select class="form-control" name="action" id="action">
-              <option value="message">Only message</option>
-              <option value="url">Open web page</option>
-              <option value="image">Open image</option>
-              <option value="video">Open video</option>
+              <option value="message" selected="{{actionSelected 'message'}}">Only message</option>
+              <option value="url" selected="{{actionSelected 'url'}}">Open web page</option>
+              <option value="image" selected="{{actionSelected 'image'}}">Open image</option>
+              <option value="video" selected="{{actionSelected 'video'}}">Open video</option>
             </select>
           </div>
-          {{#if url}}
+          {{#if showUrl}}
             <div class="form-group">
               <label for="url">URL</label>
-              <input type="text" class="form-control" name="url" id="url" placeholder="text here...">
+              {{#if notification}}
+                <input type="text" class="form-control" name="url" id="url" value="{{notification.url}}">
+              {{else}}
+                <input type="text" class="form-control" name="url" id="url" placeholder="text here...">
+              {{/if}}
             </div>
           {{/if}}
+          <div class="form-group">
+            <label for="message">Message</label>
+            {{#if notification}}
+              <input type="text" class="form-control" name="message" id="message" value="{{notification.message}}">
+            {{else}}
+              <input type="text" class="form-control" name="message" id="message" placeholder="text here...">
+            {{/if}}
+          </div>
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>
       </div>
