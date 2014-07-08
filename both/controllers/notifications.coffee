@@ -28,6 +28,7 @@ Notifications.editLbNotifications = AppController.extend
     if notification
       Session.set 'notification', notification._id
       Session.set 'url', notification.url
+      Session.set('type', 'image') if notification.action is 'image'
       Session.set 'message', notification.message
 
   onStop: ->
