@@ -1,3 +1,18 @@
+setDropZone = ->
+  dropzoneOptions =
+    addRemoveLinks: true
+    acceptedFiles: 'image/*'
+    maxFiles: 1
+
+  dropZone = new Dropzone('#dropzone', dropzoneOptions)
+
+  dropZone.on 'addedfile', (file) ->
+    Images.insert file, (error, fileObj) ->
+      Session.set('imageId', fileObj._id)
+
+  dropZone.on 'success', (file) ->
+    throwAlert 'Image uploaded'
+
 createNotification = (notification) ->
   Meteor.call 'createNotification', notification, (error, result) ->
     if error
@@ -22,18 +37,23 @@ updateNotification = (notification) ->
         Router.go 'lbNotifications'
         throwAlert("Notification updated successfully")
 
+Template.imageDropZone.rendered = ->
+  setDropZone()
+
 Template.newNotification.helpers
   zone: ->
     Zones.findOne(_id: Session.get 'zone')
   isLbn: ->
     Session.get('location')
   showUrl: ->
-    Session.get('showUrl')
+    Session.get('type') is 'url' or Session.get('type') is 'video'
   url: ->
     Session.get('url')
+  image: ->
+    Session.get('type') is 'image'
   notification: ->
     notification = Notifications.findOne(Session.get 'notification')
-  actionSelected: (action)->
+  actionSelected: (action) ->
     notification = Notifications.findOne(Session.get 'notification')
     if notification
       action == notification.action
@@ -55,6 +75,11 @@ Template.newNotification.rendered = ->
       if Session.get('showUrl')
         Session.set('url', result)
 
+  @subscribeImagesDep = Deps.autorun ->
+    Meteor.subscribe 'images', id: Session.get('imageId')
+    if Images.findOne() and Session.get('type') is 'image'
+      Session.set('url', Images.findOne().url())
+
 Template.newNotification.events
   'change #type': (e) ->
     if e.target.value is 'location'
@@ -63,10 +88,7 @@ Template.newNotification.events
       Session.set "location", false
 
   'change #action': (e) ->
-    unless e.target.value is 'message'
-      Session.set "showUrl", true
-    else
-      Session.set "showUrl", false
+    Session.set('type', e.target.value)
 
   'keyup input[name="message"]': (e) ->
     Session.set('message', e.target.value)
@@ -76,6 +98,7 @@ Template.newNotification.events
 
   'submit form': (e) ->
     e.preventDefault()
+    imageId = Session.get('imageId')
     message = $('input[name="message"]').val()
     zone = Session.get 'zone'
     type = if Session.get 'location'
@@ -83,10 +106,14 @@ Template.newNotification.events
     else
       'instant'
     action = $('select[name="action"]').val()
-    unless action is 'message'
-      url = $('input[name="url"]').val()
-    else
-      url = null
+
+    switch action
+      when 'image'
+        url = Session.get('url')
+      when 'message'
+        url = null
+      else
+        url = $('input[name="url"]').val()
 
     unless !!message
       throwAlert('Please provide message')
@@ -110,6 +137,7 @@ Template.newNotification.events
 
         unless action is 'message' then _.extend notification, { url: url }
         if type is 'location' then _.extend notification, { zone: zone }
+        if !!imageId then _.extend notification, { imageId: imageId }
 
         createNotification(notification)
 
@@ -125,3 +153,5 @@ Template.newNotification.events
 Template.newNotification.destroyed = ->
   if @corsDep
     @corsDep.stop()
+  if @subscribeImagesDep
+    @subscribeImagesDep.stop()

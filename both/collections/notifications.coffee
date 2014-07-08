@@ -74,7 +74,7 @@ Meteor.methods
     unless attributes.action is 'message'
       _.extend notification, { url: attributes.url }
 
-    Notifications.insert notification
+    id = Notifications.insert notification
 
     if attributes.type is 'instant'
       pushTokens = PushTokens
@@ -83,6 +83,11 @@ Meteor.methods
       if pushTokens
         for token in pushTokens
           notifyIOS(attributes.message, attributes.appKey, token.pushToken)
+
+    if Meteor.isServer and !!attributes.imageId
+      image = Images.findOne(attributes.imageId)
+      image.update($set: {'metadata.notification': id})
+      console.log 'image: ', image
 
   'updateNotification': (attributes) ->
     setOpt =

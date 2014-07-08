@@ -83,6 +83,10 @@ Meteor.publish 'counts-by-app', (options) ->
   self.onStop ->
     handle.stop()
 
+Meteor.publish 'images', (options) ->
+  if options.id
+    Images.find(options.id)
+
 Meteor.publish 'mobileAppUsers', (options) ->
   if options.deviceId and options.appKey
     MobileAppUsers.find(deviceId: options.deviceId, appKey: options.appKey)
@@ -93,7 +97,7 @@ Meteor.publish 'mobileAppUsers', (options) ->
 Meteor.publish 'notifications', (options) ->
   if options.type
     Notifications.find({appKey: options.appKey, type: options.type})
-  else 
+  else
     Notifications.find({appKey: options.appKey})
 
 Meteor.publish 'p12s', (options) ->

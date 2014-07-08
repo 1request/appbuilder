@@ -27,7 +27,6 @@ Notifications.editLbNotifications = AppController.extend
     notification = Notifications.findOne(@params.id)
     if notification
       Session.set 'notification', notification._id
-      Session.set 'showUrl', !!notification.url
       Session.set 'url', notification.url
       Session.set 'message', notification.message
 
@@ -35,8 +34,9 @@ Notifications.editLbNotifications = AppController.extend
     Session.set 'location', null
     Session.set 'zone', null
     Session.set 'notification', null
-    Session.set 'showUrl', null
+    Session.set 'imageId', null
     Session.set 'url', null
+    Session.set 'type', null
     Session.set 'inApp', null
     Session.set 'message', null
   waitOn: ->
@@ -50,7 +50,8 @@ Notifications.new = AppController.extend
     Session.set 'location', false
   onStop: ->
     Session.set 'location', null
-    Session.set 'showUrl', null
+    Session.set 'imageId', null
+    Session.set 'type', null
     Session.set "url", null
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}

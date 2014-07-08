@@ -38,6 +38,9 @@
               <input type="text" class="form-control" name="message" id="message" placeholder="text here...">
             {{/if}}
           </div>
+          {{#if image}}
+            {{> imageDropZone}}
+          {{/if}}
           <button class="btn btn-success" type="submit">Submit</button>
         </form>
       </div>
@@ -69,5 +72,9 @@
       </div>
     </div>
   </div>
+</template>
+
+<template name="imageDropZone">
+<form action="/file-upload" class="dropzone" id="dropzone"></form>
 </template>
 
