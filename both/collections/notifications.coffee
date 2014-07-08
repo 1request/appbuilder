@@ -89,12 +89,11 @@ Meteor.methods
       action: attributes.action
       message: attributes.message
 
-    switch attributes.action
-      when 'message'
-        unsetOpt =
-          url: 1
-      when 'url'
-        setOpt.url = attributes.url
+    if attributes.action is 'message'
+      unsetOpt =
+        url: 1
+    else
+      setOpt.url = attributes.url
 
     if unsetOpt
       Notifications.update attributes._id,
