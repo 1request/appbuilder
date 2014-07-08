@@ -33,7 +33,6 @@ Template.editMobileApp.rendered = ->
     if MobileApps.findOne()
       Session.setDefault('mobileAppKey', MobileApps.findOne().appKey)
       app = MobileApps.findOne(appKey: Session.get 'mobileAppKey')
-      Session.set('selectedZones', setSelectedZones(app.zones))
       Session.set('deviceId', MobileAppUsers.findOne(appKey: Session.get 'mobileAppKey').deviceId)
       $('#selected-app').val("#{Session.get 'mobileAppKey'}")
       runSelect2(Session.get('selectedZones'))
@@ -66,13 +65,6 @@ Template.editMobileApp.events
 
   'submit form': (e) ->
     e.preventDefault()
-
-  'change #zones': (e) ->
-    mobileApp = MobileApps.findOne(appKey: Session.get('mobileAppKey'))
-    if e.added
-      MobileApps.update mobileApp._id, $addToSet: {zones: Zones.findOne(text: e.added.text)._id}
-    else
-      MobileApps.update mobileApp._id, $pull: {zones: Zones.findOne(text: e.removed.text)._id}
 
 Template.editMobileApp.destroyed = ->
   if @editMobileAppDep then @editMobileAppDep.stop()
