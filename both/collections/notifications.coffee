@@ -71,7 +71,7 @@ Meteor.methods
     if attributes.type is 'location'
       _.extend notification, { zone: attributes.zone }
 
-    if attributes.action is 'url'
+    unless attributes.action is 'message'
       _.extend notification, { url: attributes.url }
 
     Notifications.insert notification
@@ -85,21 +85,20 @@ Meteor.methods
           notifyIOS(attributes.message, attributes.appKey, token.pushToken)
 
   'updateNotification': (attributes) ->
-    setOpt = 
+    setOpt =
       action: attributes.action
       message: attributes.message
 
-    switch attributes.action
-      when 'message'
-        unsetOpt = 
-          url: 1
-      when 'url'
-        setOpt.url = attributes.url
+    if attributes.action is 'message'
+      unsetOpt =
+        url: 1
+    else
+      setOpt.url = attributes.url
 
-    if unsetOpt 
-      Notifications.update attributes._id, 
+    if unsetOpt
+      Notifications.update attributes._id,
         $set: setOpt
         $unset: unsetOpt
     else
-      Notifications.update attributes._id, 
+      Notifications.update attributes._id,
         $set: setOpt

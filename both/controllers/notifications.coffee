@@ -50,6 +50,7 @@ Notifications.new = AppController.extend
     Session.set 'location', false
   onStop: ->
     Session.set 'location', null
+    Session.set 'showUrl', null
     Session.set "url", null
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}
