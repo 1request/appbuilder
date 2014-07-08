@@ -28,7 +28,7 @@ Template.newNotification.helpers
   isLbn: ->
     Session.get('location')
   showUrl: ->
-    !!Session.get('showUrl')
+    Session.get('showUrl')
   url: ->
     Session.get('url')
   notification: ->
@@ -46,6 +46,7 @@ Template.newNotification.helpers
 
 Template.newNotification.rendered = ->
   Session.setDefault('location', false)
+  Session.setDefault('showUrl', false)
   $('.preview-button').tooltip()
 
   @corsDep = Deps.autorun ->
@@ -62,7 +63,7 @@ Template.newNotification.events
       Session.set "location", false
 
   'change #action': (e) ->
-    if e.target.value is 'url'
+    unless e.target.value is 'message'
       Session.set "showUrl", true
     else
       Session.set "showUrl", false
@@ -82,7 +83,7 @@ Template.newNotification.events
     else
       'instant'
     action = $('select[name="action"]').val()
-    if action is 'url'
+    unless action is 'message'
       url = $('input[name="url"]').val()
     else
       url = null
@@ -107,7 +108,7 @@ Template.newNotification.events
           type: type
           action: action
 
-        if action is 'url' then _.extend notification, { url: url }
+        unless action is 'message' then _.extend notification, { url: url }
         if type is 'location' then _.extend notification, { zone: zone }
 
         createNotification(notification)
