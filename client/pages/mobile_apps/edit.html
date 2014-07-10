@@ -12,8 +12,27 @@
             <label for="name">name</label>
             <input id="name" type="text" data-id="{{mobileApp._id}}" name="name" class="form-control" placeholder="Enter name" value="{{mobileApp.name}}">
           </div>
+          <div class="radio">
+            <label for="development">
+              <input type="radio" name="{{mobileApp._id}}-inlineRadioOptions" id="development" value="development">Development
+            </label>
+            <label for="production">
+              <input type="radio" name="{{mobileApp._id}}-inlineRadioOptions" id="production" value="production">Production
+            </label>
+          </div>
+          <div class="checkbox">
+            <label for="certificate">
+              <input type="checkbox" id="certificate"> Update certificate?
+            </label>
+            {{#unless mobileApp.p12}}
+              <span class="label label-warning">Warning</span>
+              Push notification cannot be sent without certificate
+            {{/unless}}
+          </div>
+          {{#if showDropZone}}
+            {{> p12DropZone}}
+          {{/if}}
         </form>
-        <form action="/file-upload" class="dropzone" id="dropzone"></form>
         <a href="{{path}}">View mobile app page</a>
       </div>
       <div class="col-md-6">
@@ -27,3 +46,6 @@
   </div>
 </template>
 
+<template name="p12DropZone">
+<form action="/file-upload" class="dropzone" id="dropzone"></form>
+</template>
