@@ -11,6 +11,15 @@
           <h2>Instant Notifications</h2>
         {{/if}}
         <form role="form">
+          {{#if isLbn}}
+            <div class="form-group">
+              <label for="trigger">Trigger when user</label>
+              <select class="form-control" name="trigger" id="trigger">
+                <option value="enter" selected="{{triggerSelected 'enter'}}">enters region</option>
+                <option value="immediate" selected="{{triggerSelected 'immediate'}}">is immediate to region</option>
+              </select>
+            </div>
+          {{/if}}
           <div class="form-group">
             <label for="action">Action</label>
             <select class="form-control" name="action" id="action">

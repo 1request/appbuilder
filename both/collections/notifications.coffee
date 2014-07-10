@@ -69,7 +69,9 @@ Meteor.methods
       createdAt : Date.now()
 
     if attributes.type is 'location'
-      _.extend notification, { zone: attributes.zone }
+      _.extend notification,
+        zone: attributes.zone
+        trigger: attributes.trigger
 
     unless attributes.action is 'message'
       _.extend notification, { url: attributes.url }
@@ -93,6 +95,7 @@ Meteor.methods
     setOpt =
       action: attributes.action
       message: attributes.message
+      trigger: attributes.trigger
 
     if attributes.action is 'message'
       unsetOpt =

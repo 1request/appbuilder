@@ -57,6 +57,9 @@ Template.newNotification.helpers
     notification = Notifications.findOne(Session.get 'notification')
     if notification
       action == notification.action
+  triggerSelected: (trigger) ->
+    notification = Notifications.findOne(Session.get 'notification')
+    trigger is notification.trigger
   mobileApp: ->
     MobileApps.findOne(appKey: Session.get('mobileAppKey'))
   message: ->
@@ -100,12 +103,12 @@ Template.newNotification.events
     e.preventDefault()
     imageId = Session.get('imageId')
     message = $('input[name="message"]').val()
-    zone = Session.get 'zone'
-    type = if Session.get 'location'
-      'location'
-    else
-      'instant'
+    type = if Session.get 'location' then 'location' else 'instant'
     action = $('select[name="action"]').val()
+
+    locationAttributes =
+      zone: Session.get 'zone'
+      trigger: $('select[name="trigger"]').val()
 
     switch action
       when 'image'
@@ -126,7 +129,7 @@ Template.newNotification.events
         notification.action = action
         notification.url = url
         notification.message = message
-
+        notification.trigger = locationAttributes.trigger
         updateNotification(notification)
       else
         notification =
@@ -136,9 +139,8 @@ Template.newNotification.events
           action: action
 
         unless action is 'message' then _.extend notification, { url: url }
-        if type is 'location' then _.extend notification, { zone: zone }
+        if type is 'location' then _.extend notification, locationAttributes
         if !!imageId then _.extend notification, { imageId: imageId }
-
         createNotification(notification)
 
   'click .preview-button': (e) ->

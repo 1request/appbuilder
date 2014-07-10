@@ -11,6 +11,8 @@ Template.zoneNotifications.helpers
     Zones.findOne(@zone)
   showAction: (action) ->
     showAction(action)
+  showTrigger: (trigger) ->
+    showTrigger(trigger)
 
 Template.zoneNotifications.events
   'click a[data-remove]': (e) ->
