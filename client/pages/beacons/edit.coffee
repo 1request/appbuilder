@@ -20,12 +20,5 @@ Template.editBeacon.events
         Router.go('beacons')
 
 Template.editBeacon.rendered = ->
-  @editBeaconDep = Deps.autorun ->
-    beacon = Beacons.findOne()
-    if beacon
-      Session.set('selectedZones', setSelectedZones(beacon.zones))
-      runSelect2(Session.get('selectedZones'))
-
-Template.editBeacon.destroyed = ->
-  if @editBeaconDep
-    @editBeaconDep.stop()
+  beacon = Beacons.findOne()
+  runSelect2(setSelectedZones(beacon.zones))

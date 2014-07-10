@@ -68,6 +68,10 @@ afterLogin = (pause) ->
     Router.go 'editMobileApp'
     pause()
 
+afterLogout = (pause) ->
+  unless Meteor.user()
+    Session.keys = {}
+
 createAppUser = (params) ->
   Meteor.call 'createMobileAppUser', params.appKey, params.deviceId
 
@@ -75,5 +79,7 @@ Router.onBeforeAction 'loading'
 Router.onBeforeAction -> clearAlerts()
 Router.onBeforeAction requireLogin, { except: ['main', 'mobileApp', 'notification', 'monthlyLog'] }
 Router.onBeforeAction afterLogin, { only: 'main' }
+Router.onBeforeAction afterLogout, { only: 'main' }
+
 Router.waitOn ->
   Meteor.subscribe 'mobileApps', {}

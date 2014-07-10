@@ -22,16 +22,12 @@ Template.appSelect.events
     if @appKey
       Session.set('mobileAppKey', @appKey)
       mobileApp = MobileApps.findOne(appKey: @appKey)
-      Session.set 'selectedZones', setSelectedZones(mobileApp.zones)
-      runSelect2()
 
 Template.appSelect.rendered = ->
   @mobileAppDep = Deps.autorun ->
     if MobileApps.findOne()
       Session.setDefault('mobileAppKey', MobileApps.findOne().appKey)
       app = MobileApps.findOne(appKey: Session.get 'mobileAppKey')
-      Session.set('selectedZones', setSelectedZones(app.zones))
-      runSelect2()
 
 Template.appSelect.destroyed = ->
   if @mobileAppDep
