@@ -9,7 +9,7 @@ Template.mobileApp.helpers
   count: ->
     Session.get 'monthCount'
   path: ->
-    if MobileAppUsers.findOne(Session.get('deviceId')) and MobileApps.findOne(appKey: Session.get('mobileAppKey'))
+    if MobileAppUsers.findOne(deviceId: Session.get('deviceId')) and MobileApps.findOne(appKey: Session.get('mobileAppKey'))
       Router.routes['monthlyLog'].path({deviceId: Session.get('deviceId'), appKey: Session.get('mobileAppKey') })
 
 Template.mobileApp.rendered = ->
