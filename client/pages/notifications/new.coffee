@@ -59,7 +59,10 @@ Template.newNotification.helpers
       action == notification.action
   triggerSelected: (trigger) ->
     notification = Notifications.findOne(Session.get 'notification')
-    trigger is notification.trigger
+    if !!notification and !!notification.trigger
+      trigger is notification.trigger
+    else
+      ''
   mobileApp: ->
     MobileApps.findOne(appKey: Session.get('mobileAppKey'))
   message: ->
@@ -105,7 +108,6 @@ Template.newNotification.events
     message = $('input[name="message"]').val()
     type = if Session.get 'location' then 'location' else 'instant'
     action = $('select[name="action"]').val()
-
     locationAttributes =
       zone: Session.get 'zone'
       trigger: $('select[name="trigger"]').val()
