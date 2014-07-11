@@ -82,6 +82,9 @@ Template.newNotification.rendered = ->
   Session.setDefault('location', false)
   Session.setDefault('showUrl', false)
   $('.preview-button').tooltip()
+  zone = Zones.findOne(_id: Session.get 'zone')
+  if zone.area
+    $("##{zone.area}").parent().addClass('active')
 
   @corsDep = Deps.autorun ->
     url = Session.get('url')
@@ -119,7 +122,7 @@ Template.newNotification.events
     locationAttributes =
       zone: Session.get 'zone'
       trigger: $('select[name="trigger"]').val()
-      area: $('input[name="area"]').val()
+      area: $('input[name="area"]:checked').val()
     switch action
       when 'image'
         url = Session.get('url')
