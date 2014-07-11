@@ -14,6 +14,7 @@ setNotificationNote = (apn, message) ->
 notifyIOS = (message, appKey, token) ->
   apn       = Meteor.require 'apn'
   mobileApp = MobileApps.findOne(appKey: appKey)
+  production = if mobileApp.status is 'production' then true else false
   base      = "#{Meteor.settings.public.storageDirectory}pems/"
   cert      = Pems.findOne(mobileApp.cert)
   key       = Pems.findOne(mobileApp.key)
@@ -22,6 +23,7 @@ notifyIOS = (message, appKey, token) ->
     "cert": "#{base}#{cert.copies.pems.key}"
     "key":  "#{base}#{key.copies.pems.key}"
     "batchFeedback": true
+    "production": production
     "interval": 300
 
   apnConnection = new apn.Connection(options)
