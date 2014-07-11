@@ -7,11 +7,12 @@
       <thead>
         <tr>
           <th>Zone</th>
+          <th>Area</th>
           <th>Trigger</th>
           <th>Message</th>
           <th>Action</th>
           <th>Link</th>
-          <th></th>
+          <th>Edit</th>
           <th></th>
         </tr>
       </thead>
@@ -29,6 +30,7 @@
     {{#each notifications}}
       <tr>
         <td>{{zone.text}}</td>
+        <td>{{zone.area}}</td>
         <td>{{showTrigger trigger}}</td>
         <td>{{message}}</td>
         <td>{{showAction action}}</td>
@@ -44,6 +46,8 @@
   {{else}}
     <tr>
       <td>{{this.text}}</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td>No Action</td>
       <td></td>

@@ -1,3 +1,8 @@
+updateZone = (zoneId, area) ->
+  Meteor.call 'updateZone', {_id: zoneId, area: area}, (error, result) ->
+    if error
+      throwAlert(error.reason)
+
 setDropZone = ->
   dropzoneOptions =
     addRemoveLinks: true
@@ -51,6 +56,8 @@ Template.newNotification.helpers
     Session.get('url')
   image: ->
     Session.get('type') is 'image'
+  floorplan: ->
+    Session.get('type') is 'floorplan'
   notification: ->
     notification = Notifications.findOne(Session.get 'notification')
   actionSelected: (action) ->
@@ -69,6 +76,7 @@ Template.newNotification.helpers
     Session.get('message')
   inApp: ->
     Session.get('inApp')
+
 
 Template.newNotification.rendered = ->
   Session.setDefault('location', false)
@@ -111,7 +119,7 @@ Template.newNotification.events
     locationAttributes =
       zone: Session.get 'zone'
       trigger: $('select[name="trigger"]').val()
-
+      area: $('input[name="area"]').val()
     switch action
       when 'image'
         url = Session.get('url')
@@ -132,6 +140,7 @@ Template.newNotification.events
         notification.url = url
         notification.message = message
         notification.trigger = locationAttributes.trigger
+        if locationAttributes.area then notification.area = locationAttributes.area
         updateNotification(notification)
       else
         notification =
@@ -144,6 +153,7 @@ Template.newNotification.events
         if type is 'location' then _.extend notification, locationAttributes
         if !!imageId then _.extend notification, { imageId: imageId }
         createNotification(notification)
+      updateZone(Session.get('zone'), locationAttributes.area)
 
   'click .preview-button': (e) ->
     Session.set('inApp', !Session.get('inApp'))
