@@ -39,6 +39,7 @@ Meteor.methods
     Notifications.remove notificationId
 
   'createNotification': (attributes) ->
+    console.log attributes
     user = Meteor.user()
     unless user
       throw new Meteor.Error(401, 'You need to login before sending notification')
@@ -52,7 +53,7 @@ Meteor.methods
     unless !!attributes.action
       throw new Meteor.Error(422, 'Please fill in action')
 
-    unless attributes.action in ['message', 'url', 'image', 'video']
+    unless attributes.action in ['message', 'url', 'image', 'video', 'floorplan']
       throw new Meteor.Error(422, 'Please fill in correct action')
 
     unless !!attributes.type
@@ -72,9 +73,11 @@ Meteor.methods
       _.extend notification,
         zone: attributes.zone
         trigger: attributes.trigger
+        area: attributes.area
 
     unless attributes.action is 'message'
       _.extend notification, { url: attributes.url }
+
     id = Notifications.insert notification
 
     if attributes.type is 'instant'
@@ -94,6 +97,7 @@ Meteor.methods
       action: attributes.action
       message: attributes.message
       trigger: attributes.trigger
+      area: attributes.area
 
     if attributes.action is 'message'
       unsetOpt =
