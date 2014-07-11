@@ -39,7 +39,6 @@ Meteor.methods
     Notifications.remove notificationId
 
   'createNotification': (attributes) ->
-    console.log attributes
     user = Meteor.user()
     unless user
       throw new Meteor.Error(401, 'You need to login before sending notification')

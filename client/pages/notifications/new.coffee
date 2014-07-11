@@ -1,3 +1,8 @@
+updateZone = (zoneId, area) ->
+  Meteor.call 'updateZone', {_id: zoneId, area: area}, (error, result) ->
+    if error
+      throwAlert(error.reason)
+
 setDropZone = ->
   dropzoneOptions =
     addRemoveLinks: true
@@ -148,6 +153,7 @@ Template.newNotification.events
         if type is 'location' then _.extend notification, locationAttributes
         if !!imageId then _.extend notification, { imageId: imageId }
         createNotification(notification)
+      updateZone(Session.get('zone'), locationAttributes.area)
 
   'click .preview-button': (e) ->
     Session.set('inApp', !Session.get('inApp'))
