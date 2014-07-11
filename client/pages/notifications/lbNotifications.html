@@ -3,23 +3,25 @@
   {{> alerts}}
   <div class="container">
     <h2>Location Based Notification</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Zone</th>
-            <th>Message</th>
-            <th>Action</th>
-            <th>Link</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-        {{#each zones}}
-          {{> zoneNotifications}}
-        {{/each}}
-        </tbody>
-      </table>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Zone</th>
+          <th>Area</th>
+          <th>Trigger</th>
+          <th>Message</th>
+          <th>Action</th>
+          <th>Link</th>
+          <th>Edit</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each zones}}
+        {{> zoneNotifications}}
+      {{/each}}
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -28,6 +30,8 @@
     {{#each notifications}}
       <tr>
         <td>{{zone.text}}</td>
+        <td>{{zone.area}}</td>
+        <td>{{showTrigger trigger}}</td>
         <td>{{message}}</td>
         <td>{{showAction action}}</td>
         <td>{{url}}</td>
@@ -42,6 +46,8 @@
   {{else}}
     <tr>
       <td>{{this.text}}</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td>No Action</td>
       <td></td>

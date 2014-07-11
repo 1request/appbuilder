@@ -7,3 +7,10 @@ Zones.before.insert (userId, doc) ->
 Zones.before.update (userId, doc, fieldNames, modifier, options) ->
   modifier.$set = modifier.$set || {}
   modifier.$set.updatedAt = Date.now()
+
+Meteor.methods
+  'updateZone': (zoneAttributes) ->
+    Zones.update zoneAttributes._id,
+      $set:
+        area: zoneAttributes.area
+

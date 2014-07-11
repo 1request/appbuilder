@@ -1,3 +1,8 @@
+updateZone = (zoneId, area) ->
+  Meteor.call 'updateZone', {_id: zoneId, area: area}, (error, result) ->
+    if error
+      throwAlert(error.reason)
+
 setDropZone = ->
   dropzoneOptions =
     addRemoveLinks: true
@@ -51,18 +56,27 @@ Template.newNotification.helpers
     Session.get('url')
   image: ->
     Session.get('type') is 'image'
+  floorplan: ->
+    Session.get('type') is 'floorplan'
   notification: ->
     notification = Notifications.findOne(Session.get 'notification')
   actionSelected: (action) ->
     notification = Notifications.findOne(Session.get 'notification')
     if notification
       action == notification.action
+  triggerSelected: (trigger) ->
+    notification = Notifications.findOne(Session.get 'notification')
+    if !!notification and !!notification.trigger
+      trigger is notification.trigger
+    else
+      ''
   mobileApp: ->
     MobileApps.findOne(appKey: Session.get('mobileAppKey'))
   message: ->
     Session.get('message')
   inApp: ->
     Session.get('inApp')
+
 
 Template.newNotification.rendered = ->
   Session.setDefault('location', false)
@@ -100,13 +114,12 @@ Template.newNotification.events
     e.preventDefault()
     imageId = Session.get('imageId')
     message = $('input[name="message"]').val()
-    zone = Session.get 'zone'
-    type = if Session.get 'location'
-      'location'
-    else
-      'instant'
+    type = if Session.get 'location' then 'location' else 'instant'
     action = $('select[name="action"]').val()
-
+    locationAttributes =
+      zone: Session.get 'zone'
+      trigger: $('select[name="trigger"]').val()
+      area: $('input[name="area"]').val()
     switch action
       when 'image'
         url = Session.get('url')
@@ -126,7 +139,8 @@ Template.newNotification.events
         notification.action = action
         notification.url = url
         notification.message = message
-
+        notification.trigger = locationAttributes.trigger
+        if locationAttributes.area then notification.area = locationAttributes.area
         updateNotification(notification)
       else
         notification =
@@ -136,10 +150,10 @@ Template.newNotification.events
           action: action
 
         unless action is 'message' then _.extend notification, { url: url }
-        if type is 'location' then _.extend notification, { zone: zone }
+        if type is 'location' then _.extend notification, locationAttributes
         if !!imageId then _.extend notification, { imageId: imageId }
-
         createNotification(notification)
+      updateZone(Session.get('zone'), locationAttributes.area)
 
   'click .preview-button': (e) ->
     Session.set('inApp', !Session.get('inApp'))

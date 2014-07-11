@@ -89,3 +89,9 @@ setHover = (graphId) ->
     when 'url'      then 'Open web page'
     when 'image'    then 'Open image'
     when 'video'    then 'Open video'
+    when 'floorplan' then 'Open area floorplan'
+
+@showTrigger = (trigger) ->
+  switch trigger
+    when 'enter' then "enters region"
+    when 'immediate' then "is immediate to region"
