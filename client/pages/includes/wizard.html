@@ -1,0 +1,27 @@
+<template name="wizard">
+  <div id="wizard" class="wizard">
+    <ul class="steps">
+      <a href="{{pathFor 'newMobileApp'}}">
+        <li data-target="#step1">
+          <span class="badge">1</span>
+          Create app
+          <span class="chevron"></span>
+        </li>
+      </a>
+      <a href="{{pathFor 'beacons'}}">
+        <li data-target="#step2">
+          <span class="badge">2</span>
+          Add beacons
+          <span class="chevron"></span>
+        </li>
+      </a>
+      <a href="{{pathFor 'lbNotifications'}}">
+        <li data-target="#step3">
+          <span class="badge">3</span>
+          Set notifications
+          <span class="chevron"></span>
+        </li>
+      </a>
+    </ul>
+  </div>
+</template>

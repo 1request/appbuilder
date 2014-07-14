@@ -76,7 +76,6 @@ createAppUser = (params) ->
   Meteor.call 'createMobileAppUser', params.appKey, params.deviceId
 
 Router.onBeforeAction 'loading'
-Router.onBeforeAction -> clearAlerts()
 Router.onBeforeAction requireLogin, { except: ['main', 'mobileApp', 'notification', 'monthlyLog'] }
 Router.onBeforeAction afterLogin, { only: 'main' }
 Router.onBeforeAction afterLogout, { only: 'main' }
