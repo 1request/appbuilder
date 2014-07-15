@@ -6,7 +6,9 @@
 
   {{> yield }}
 
-  {{#unless isMobile}}
-    {{> wizard}}
-  {{/unless}}
+  {{#if currentUser}}
+    {{#unless isMobile}}
+      {{> wizard}}
+    {{/unless}}
+  {{/if}}
 </template>

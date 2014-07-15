@@ -5,6 +5,11 @@
         <li data-target="#step1">
           <span class="badge">1</span>
           Create app
+          {{#if hasApp}}
+            <i class="fa fa-check-square-o"></i>
+          {{else}}
+            <i class="fa fa-square-o"></i>
+          {{/if}}
           <span class="chevron"></span>
         </li>
       </a>
@@ -12,6 +17,11 @@
         <li data-target="#step2">
           <span class="badge">2</span>
           Add beacons
+          {{#if hasBeacon}}
+            <i class="fa fa-check-square-o"></i>
+          {{else}}
+            <i class="fa fa-square-o"></i>
+          {{/if}}
           <span class="chevron"></span>
         </li>
       </a>

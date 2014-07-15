@@ -65,6 +65,29 @@ Meteor.publish 'counts-by-mobileAppUser', (options) ->
   self.onStop ->
     handle.stop()
 
+Meteor.publish 'hasBeacons', (options) ->
+  self = @
+  initializing = true
+  userId = @userId
+
+  if userId
+    handle = Beacons.find(userId: userId).observeChanges
+      added: ->
+        unless initializing
+          self.changed 'hasBeacons', userId, {hasBeacons: !!Beacons.find(userId: userId).count()}
+      removed: ->
+        unless initializing
+          self.changed 'hasBeacons', userId, {hasBeacons: !!Beacons.find(userId: userId).count()}
+
+    initializing = false
+
+    self.added 'hasBeacons', userId, {hasBeacons: !!Beacons.find(userId: userId).count()}
+
+    self.onStop ->
+      handle.stop()
+
+  self.ready()
+
 Meteor.publish 'counts-by-app', (options) ->
   self = @
   count = 0

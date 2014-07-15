@@ -68,15 +68,13 @@ body {
   text-decoration: none !important;
 }
 
-
-
 .fuelux .wizard {
   position: fixed;
   bottom: 0;
-  // width: 100%;
-  /* Set the fixed height of the footer here */
 }
 
-.fuelux .wizard ul li {
-  cursor: pointer;
+.fuelux .wizard ul li,
+.fuelux .wizard ul li.active
+{
+  cursor: auto;
 }
