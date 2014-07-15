@@ -26,9 +26,13 @@ createNotification = (notification) ->
       if notification.type is 'instant'
         Router.go 'instantNotifications'
         throwAlert("successfully send notification")
+      else if Session.get 'walkthrough'
+        Router.go 'editMobileApp'
+        Session.set 'walkthrough', null
+        throwAlert("Notification updated successfully! Next, you can edit app detail and update notification certificate here")
       else
         Router.go 'lbNotifications'
-        throwAlert("Notification updated successfully")
+        throwAlert("Notification updated successfully!")
 
 updateNotification = (notification) ->
   Meteor.call 'updateNotification', notification, (error, result) ->

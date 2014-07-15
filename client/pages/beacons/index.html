@@ -1,6 +1,4 @@
 <template name='beacons'>
-{{> header}}
-{{> alerts}}
 <div class='beacons'>
   <div class="container">
     <h2>Beacons</h2>
@@ -23,9 +21,16 @@
         {{/each}}
         </tbody>
       </table>
+      <a class="btn btn-primary" href="{{pathFor 'newBeacon'}}">Add beacon</a>
+    {{else}}
+      <div class="jumbotron">
+        <div class="text-center">
+          <h3 class="centerfy">You don't have any beacon to display yet.</h3>
+          <a class="btn btn-primary btn-lg centerfy" href="{{pathFor 'newBeacon'}}">Add beacon</a>
+        </div>
+      </div>
     {{/if}}
 
-    <a class="btn btn-success" href="{{pathFor 'newBeacon'}}">Add beacon</a>
   </div>
 </div>
 
