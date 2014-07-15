@@ -1,8 +1,3 @@
-updateZone = (zoneId, area) ->
-  Meteor.call 'updateZone', {_id: zoneId, area: area}, (error, result) ->
-    if error
-      throwAlert(error.reason)
-
 setDropZone = ->
   dropzoneOptions =
     addRemoveLinks: true
@@ -86,9 +81,9 @@ Template.newNotification.rendered = ->
   Session.setDefault('location', false)
   Session.setDefault('showUrl', false)
   $('.preview-button').tooltip()
-  zone = Zones.findOne(_id: Session.get 'zone')
-  if zone.area
-    $("##{zone.area}").parent().addClass('active')
+  notification = Notifications.findOne(zone: Session.get 'zone')
+  if notification.area
+    $("##{notification.area}").parent().addClass('active')
 
   @corsDep = Deps.autorun ->
     url = Session.get('url')
@@ -160,7 +155,6 @@ Template.newNotification.events
         if type is 'location' then _.extend notification, locationAttributes
         if !!imageId then _.extend notification, { imageId: imageId }
         createNotification(notification)
-      updateZone(Session.get('zone'), locationAttributes.area)
 
   'click .preview-button': (e) ->
     Session.set('inApp', !Session.get('inApp'))
