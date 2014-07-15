@@ -5,10 +5,10 @@
       <thead>
         <tr>
           <th>Zone</th>
-          <th>Area</th>
           <th>Trigger</th>
           <th>Message</th>
           <th>Action</th>
+          <th>Area</th>
           <th>Link</th>
           <th>Edit</th>
           <th></th>
@@ -28,10 +28,10 @@
     {{#each notifications}}
       <tr>
         <td>{{zone.text}}</td>
-        <td>{{zone.area}}</td>
         <td>{{showTrigger trigger}}</td>
         <td>{{message}}</td>
         <td>{{showAction action}}</td>
+        <td>{{area}}</td>
         <td>{{url}}</td>
         <td>
           <a href="{{pathFor 'editLbNotifications' zone=zone._id id=this._id}}" class="btn btn-info">Edit Notification</a>
@@ -44,10 +44,10 @@
   {{else}}
     <tr>
       <td>{{this.text}}</td>
-      <td>{{this.area}}</td>
       <td></td>
       <td></td>
       <td>No Action</td>
+      <td></td>
       <td></td>
       <td>
         <a href="{{pathFor 'newLbNotifications' zone=this._id}}" class="btn btn-success">Add Notification</a>
