@@ -1,10 +1,23 @@
 @Notifications = new Meteor.Collection 'notifications'
 
+eventHandler = (apnConnection) ->
+  apnConnection.on 'connected', ->
+    console.log 'connected'
+  apnConnection.on 'transmitted', (notification, device) ->
+    console.log 'Notification transmitted to: ' + device
+  apnConnection.on 'transmissionError', (errCode, notification, device) ->
+    console.error 'Notification caused error: ' + errCode + ' for device ', device.token.toString('hex'), notification
+  apnConnection.on 'timeout', ->
+    console.log 'connection timeout'
+  apnConnection.on 'disconnected', ->
+    console.log 'disconnected from APNS'
+  apnConnection.on 'socketError', console.error
+
 setNotificationNote = (apn, message) ->
   if Meteor.isServer
     note = new apn.Notification()
     note.expiry = Math.floor(Date.now() / 1000) + 3600
-    note.badge = 3
+    note.badge = 1
     note.sound = 'ping.aiff'
     note.alert = message
     note.payload =
@@ -27,6 +40,9 @@ notifyIOS = (message, appKey, token) ->
     "interval": 300
 
   apnConnection = new apn.Connection(options)
+
+  eventHandler(apnConnection)
+
   note = setNotificationNote(apn, message)
   device = new apn.Device(token)
 
