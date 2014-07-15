@@ -65,7 +65,12 @@ requireLogin = (pause) ->
 
 afterLogin = (pause) ->
   if Meteor.user()
-    Router.go 'editMobileApp'
+    if MobileApps.findOne()
+      Router.go 'editMobileApp'
+    else
+      throwAlert 'Welcome to appbuilder. Get started by creating a new app!'
+      Session.set 'walkthrough', true
+      Router.go 'newMobileApp'
     pause()
 
 afterLogout = (pause) ->
@@ -76,10 +81,12 @@ createAppUser = (params) ->
   Meteor.call 'createMobileAppUser', params.appKey, params.deviceId
 
 Router.onBeforeAction 'loading'
-Router.onBeforeAction -> clearAlerts()
 Router.onBeforeAction requireLogin, { except: ['main', 'mobileApp', 'notification', 'monthlyLog'] }
 Router.onBeforeAction afterLogin, { only: 'main' }
 Router.onBeforeAction afterLogout, { only: 'main' }
 
+
+
 Router.waitOn ->
   Meteor.subscribe 'mobileApps', {}
+  Meteor.subscribe 'hasBeacons', {}

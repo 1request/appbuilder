@@ -1,0 +1,1 @@
+@HasBeacons = new Meteor.Collection 'hasBeacons'

@@ -1,3 +1,14 @@
 <template name='layout'>
+  {{#unless isMobile}}
+    {{> header}}
+    {{> alerts}}
+  {{/unless}}
+
   {{> yield }}
+
+  {{#if currentUser}}
+    {{#unless isMobile}}
+      {{> wizard}}
+    {{/unless}}
+  {{/if}}
 </template>

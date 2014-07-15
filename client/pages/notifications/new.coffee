@@ -26,9 +26,13 @@ createNotification = (notification) ->
       if notification.type is 'instant'
         Router.go 'instantNotifications'
         throwAlert("successfully send notification")
+      else if Session.get 'walkthrough'
+        Router.go 'editMobileApp'
+        Session.set 'walkthrough', null
+        throwAlert("Notification updated successfully! Next, you can edit app detail and update notification certificate here")
       else
         Router.go 'lbNotifications'
-        throwAlert("Notification updated successfully")
+        throwAlert("Notification updated successfully!")
 
 updateNotification = (notification) ->
   Meteor.call 'updateNotification', notification, (error, result) ->
@@ -82,6 +86,9 @@ Template.newNotification.rendered = ->
   Session.setDefault('location', false)
   Session.setDefault('showUrl', false)
   $('.preview-button').tooltip()
+  zone = Zones.findOne(_id: Session.get 'zone')
+  if zone.area
+    $("##{zone.area}").parent().addClass('active')
 
   @corsDep = Deps.autorun ->
     url = Session.get('url')
@@ -119,7 +126,7 @@ Template.newNotification.events
     locationAttributes =
       zone: Session.get 'zone'
       trigger: $('select[name="trigger"]').val()
-      area: $('input[name="area"]').val()
+      area: $('input[name="area"]:checked').val()
     switch action
       when 'image'
         url = Session.get('url')

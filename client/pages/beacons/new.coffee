@@ -7,8 +7,12 @@ Template.newBeacon.events
     Beacons.createBeacon beacon, (error, result) ->
       if error
         throwAlert(error.reason)
+      else if Session.get 'walkthrough'
+        Router.go('lbNotifications')
+        throwAlert('Beacon successfully added! Next, set notification detail for each zone.')
       else
         Router.go('beacons')
+        throwAlert('Beacon successfully added!')
 
 Template.newBeacon.rendered = ->
   $('#zones').select2
