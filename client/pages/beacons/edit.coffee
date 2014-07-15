@@ -20,5 +20,10 @@ Template.editBeacon.events
         Router.go('beacons')
 
 Template.editBeacon.rendered = ->
-  beacon = Beacons.findOne()
-  runSelect2(setSelectedZones(beacon.zones))
+  @select2Dep = Deps.autorun ->
+    beacon = Beacons.findOne()
+    runSelect2(setSelectedZones(beacon.zones))
+
+Template.editBeacon.destroyed = ->
+  if @select2Dep
+    @select2Dep.stop()
