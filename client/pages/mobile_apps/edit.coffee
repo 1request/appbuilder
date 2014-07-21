@@ -34,8 +34,10 @@ Template.editMobileApp.helpers
     MobileApps.findOne(appKey: Session.get 'mobileAppKey')
   deviceId: ->
     Session.get 'deviceId'
-  path: ->
-    Router.routes['mobileApp'].path({deviceId: Session.get('deviceId'), appKey: Session.get('mobileAppKey')})
+  path: -> 
+    Router.routes['mobileApp'].path
+      deviceId: Session.get('deviceId')
+      appKey: Session.get('mobileAppKey')
   showDropZone: ->
     Session.get('showDropZone')
 
@@ -77,6 +79,11 @@ Template.editMobileApp.events
 
   'click #production': (e, context) ->
     updateStatus('production')
+
+  'click #viewMobile': (e, context) ->
+    window.open Router.routes['mobileApp'].path
+      deviceId: Session.get('deviceId')
+      appKey: Session.get('mobileAppKey')
 
   'submit form': (e) ->
     e.preventDefault()
