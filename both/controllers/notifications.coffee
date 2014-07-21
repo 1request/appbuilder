@@ -23,11 +23,12 @@ Notifications.editLbNotifications = AppController.extend
   onAfterAction: ->
     Session.set 'location', true
     Session.set 'zone', @params.zone
-    Session.set 'inApp', true
+    Session.set 'inApp', false
     notification = Notifications.findOne(@params.id)
     if notification
       Session.set 'notification', notification._id
       Session.set 'url', notification.url
+      Session.set 'showUrl', false
       Session.set('type', notification.action)
       Session.set 'message', notification.message
 

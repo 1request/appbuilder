@@ -95,3 +95,4 @@ setHover = (graphId) ->
   switch trigger
     when 'enter' then "enters region"
     when 'immediate' then "is immediate to region"
+    when 'near' then "is near to region"
