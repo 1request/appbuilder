@@ -1,3 +1,11 @@
+setToggle = ->
+  if Session.get 'inApp'
+    $('.preview-button').removeClass('fa-caret-square-o-right')
+    $('.preview-button').addClass('fa-caret-square-o-left')
+  else
+    $('.preview-button').removeClass('fa-caret-square-o-left')
+    $('.preview-button').addClass('fa-caret-square-o-right')
+
 setDropZone = ->
   dropzoneOptions =
     addRemoveLinks: true
@@ -68,7 +76,7 @@ Template.newNotification.helpers
     if !!notification and !!notification.trigger
       trigger is notification.trigger
     else
-      ''
+      false
   mobileApp: ->
     MobileApps.findOne(appKey: Session.get('mobileAppKey'))
   message: ->
@@ -78,12 +86,12 @@ Template.newNotification.helpers
 
 
 Template.newNotification.rendered = ->
-  Session.setDefault('location', false)
-  Session.setDefault('showUrl', false)
   $('.preview-button').tooltip()
   notification = Notifications.findOne(zone: Session.get 'zone')
-  if notification.area
+  if notification and notification.area
     $("##{notification.area}").parent().addClass('active')
+
+  setToggle()
 
   @corsDep = Deps.autorun ->
     url = Session.get('url')
@@ -158,12 +166,7 @@ Template.newNotification.events
 
   'click .preview-button': (e) ->
     Session.set('inApp', !Session.get('inApp'))
-    if Session.get 'inApp'
-      $(e.target).removeClass('fa-caret-square-o-right')
-      $(e.target).addClass('fa-caret-square-o-left')
-    else
-      $(e.target).removeClass('fa-caret-square-o-left')
-      $(e.target).addClass('fa-caret-square-o-right')
+    setToggle()
 
 Template.newNotification.destroyed = ->
   if @corsDep
