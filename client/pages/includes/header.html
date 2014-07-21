@@ -54,7 +54,7 @@
 
 <template name="appSelect">
   {{#if hasMobileApp}}
-    <li class="dropdown">
+    <li id="apps-dropdown-list" class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         {{mobileApp.name}}
         <b class="caret"></b>
@@ -62,15 +62,15 @@
       <ul class="dropdown-menu">
         <li>
           <a href="{{pathFor 'editMobileApp'}}">
-            {{mobileApp.name}}<br/>
-            App Key: {{mobileApp.appKey}}
+            <span id="currentAppName">{{mobileApp.name}}</span><br/>
+            App Key: <span id="currentAppKey">{{mobileApp.appKey}}</span>
           </a>
         </li>
         <li class="divider"></li>
         <li class="dropdown-header">Switch apps</li>        
         {{# each mobileApps}}
           <li>
-            <a href="#">{{name}}</a>
+            <a id="app-{{appKey}}" href="#">{{name}}</a>
           </li>
         {{/ each}}
         <li class="divider"></li>
