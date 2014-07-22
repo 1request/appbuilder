@@ -1,0 +1,2 @@
+Template.imageDropZone.rendered = ->
+  setDropZone()

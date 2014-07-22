@@ -6,21 +6,6 @@ setToggle = ->
     $('.preview-button').removeClass('fa-caret-square-o-left')
     $('.preview-button').addClass('fa-caret-square-o-right')
 
-setDropZone = ->
-  dropzoneOptions =
-    addRemoveLinks: true
-    acceptedFiles: 'image/*'
-    maxFiles: 1
-
-  dropZone = new Dropzone('#dropzone', dropzoneOptions)
-
-  dropZone.on 'addedfile', (file) ->
-    Images.insert file, (error, fileObj) ->
-      Session.set('imageId', fileObj._id)
-
-  dropZone.on 'success', (file) ->
-    throwAlert 'Image uploaded'
-
 createNotification = (notification) ->
   Meteor.call 'createNotification', notification, (error, result) ->
     if error
@@ -48,9 +33,6 @@ updateNotification = (notification) ->
       else
         Router.go 'lbNotifications'
         throwAlert("Notification updated successfully")
-
-Template.imageDropZone.rendered = ->
-  setDropZone()
 
 Template.newNotification.helpers
   zone: ->

@@ -55,6 +55,9 @@ Router.map ->
   @route 'editLbNotifications', { path: '/apps/lbNotifications/edit/:zone/:id', controller: Notifications.editLbNotifications }
   @route 'newNotification',  { path: '/notifications/new',      controller: Notifications.new }
 
+  @route 'areas',     { path: '/areas',           controller: Areas.index }
+  @route 'editArea',  { path: '/areas/edit/:id',  controller: Areas.edit  }
+
 requireLogin = (pause) ->
   unless Meteor.user()
     if Meteor.loggingIn()
