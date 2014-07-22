@@ -37,6 +37,8 @@ updateNotification = (notification) ->
 Template.newNotification.helpers
   zone: ->
     Zones.findOne(_id: Session.get 'zone')
+  areas: ->
+    Areas.find()
   isLbn: ->
     Session.get('location')
   showUrl: ->
@@ -65,7 +67,9 @@ Template.newNotification.helpers
     Session.get('message')
   inApp: ->
     Session.get('inApp')
-
+  isAreaSelected: (id) ->
+    notification = Notifications.findOne(Session.get 'notification')
+    if !!notification and id is notification.area then 'active'
 
 Template.newNotification.rendered = ->
   $('.preview-button').tooltip()
@@ -132,7 +136,8 @@ Template.newNotification.events
         notification.url = url
         notification.message = message
         notification.trigger = locationAttributes.trigger
-        if locationAttributes.area then notification.area = locationAttributes.area
+        if !!imageId then notification.image = imageId
+        if !!locationAttributes.area then notification.area = locationAttributes.area
         updateNotification(notification)
       else
         notification =
@@ -142,8 +147,8 @@ Template.newNotification.events
           action: action
 
         unless action is 'message' then _.extend notification, { url: url }
+        if action is 'image' then _.extend notification, { image: imageId }
         if type is 'location' then _.extend notification, locationAttributes
-        if !!imageId then _.extend notification, { imageId: imageId }
         createNotification(notification)
 
   'click .preview-button': (e) ->

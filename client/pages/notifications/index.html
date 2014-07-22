@@ -8,7 +8,7 @@
             <th>Time</th>
             <th>Message</th>
             <th>Action</th>
-            <th>Link</th>
+            <th>Link/Image</th>
             <th></th>
           </tr>
         </thead>
@@ -18,7 +18,13 @@
             <td>{{timeFormat createdAt}}</td>
             <td>{{message}}</td>
             <td>{{showAction action}}</td>
-            <td>{{url}}</td>
+            <td>
+              {{#if type='image'}}
+                <img src="{{showImage image}}" alt="" class="img-responsive">
+              {{else}}
+                {{url}}
+              {{/if}}
+            </td>
             <td>
               <a href="#" data-remove="{{_id}}" class="btn btn-danger delete-beacon">Delete Notification</a>
             </td>
