@@ -38,7 +38,7 @@ Template.newNotification.helpers
   zone: ->
     Zones.findOne(_id: Session.get 'zone')
   areas: ->
-    Areas.find()
+    Areas.find({}, sort: {createdAt: 1})
   isLbn: ->
     Session.get('location')
   showUrl: ->
