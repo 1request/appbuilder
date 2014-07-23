@@ -23,8 +23,11 @@ Template.editArea.events
     Meteor.call 'updateArea', area, (error, result) ->
       if error
         throwAlert(error.reason)
+      else if Session.get('walkthrough')
+        throwAlert('Sucessfully updated a floor plan area. Next, set notification detail for each zone.')
+        Router.go('lbNotifications')
       else
-        throwAlert('sucessfully updated floor plan area')
+        throwAlert('Sucessfully updated floor plan area.')
         Router.go('areas')
 
 Template.editArea.destroyed = ->
