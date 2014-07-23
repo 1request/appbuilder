@@ -8,7 +8,7 @@ Areas.index = AppController.extend
 Areas.edit = AppController.extend
   template: 'editArea'
   onAfterAction: ->
-    Session.set 'imageId', Areas.findOne().imageId
+    Session.set 'image', Areas.findOne().image
   waitOn: ->
     Meteor.subscribe 'areas',
       id: @params.id

@@ -4,4 +4,4 @@ Template.areas.helpers
 
 Template.area.helpers
   url: ->
-    Images.findOne(@imageId).url(store: 'thumbs') if !!@imageId
+    Images.findOne(@image).url(store: 'thumbs') if !!@image

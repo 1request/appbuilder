@@ -6,8 +6,10 @@ Meteor.methods
       throw new Meteor.Error(401, 'You need to login to edit area')
     setOpt =
       name: areaAttributes.name
-    if !!areaAttributes.imageId
-      _.extend(setOpt, {imageId: areaAttributes.imageId})
+    if !!areaAttributes.image
+      _.extend setOpt,
+        image: areaAttributes.image
+        url: areaAttributes.url
     Areas.update areaAttributes._id,
       $set: setOpt
 
