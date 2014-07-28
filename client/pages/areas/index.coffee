@@ -1,6 +1,6 @@
 Template.areas.helpers
   areas: ->
-    Areas.find({}, sort: {createdAt: 1})
+    Areas.find({}, sort: {position: 1})
 
 Template.area.helpers
   url: ->

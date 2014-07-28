@@ -19,6 +19,7 @@ createArea = (doc) ->
   for a in areas
     area =
       name: a
+      position: a
       appKey: doc.appKey
     Areas.insert area
 
