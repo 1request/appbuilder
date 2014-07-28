@@ -123,11 +123,26 @@ if Logs.find().count() is 0
                   appKey: app.appKey
                 log.deviceId = mobileAppUser.deviceId
                 Logs.insert log
+
 if Areas.find().count() is 0
   for app in MobileApps.find().fetch()
     areas = ['A', 'B', 'C', 'D']
     for a in areas
       area =
         name: a
+        position: a
         appKey: app.appKey
       Areas.insert area
+
+for app in MobileApps.find().fetch()
+  position = ['A', 'B', 'C', 'D']
+  for area, i in Areas.find(appKey: app.appKey).fetch()
+    unless !!area.position
+      area.position = position[i]
+      console.log area
+      Areas.update area._id, $set: { position: position[i]}
+
+
+
+
+
