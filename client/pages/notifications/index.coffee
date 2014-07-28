@@ -1,13 +1,6 @@
 Template.notifications.helpers
   notifications: ->
     Notifications.find({}, {sort: {createdAt: -1}})
-  timeFormat: (time) ->
-    moment(time).format('YYYY-MM-DD HH:mm')
-  showAction: (action) ->
-    showAction(action)
-  showImage: (image) ->
-    image = Images.findOne(image)
-    if !!image then image.url(store: 'thumbs')
 
 Template.notifications.events
   'click a[data-remove]': (e) ->
@@ -18,3 +11,14 @@ Template.notifications.events
       else
         throwAlert "Notification is removed successfully"
 
+Template.notificationRow.helpers
+  timeFormat: (time) ->
+    moment(time).format('YYYY-MM-DD HH:mm')
+  showAction: (action) ->
+    showAction(action)
+  url: ->
+    if !!@image
+      image = Images.findOne(@image)
+      "<img src='#{image.url(store: 'thumbs')}' alt='' class='img-responsive'>"
+    else if !!@url
+      @url

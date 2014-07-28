@@ -32,13 +32,7 @@
         <td>{{message}}</td>
         <td>{{showAction action}}</td>
         <td>{{showArea area}}</td>
-        <td>
-          {{#if type='image'}}
-            <img src="{{showImage image}}" alt="" class="img-responsive">
-          {{else}}
-            {{url}}
-          {{/if}}
-        </td>
+        <td>{{{url}}}</td>
         <td>
           <a href="{{pathFor 'editLbNotifications' zone=zone._id id=this._id}}" class="btn btn-info">Edit Notification</a>
         </td>
