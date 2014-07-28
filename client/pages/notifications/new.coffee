@@ -81,8 +81,8 @@ Template.newNotification.rendered = ->
 
   @corsDep = Deps.autorun ->
     url = Session.get('url')
-    Meteor.call 'testCORS', url, (error, result) ->
-      if Session.get('showUrl')
+    if Session.get('type') is 'url' or Session.get('type') is 'video'
+      Meteor.call 'testCORS', url, (error, result) ->
         Session.set('url', result)
 
   @subscribeImagesDep = Deps.autorun ->
@@ -91,11 +91,6 @@ Template.newNotification.rendered = ->
       Session.set('url', Images.findOne().url())
 
 Template.newNotification.events
-  'change #type': (e) ->
-    if e.target.value is 'location'
-      Session.set "location", true
-    else
-      Session.set "location", false
 
   'change #action': (e) ->
     Session.set('type', e.target.value)
