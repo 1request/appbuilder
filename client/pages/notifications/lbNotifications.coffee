@@ -13,6 +13,18 @@ Template.zoneNotifications.helpers
     showAction(action)
   showTrigger: (trigger) ->
     showTrigger(trigger)
+  showArea: (area) ->
+    area = Areas.findOne(area)
+    if !!area then area.name
+  showImage: (image) ->
+    image = Images.findOne(image)
+    if !!image then image.url(store: 'thumbs')
+  url: ->
+    if @action is 'image'
+      image = Images.findOne(@image)
+      "<img src='#{image.url(store: 'thumbs')}' alt='' class='img-responsive'>"
+    else if @action is 'url' or @action is 'video'
+      @url
 
 Template.zoneNotifications.events
   'click a[data-remove]': (e) ->

@@ -14,9 +14,12 @@ Template.wizard.rendered = ->
 
   @hasBeaconsDep = Deps.autorun ->
     hasBeacon = HasBeacons.findOne()
+
     if hasBeacon
-      if hasBeacon.hasBeacons
+      if Router.current().path is '/areas'
         $('#wizard').wizard('selectedItem', {step: 3})
+      else if hasBeacon.hasBeacons
+        $('#wizard').wizard('selectedItem', {step: 4})
       else if MobileApps.findOne()
         $('#wizard').wizard('selectedItem', {step: 2})
       else

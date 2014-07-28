@@ -1,11 +1,12 @@
+zones1 = ['Reception', 'Estimote', 'Open Area', 'Roof', 'Member Zone', 'Classroom']
+zones2 = ['Cyber Port', 'Garage', 'Cocoon']
+
 if Meteor.users.find().count() is 0
   Accounts.createUser {username: 'joe', email: 'joe@j.com', password: '1'}
 
 userId = Meteor.users.findOne(username: 'joe')._id
 
 if Zones.find().count() is 0
-  zones1 = ['Reception', 'Estimote', 'Open Area', 'Roof', 'Member Zone', 'Classroom']
-  zones2 = ['Cyber Port', 'Garage', 'Cocoon']
   for i in zones1
     Zones.insert {text: i, userId: userId}
   for i in zones2
@@ -122,3 +123,26 @@ if Logs.find().count() is 0
                   appKey: app.appKey
                 log.deviceId = mobileAppUser.deviceId
                 Logs.insert log
+
+if Areas.find().count() is 0
+  for app in MobileApps.find().fetch()
+    areas = ['A', 'B', 'C', 'D']
+    for a in areas
+      area =
+        name: a
+        position: a
+        appKey: app.appKey
+      Areas.insert area
+
+for app in MobileApps.find().fetch()
+  position = ['A', 'B', 'C', 'D']
+  for area, i in Areas.find(appKey: app.appKey).fetch()
+    unless !!area.position
+      area.position = position[i]
+      console.log area
+      Areas.update area._id, $set: { position: position[i]}
+
+
+
+
+

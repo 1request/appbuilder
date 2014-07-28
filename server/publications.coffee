@@ -108,7 +108,9 @@ Meteor.publish 'counts-by-app', (options) ->
 
 Meteor.publish 'images', (options) ->
   if options.id
-    Images.find(options.id)
+    Images.find(options.id, owner: @userId)
+  else
+    Images.find(owner: @userId)
 
 Meteor.publish 'mobileAppUsers', (options) ->
   if options.deviceId and options.appKey
@@ -125,3 +127,9 @@ Meteor.publish 'notifications', (options) ->
 
 Meteor.publish 'p12s', (options) ->
   P12s.find()
+
+Meteor.publish 'areas', (options) ->
+  if options.id
+    Areas.find(options.id)
+  else
+    Areas.find(appKey: options.appKey)

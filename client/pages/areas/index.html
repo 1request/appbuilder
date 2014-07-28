@@ -1,0 +1,33 @@
+<template name="areas">
+  <div class="container">
+    <h2>Floor Plan Areas</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Logo</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each areas}}
+        {{> area}}
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<template name="area">
+  <tr>
+    <td>{{name}}</td>
+    <td>
+      {{#if url}}
+        <img src="{{url}}" alt="thumb" class="img-responsive">
+      {{/if}}
+    </td>
+    <td>
+      <a href="{{pathFor 'editArea' id=this._id}}" class="btn btn-info">Edit</a>
+    </td>
+  </tr>
+</template>

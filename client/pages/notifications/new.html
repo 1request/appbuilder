@@ -27,7 +27,9 @@
               <option value="url" selected="{{actionSelected 'url'}}">Open web page</option>
               <option value="image" selected="{{actionSelected 'image'}}">Open image</option>
               <option value="video" selected="{{actionSelected 'video'}}">Open video</option>
-              <option value="floorplan" selected="{{actionSelected 'floorplan'}}">Open area floorplan</option>
+              {{#if isLbn}}
+                <option value="floorplan" selected="{{actionSelected 'floorplan'}}">Open area floorplan</option>
+              {{/if}}
             </select>
           </div>
           <div class="form-group">
@@ -55,18 +57,11 @@
             <div class="form-group">
               <label for="radio">Select area</label>
               <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="A" value="A">A
+                {{#each areas}}
+                <label class="btn btn-primary {{isAreaSelected _id}}">
+                  <input type="radio" name="area" id="{{_id}}" value="{{_id}}">{{name}}
                 </label>
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="B" value="B">B
-                </label>
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="C" value="C">C
-                </label>
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="D" value="D">D
-                </label>
+                {{/each}}
               </div>
             </div>
           {{/if}}
@@ -101,8 +96,4 @@
       </div>
     </div>
   </div>
-</template>
-
-<template name="imageDropZone">
-  <form action="/file-upload" class="dropzone" id="dropzone"></form>
 </template>

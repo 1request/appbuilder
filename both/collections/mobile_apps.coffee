@@ -14,6 +14,15 @@ createDemoUser = (doc) ->
     deviceId: "demo-user-#{doc.appKey}"
   MobileAppUsers.insert demoUser
 
+createArea = (doc) ->
+  areas = ['A', 'B', 'C', 'D']
+  for a in areas
+    area =
+      name: a
+      position: a
+      appKey: doc.appKey
+    Areas.insert area
+
 MobileApps.before.insert (userId, doc) ->
   doc.createdAt = Date.now()
   doc.updatedAt = doc.createdAt
@@ -21,6 +30,7 @@ MobileApps.before.insert (userId, doc) ->
   doc.zones     = [] unless doc.zones
   doc.appKey    = new Meteor.Collection.ObjectID()._str unless doc.appKey
   createDemoUser(doc)
+  createArea(doc)
 
 MobileApps.before.update (userId, doc, fieldNames, modifier, options) ->
   modifier.$set = modifier.$set || {}

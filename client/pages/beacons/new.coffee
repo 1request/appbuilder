@@ -8,8 +8,8 @@ Template.newBeacon.events
       if error
         throwAlert(error.reason)
       else if Session.get 'walkthrough'
-        Router.go('lbNotifications')
-        throwAlert('Beacon successfully added! Next, set notification detail for each zone.')
+        Router.go('areas')
+        throwAlert('Beacon successfully added! Next, update floor plan area\'s names and logos.')
       else
         Router.go('beacons')
         throwAlert('Beacon successfully added!')

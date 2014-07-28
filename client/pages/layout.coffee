@@ -1,6 +1,5 @@
 Template.layout.helpers
   'isMobile': ->
-    mobileAppPaths = ['mobileApp', 'monthlyLog', 'notification']
+    paths = ['mobileApp', 'monthlyLog', 'notification', 'cors']
     current = Router.current()
-    if current
-      true if current.route.name in mobileAppPaths
+    if current then current.route.name in paths
