@@ -6,21 +6,6 @@ setToggle = ->
     $('.preview-button').removeClass('fa-caret-square-o-left')
     $('.preview-button').addClass('fa-caret-square-o-right')
 
-setDropZone = ->
-  dropzoneOptions =
-    addRemoveLinks: true
-    acceptedFiles: 'image/*'
-    maxFiles: 1
-
-  dropZone = new Dropzone('#dropzone', dropzoneOptions)
-
-  dropZone.on 'addedfile', (file) ->
-    Images.insert file, (error, fileObj) ->
-      Session.set('imageId', fileObj._id)
-
-  dropZone.on 'success', (file) ->
-    throwAlert 'Image uploaded'
-
 createNotification = (notification) ->
   Meteor.call 'createNotification', notification, (error, result) ->
     if error
@@ -49,12 +34,11 @@ updateNotification = (notification) ->
         Router.go 'lbNotifications'
         throwAlert("Notification updated successfully")
 
-Template.imageDropZone.rendered = ->
-  setDropZone()
-
 Template.newNotification.helpers
   zone: ->
     Zones.findOne(_id: Session.get 'zone')
+  areas: ->
+    Areas.find({}, sort: {createdAt: 1})
   isLbn: ->
     Session.get('location')
   showUrl: ->
@@ -83,7 +67,9 @@ Template.newNotification.helpers
     Session.get('message')
   inApp: ->
     Session.get('inApp')
-
+  isAreaSelected: (id) ->
+    notification = Notifications.findOne(Session.get 'notification')
+    if !!notification and id is notification.area then 'active'
 
 Template.newNotification.rendered = ->
   $('.preview-button').tooltip()
@@ -150,7 +136,8 @@ Template.newNotification.events
         notification.url = url
         notification.message = message
         notification.trigger = locationAttributes.trigger
-        if locationAttributes.area then notification.area = locationAttributes.area
+        if !!imageId then notification.image = imageId
+        if !!locationAttributes.area then notification.area = locationAttributes.area
         updateNotification(notification)
       else
         notification =
@@ -160,8 +147,8 @@ Template.newNotification.events
           action: action
 
         unless action is 'message' then _.extend notification, { url: url }
+        if action is 'image' then _.extend notification, { image: imageId }
         if type is 'location' then _.extend notification, locationAttributes
-        if !!imageId then _.extend notification, { imageId: imageId }
         createNotification(notification)
 
   'click .preview-button': (e) ->

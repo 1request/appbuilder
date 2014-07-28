@@ -7,3 +7,5 @@
 @MobileApps = {}
 
 @MobileAppUsers = {}
+
+@Areas = {}

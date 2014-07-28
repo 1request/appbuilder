@@ -90,9 +90,14 @@ Meteor.methods
       _.extend notification,
         zone: attributes.zone
         trigger: attributes.trigger
-        area: attributes.area
 
-    unless attributes.action is 'message'
+    switch attributes.action
+      when 'image'
+        _.extend notification, {image: attributes.image}
+      when 'floorplan'
+        _.extend notification, {area: attributes.area}
+
+    unless attributes.action in ['message', 'floorplan']
       _.extend notification, { url: attributes.url }
 
     id = Notifications.insert notification
@@ -115,11 +120,13 @@ Meteor.methods
       image.update($set: {'metadata.notification': id})
 
   'updateNotification': (attributes) ->
+    console.log attributes
     setOpt =
       action: attributes.action
       message: attributes.message
       trigger: attributes.trigger
       area: attributes.area
+      image: attributes.imageId
 
     if attributes.action is 'message'
       unsetOpt =

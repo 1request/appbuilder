@@ -16,6 +16,7 @@
                 <option value="enter" selected="{{triggerSelected 'enter'}}">enters region</option>
                 <option value="immediate" selected="{{triggerSelected 'immediate'}}">is immediate to region</option>
                 <option value="near" selected="{{triggerSelected 'near'}}">is near to region</option>
+                <option value="far" selected="{{triggerSelected 'far'}}">is far from region</option>
               </select>
             </div>
           {{/if}}
@@ -54,18 +55,11 @@
             <div class="form-group">
               <label for="radio">Select area</label>
               <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="A" value="A">A
+                {{#each areas}}
+                <label class="btn btn-primary {{isAreaSelected _id}}">
+                  <input type="radio" name="area" id="{{_id}}" value="{{_id}}">{{name}}
                 </label>
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="B" value="B">B
-                </label>
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="C" value="C">C
-                </label>
-                <label class="btn btn-primary">
-                  <input type="radio" name="area" id="D" value="D">D
-                </label>
+                {{/each}}
               </div>
             </div>
           {{/if}}
@@ -100,8 +94,4 @@
       </div>
     </div>
   </div>
-</template>
-
-<template name="imageDropZone">
-  <form action="/file-upload" class="dropzone" id="dropzone"></form>
 </template>

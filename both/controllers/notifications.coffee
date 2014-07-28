@@ -6,6 +6,7 @@ Notifications.instantNotifications = AppController.extend
   onAfterAction: ->
     Session.set('location', false)
   waitOn: ->
+    Meteor.subscribe 'images', {}
     Meteor.subscribe 'notifications',
       appKey: Session.get('mobileAppKey')
       type: 'instant'
@@ -14,6 +15,9 @@ Notifications.lbNotifications = AppController.extend
   template: 'lbNotifications'
   waitOn: ->
     Meteor.subscribe 'zones', {}
+    Meteor.subscribe 'images', {}
+    Meteor.subscribe 'areas',
+      appKey: Session.get('mobileAppKey')
     Meteor.subscribe 'notifications',
       appKey: Session.get('mobileAppKey')
       type: 'location'
@@ -43,6 +47,8 @@ Notifications.editLbNotifications = AppController.extend
     Session.set 'message', null
   waitOn: ->
     Meteor.subscribe 'mobileApps', {}
+    Meteor.subscribe 'areas',
+      appKey: Session.get('mobileAppKey')
     Meteor.subscribe 'zones', {_id: Session.get 'zone'}
     Meteor.subscribe 'notifications', {appKey: Session.get('mobileAppKey')}
 

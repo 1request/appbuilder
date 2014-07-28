@@ -96,3 +96,21 @@ setHover = (graphId) ->
     when 'enter' then "enters region"
     when 'immediate' then "is immediate to region"
     when 'near' then "is near to region"
+    when 'far' then "is far from region"
+
+@setDropZone = ->
+  dropzoneOptions =
+    addRemoveLinks: true
+    acceptedFiles: 'image/*'
+    maxFiles: 1
+
+  dropZone = new Dropzone('#dropzone', dropzoneOptions)
+
+  dropZone.on 'addedfile', (file) ->
+    fsFile = new FS.File(file)
+    fsFile.owner = Meteor.userId()
+    Images.insert fsFile, (error, fileObj) ->
+      Session.set('imageId', fileObj._id)
+
+  dropZone.on 'success', (file) ->
+    throwAlert 'Image uploaded'

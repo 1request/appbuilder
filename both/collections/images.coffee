@@ -1,5 +1,12 @@
 @Images = new FS.Collection 'images',
-  stores: [new FS.Store.FileSystem('images', path: "#{Meteor.settings.public.storageDirectory}/images")]
+  stores: [
+    new FS.Store.FileSystem 'images',
+      path: "#{Meteor.settings.public.storageDirectory}/images"
+    new FS.Store.FileSystem 'thumbs',
+      path: "#{Meteor.settings.public.storageDirectory}/thumbs"
+      transformWrite: (fileObj, readStream, writeStream) ->
+        gm(readStream, fileObj.name()).resize('60').stream().pipe(writeStream)
+  ]
   filter:
     allow:
       contentTypes: ['image/*']
@@ -14,3 +21,7 @@ Images.allow
     true
   'download': (userId, doc) ->
     true
+
+Images.deny
+  'insert': (userId, doc) ->
+    doc.owner isnt userId

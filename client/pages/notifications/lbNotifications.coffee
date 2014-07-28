@@ -13,6 +13,12 @@ Template.zoneNotifications.helpers
     showAction(action)
   showTrigger: (trigger) ->
     showTrigger(trigger)
+  showArea: (area) ->
+    area = Areas.findOne(area)
+    if !!area then area.name
+  showImage: (image) ->
+    image = Images.findOne(image)
+    if !!image then image.url(store: 'thumbs')
 
 Template.zoneNotifications.events
   'click a[data-remove]': (e) ->

@@ -5,6 +5,9 @@ Template.notifications.helpers
     moment(time).format('YYYY-MM-DD HH:mm')
   showAction: (action) ->
     showAction(action)
+  showImage: (image) ->
+    image = Images.findOne(image)
+    if !!image then image.url(store: 'thumbs')
 
 Template.notifications.events
   'click a[data-remove]': (e) ->

@@ -9,7 +9,7 @@
           <th>Message</th>
           <th>Action</th>
           <th>Area</th>
-          <th>Link</th>
+          <th>Link/Image</th>
           <th>Edit</th>
           <th></th>
         </tr>
@@ -31,8 +31,14 @@
         <td>{{showTrigger trigger}}</td>
         <td>{{message}}</td>
         <td>{{showAction action}}</td>
-        <td>{{area}}</td>
-        <td>{{url}}</td>
+        <td>{{showArea area}}</td>
+        <td>
+          {{#if type='image'}}
+            <img src="{{showImage image}}" alt="" class="img-responsive">
+          {{else}}
+            {{url}}
+          {{/if}}
+        </td>
         <td>
           <a href="{{pathFor 'editLbNotifications' zone=zone._id id=this._id}}" class="btn btn-info">Edit Notification</a>
         </td>

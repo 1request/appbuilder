@@ -1,15 +1,15 @@
 <template name='beaconDetail'>
-  <tr>
-    <th>{{this.index}}</th>
-    <th>{{this.major}}</th>
-    <th>{{this.minor}}</th>
-    <th>{{zones}}</th>
-    <th>{{this.notes}}</th>
-    <th>
+  <tr id="{{this.uuid}}">
+    <td>{{this.index}}</td>
+    <td>{{this.major}}</td>
+    <td>{{this.minor}}</td>
+    <td>{{zones}}</td>
+    <td>{{this.notes}}</td>
+    <td>
       <a href="{{pathFor 'editBeacon' id=this._id}}" class="btn btn-info">Edit</a>
-    </th>
-    <th>
+    </td>
+    <td>
       <a href="#" data-remove="{{_id}}" class="btn btn-danger delete-beacon">Delete</a>
-    </th>
+    </td>
   </tr>
 </template>
