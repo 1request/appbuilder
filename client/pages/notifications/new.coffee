@@ -1,3 +1,17 @@
+stopDeps = ->
+  deps = [@corsDep, @subscribeImagesDep]
+  for dep in deps
+    if !!dep then dep.stop()
+
+imageNotification = (notification, type) ->
+  @dep = Deps.autorun ->
+    if type is 'create'
+      if !!Session.get('url') and !!Session.get('imageId')
+        createNotification(notification)
+    else
+      updateNotification(notification)
+
+
 setToggle = ->
   if Session.get 'inApp'
     $('.preview-button').removeClass('fa-caret-square-o-right')
@@ -21,6 +35,7 @@ createNotification = (notification) ->
       else
         Router.go 'lbNotifications'
         throwAlert("Notification updated successfully!")
+        stopDeps()
 
 updateNotification = (notification) ->
   Meteor.call 'updateNotification', notification, (error, result) ->
@@ -33,6 +48,7 @@ updateNotification = (notification) ->
       else
         Router.go 'lbNotifications'
         throwAlert("Notification updated successfully")
+        stopDeps()
 
 Template.newNotification.helpers
   zone: ->
@@ -133,7 +149,10 @@ Template.newNotification.events
         notification.trigger = locationAttributes.trigger
         if !!imageId then notification.image = imageId
         if !!locationAttributes.area then notification.area = locationAttributes.area
-        updateNotification(notification)
+        unless action is 'image'
+          updateNotification(notification)
+        else
+          imageNotification(notification, 'update')
       else
         notification =
           appKey: Session.get('mobileAppKey')
@@ -144,14 +163,11 @@ Template.newNotification.events
         unless action is 'message' then _.extend notification, { url: url }
         if action is 'image' then _.extend notification, { image: imageId }
         if type is 'location' then _.extend notification, locationAttributes
-        createNotification(notification)
+        unless action is 'image'
+          createNotification(notification)
+        else
+          imageNotification(notification, 'create')
 
   'click .preview-button': (e) ->
     Session.set('inApp', !Session.get('inApp'))
     setToggle()
-
-Template.newNotification.destroyed = ->
-  if @corsDep
-    @corsDep.stop()
-  if @subscribeImagesDep
-    @subscribeImagesDep.stop()
