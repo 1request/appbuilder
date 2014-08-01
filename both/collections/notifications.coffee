@@ -120,13 +120,12 @@ Meteor.methods
       image.update($set: {'metadata.notification': id})
 
   'updateNotification': (attributes) ->
-    console.log attributes
     setOpt =
       action: attributes.action
       message: attributes.message
       trigger: attributes.trigger
       area: attributes.area
-      image: attributes.imageId
+      image: attributes.image
 
     if attributes.action is 'message'
       unsetOpt =
